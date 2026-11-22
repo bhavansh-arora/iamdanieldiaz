@@ -154,7 +154,7 @@
           if (!track || !pin) return;
           var dist = function () { return Math.max(0, track.scrollWidth - pin.clientWidth); };
           gsap.to(track, { x: function () { return -dist(); }, ease: "none",
-            scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + dist(); }, pin: true, scrub: 0.8, invalidateOnRefresh: true,
+            scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + Math.round(dist() * 0.75); }, pin: true, scrub: true, invalidateOnRefresh: true,
               onUpdate: function (self) { if (barI) barI.style.transform = "scaleX(" + self.progress + ")"; } } });
         });
       });
@@ -168,7 +168,7 @@
       /* Hide headline words now so nothing flashes under the preloader */
       return;
     }
-    if (mode === "enter") setTimeout(function () { build(root); ST.refresh(); }, 380);
+    if (mode === "enter") setTimeout(function () { build(root); ST.refresh(); }, 90);
     else build(root);
   }
   function destroy() {

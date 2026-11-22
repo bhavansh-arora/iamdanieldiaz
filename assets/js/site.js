@@ -29,7 +29,7 @@
   /* ---------- Smooth scroll ---------- */
   var lenis = null;
   if (!reduced && window.Lenis) {
-    lenis = new window.Lenis({ duration: 1.1, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
+    lenis = new window.Lenis({ lerp: 0.12, smoothWheel: true });
     window.lenis = lenis;
     if (!window.gsap) {
       var raf = function (time) { lenis.raf(time); requestAnimationFrame(raf); };
@@ -187,9 +187,9 @@
   if (pre && doc.classList.contains("is-preloading")) {
     var count = $(".preloader__count", pre);
     var letters = $$(".preloader__word span", pre);
-    var start = performance.now(), DURATION = 1700;
+    var start = performance.now(), DURATION = 950;
     letters.forEach(function (l, i) {
-      l.style.transition = "transform 1s cubic-bezier(.22,1,.36,1) " + (0.3 + 0.045 * i) + "s";
+      l.style.transition = "transform .7s cubic-bezier(.22,1,.36,1) " + (0.08 + 0.03 * i) + "s";
       requestAnimationFrame(function () { requestAnimationFrame(function () { l.style.transform = "translateY(0)"; }); });
     });
     var tick = function (now) {
@@ -198,10 +198,11 @@
       if (count) count.textContent = String(Math.round(eased * 100)).padStart(3, "0");
       if (p < 1) requestAnimationFrame(tick);
       else {
-        pre.style.transition = "clip-path 1.05s cubic-bezier(.65,0,.35,1)";
+        doc.classList.add("pre-out");
+        pre.style.transition = "clip-path .75s cubic-bezier(.65,0,.35,1)";
         pre.style.clipPath = "inset(0 0 100% 0)";
-        setTimeout(function () { doc.classList.remove("is-preloading"); pre.style.cssText = ""; }, 1100);
-        setTimeout(loaded, 250);
+        setTimeout(function () { doc.classList.remove("is-preloading", "pre-out"); pre.style.cssText = ""; }, 800);
+        setTimeout(loaded, 120);
       }
     };
     requestAnimationFrame(tick);
@@ -268,7 +269,7 @@
   function liftCurtain() {
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       curtain.classList.add("is-leaving");
-      setTimeout(resetCurtain, 1500);
+      setTimeout(resetCurtain, 900);
     }); });
   }
 
@@ -293,12 +294,12 @@
       var fin = function () {
         if (done) return; done = true;
         curtain.classList.add("is-covered");
-        setTimeout(resolve, 420);
+        setTimeout(resolve, 30);
       };
       var cols = $$(".curtain__cols--ink i", curtain);
       var last = cols[cols.length - 1];
       if (last) last.addEventListener("transitionend", function (ev) { if (ev.propertyName === "transform") fin(); }, { once: true });
-      setTimeout(fin, 1400);
+      setTimeout(fin, 900);
     });
   }
 
@@ -459,6 +460,14 @@
      PER-PAGE INITIALISATION
      ========================================================================== */
   function initPage(root) {
+
+    /* Pause the hero's spinning rays while the hero is off screen */
+    var heroEl = $(".hero", root);
+    if (heroEl && "IntersectionObserver" in window) {
+      var heroIO = new IntersectionObserver(function (en) { heroEl.classList.toggle("is-off", !en[0].isIntersecting); });
+      heroIO.observe(heroEl);
+      onCleanup(function () { heroIO.disconnect(); });
+    }
 
     /* Magnetic buttons + pointer glow on cards */
     if (finePointer && !reduced) {
