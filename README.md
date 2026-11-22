@@ -29,7 +29,7 @@ python3 _src/build.py
 - `_src/build.py`: icons, the logo mark, and `SITE_URL` (used for canonical and share links)
 - `assets/css/main.css`: design tokens (colours, type scale, spacing) at the top, then the components
 - `assets/js/site.js`: menu, header, cursor, in-place page transitions, testimonial slider, filters, keynote circle, scorecard engine, multi-step application, form delivery
-- `assets/js/motion.js`: GSAP + ScrollTrigger animations (respects `prefers-reduced-motion`; content always shows if scripts fail)
+- `assets/js/motion.js`: GSAP + ScrollTrigger animations: hero intros and scroll depth, headline word rises, gold hand-drawn underlines, image wipes, drawing dividers, decoding labels, scroll-reactive marquees, letter flips, 3D card tilt (desktop). Respects `prefers-reduced-motion`; content always shows if scripts fail
 
 ## Connecting the automations
 Everything is set in **`assets/js/config.js`**:
