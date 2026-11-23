@@ -1,96 +1,133 @@
-<!--meta {
-  "title": "The Peak Life Scorecard — Find Your Fulfillment Gap in 2 Minutes",
-  "description": "Eight honest questions. See your achievement and fulfillment scores side by side, your two biggest levers, and the coaching path that fits you. Free, from Daniel Diaz.",
-  "nav": "scorecard"
-} -->
-    <section class="phero phero--type" data-theme="dark">
-      <div class="phero__frame" style="min-height:min(76svh,760px)">
-        <div class="phero__glow" aria-hidden="true"></div>
-        <div class="phero__content" style="max-width:1100px">
-          <span class="kicker kicker--dot" style="color:rgba(242,238,230,.72)">The Peak Life Scorecard · Free</span>
-          <h1 class="h-l" data-split>Where's your <em>fulfillment gap?</em></h1>
-          <p class="lead">Eight honest questions across the areas busy entrepreneurs neglect first. Two minutes. One clear picture of what to work on next.</p>
-        </div>
-        <div class="phero__bottom">
-          <div class="chips"><span class="chip" style="color:var(--bone)">{{icon:clock}} 2 minutes</span><span class="chip" style="color:var(--bone)">{{icon:target}} 8 questions</span><span class="chip" style="color:var(--bone)">{{icon:bolt}} Instant results</span></div>
-          <div class="btns"><a class="btn btn--gold" href="#start" data-magnetic>Start the scorecard <span class="btn__ic">{{icon:arrow-down}}{{icon:arrow-down}}</span></a></div>
+<!--meta {"title": "The Peak Life Scorecard — Find Your Fulfillment Gap · Daniel Diaz", "description": "Eight honest questions, two minutes. See your achievement and fulfillment scores side by side, your two biggest levers, and the way of working with Daniel Diaz that fits you.", "nav": "scorecard"} -->
+
+    <section class="page-hero">
+      <div class="hero__glow" aria-hidden="true"><i></i><i></i></div>
+      <div class="ph-rose" aria-hidden="true">{{> peak}}</div><span class="sparkle sparkle--lg" style="right:30%;top:24%" aria-hidden="true">{{icon:spark}}</span><span class="sparkle sparkle--sm" style="right:12%;top:46%" aria-hidden="true">{{icon:spark}}</span><span class="sparkle" style="left:46%;top:30%" aria-hidden="true">{{icon:spark}}</span>
+      <div class="page-hero__num" aria-hidden="true">06</div>
+      <div class="container">
+        <nav class="page-hero__crumbs" aria-label="Breadcrumb" data-hero><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Peak Life Scorecard</span></nav>
+        <div class="page-hero__grid">
+          <div class="page-hero__title">
+            <span class="label" data-hero>Free · 2 minutes · Instant results</span>
+            <h1 class="h1 mt-m" data-split>Where's your <em>fulfillment gap?</em></h1>
+          </div>
+          <div class="page-hero__aside" data-hero>
+            <p>Most high achievers don't have a performance problem. They have a fulfillment gap: the distance between what they've built and how their life actually feels.</p>
+            <a class="btn btn--rose" href="#start" data-magnetic><span class="btn__label">Start the scorecard</span><span class="btn__icon">{{icon:arrow}}</span></a>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="band is-dark" data-theme="dark" id="start">
-      <div class="wrap">
-        <div class="sc" data-scorecard>
+    <!-- The tool -->
+    <section class="section" id="start">
+      <div class="container">
+        <div class="sec-head">
+          <div class="sec-head__title">
+            <span class="label">The Peak Life Scorecard</span>
+            <h2 class="h2" data-split>Eight questions. <em>Two scores.</em></h2>
+          </div>
+          <div class="sec-head__aside" data-reveal><p class="muted">Rate each statement from 1 to 10. Be honest: nothing is stored or sent unless you choose to send it.</p></div>
+        </div>
+
+        <div class="sc" data-scorecard data-reveal>
           <div class="sc__q">
             <div class="sc__meta"></div>
             <p class="sc__stmt" aria-live="polite"></p>
-            <div class="scale" role="radiogroup" aria-label="Rate from 1 to 10"></div>
-            <div class="scale__ends"><span>1 · Not at all</span><span>10 · Absolutely</span></div>
+            <div>
+              <div class="scale" role="radiogroup" aria-label="Rate from 1 to 10"></div>
+              <div class="scale__ends"><span>1 · Not at all</span><span>10 · Absolutely</span></div>
+            </div>
             <div class="sc__nav">
-              <button class="btn btn--ghost btn--sm btn--plain" type="button" data-sc-back>Back</button>
+              <button type="button" data-sc-back>Back</button>
               <div class="sc__track" aria-hidden="true"></div>
-              <button class="btn btn--light btn--sm btn--plain" type="button" data-sc-next hidden>Next</button>
+              <button type="button" data-sc-next hidden>Next</button>
             </div>
           </div>
 
           <div class="sc__result">
-            <span class="kicker kicker--dot">Your Peak Life profile</span>
-            <h2 class="res__profile caps" data-r-name>On the Climb</h2>
-            <p class="big-p" data-r-line style="font-weight:600"></p>
-            <p class="muted" data-r-body style="margin-top:12px"></p>
+            <span class="res__label">Your Peak Life profile</span>
+            <h2 class="res__profile" data-r-name>On the Climb</h2>
+            <p class="lead" data-r-line style="font-weight:600"></p>
+            <p class="muted" data-r-body></p>
             <div class="res__gap">
               <div class="res__gapline"><span>Fulfillment <b data-r-f></b></span><span>Gap <b data-r-gap></b></span><span>Achievement <b data-r-a></b></span></div>
               <div class="res__gapbar" aria-hidden="true"><span class="span"></span><span class="ful"></span><span class="ach"></span></div>
               <div class="res__gapline"><span>1</span><span>10</span></div>
-              <span class="mono muted" style="display:block;margin-top:20px">Your two biggest levers</span>
+              <span class="res__label" style="display:block;margin-top:16px">Your two biggest levers</span>
               <div class="res__levers" data-r-levers></div>
             </div>
             <div class="res__rec">
-              <span class="mono">Recommended next step</span>
-              <h3 class="h-s" data-r-rec></h3>
-              <p data-r-rectext></p>
-              <div class="btns"><a class="btn btn--ink" href="apply.html" data-r-cta>Next step <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a></div>
+              <span class="res__label">Recommended next step</span>
+              <h3 class="h4" data-r-rec></h3>
+              <p class="small" data-r-rectext></p>
+              <div class="btn-row"><a class="btn btn--sm" href="apply.html" data-r-cta><span class="btn__label">Next step</span><span class="btn__icon">{{icon:arrow}}</span></a></div>
             </div>
             <div class="res__send">
-              <h3 class="h-xs">Send your results to Daniel</h3>
-              <p class="muted" style="font-size:.95rem;margin-top:6px">He'll see your scores before you ever talk, so your first conversation starts further along.</p>
+              <h3 class="h4">Send your results <em>to Daniel</em></h3>
+              <p class="small muted">He'll see your scores before you ever talk, so your first conversation starts further along.</p>
               <form novalidate>
                 <div class="fields">
                   <div class="field"><label for="r-name">Name</label><input id="r-name" name="name" required autocomplete="name"><span class="field__err">Add your name.</span></div>
                   <div class="field"><label for="r-email">Email</label><input id="r-email" name="email" type="email" required autocomplete="email"><span class="field__err">Add a valid email.</span></div>
-                  <div class="fgroup full"><label class="choice"><input type="checkbox" name="wants_call" value="yes" checked><span>I'd like Daniel to reach out about a discovery call</span></label></div>
+                  <label class="choice field--full"><input type="checkbox" name="wants_call" value="yes" checked><span>I'd like Daniel to reach out about a discovery call</span></label>
                 </div>
-                <div class="btns"><button class="btn btn--gold" type="submit">Send my results <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></button><button class="link-arrow" type="button" data-sc-restart>Retake {{icon:repeat}}</button></div>
+                <div class="btn-row mt-m"><button class="btn btn--rose" type="submit"><span class="btn__label">Send my results</span><span class="btn__icon">{{icon:arrow-ur}}</span></button><button class="link-arrow" type="button" data-sc-restart>Retake {{icon:repeat}}</button></div>
               </form>
-              <p data-done hidden class="sent-ok">{{icon:check}} Sent. Daniel will see your results <span data-reply>within one business day</span>.</p>
+              <p data-done hidden class="res__ok">{{icon:check}} Sent. Daniel will see your results <span data-reply-promise>within one business day</span>.</p>
             </div>
           </div>
 
           <div class="sc__viz">
             <div class="sc__scores">
-              <div class="sc__score"><span class="mono">Achievement</span><b class="gold" data-sc-a>–</b></div>
-              <div class="sc__score"><span class="mono">Fulfillment</span><b data-sc-f>–</b></div>
+              <div class="sc__score"><span>Achievement</span><b class="gold" data-sc-a>–</b></div>
+              <div class="sc__score"><span>Fulfillment</span><b data-sc-f>–</b></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="sec">
-      <div class="wrap">
-        <div class="shead">
-          <div class="shead__top" data-reveal><span class="mono">(02) — How it works</span><span class="mono">Honest in, useful out</span></div>
-          <div class="shead__main">
-            <h2 class="h-l" data-split>Two lines. <em>One gap.</em></h2>
-            <p data-reveal>Three questions measure achievement. Five measure fulfillment. The distance between them is the gap Daniel's coaching is built to close.</p>
+    <!-- How it works -->
+    <section class="section section--flush-top">
+      <div class="container">
+        <div class="sec-head">
+          <div class="sec-head__title">
+            <span class="label">How it works</span>
+            <h2 class="h2" data-split>Honest in. <em>Useful out.</em></h2>
           </div>
         </div>
-        <div class="grid-3">
-          <article class="card card--tall" data-reveal><span class="card__ic">{{icon:target}}</span><span class="card__num">01 · Achievement</span><h3 class="h-s">Performance, income, drive</h3><p>The results the world can see: the goals you hit and the momentum you carry.</p></article>
-          <article class="card card--tall" data-reveal><span class="card__ic">{{icon:heart}}</span><span class="card__num">02 · Fulfillment</span><h3 class="h-s">Energy, love, mindset, joy</h3><p>The results only you can feel: your energy, your relationships, your self-belief and how you wake up.</p></article>
-          <article class="card card--tall" data-reveal><span class="card__ic">{{icon:compass}}</span><span class="card__num">03 · Your path</span><h3 class="h-s">A clear next step</h3><p>Your profile, your two biggest levers, and the path that fits: 1:1 coaching, a VIP Day, or a discovery call.</p></article>
+        <div class="cards" data-stagger>
+          <div class="card"><span class="card__num">01</span><h3 class="h4">Three questions on <em>achievement</em></h3><p>Performance, income and drive: the scoreboard most entrepreneurs already watch closely.</p></div>
+          <div class="card card--dark"><span class="card__num">02</span><h3 class="h4">Five on <em>fulfillment</em></h3><p>Energy, relationships, mindset, self-love and joy: the areas busy owners neglect first.</p></div>
+          <div class="card card--rose"><span class="card__num">03</span><h3 class="h4">Your profile <em>and next step</em></h3><p>See your gap, your two biggest levers and the path that fits you, then send it to Daniel if you like.</p></div>
         </div>
       </div>
     </section>
 
-{{> cta}}
+    <!-- Free checklist -->
+    <section class="section section--flush-top">
+      <div class="container">
+        <div class="program program--ink" data-reveal>
+          <div class="program__copy">
+            <span class="label">Free from Daniel</span>
+            <h2 class="h2">The #1 Morning <em>Mastery Checklist.</em></h2>
+            <p>Win the day before it starts. The routine that protects Daniel's mindset and energy every morning, distilled into one page you can use tomorrow.</p>
+            <div class="btn-row">
+              <a class="btn btn--rose" href="#checklist"><span class="btn__label">Get the checklist</span><span class="btn__icon">{{icon:arrow}}</span></a>
+            </div>
+          </div>
+          <div class="program__card">
+            <span class="label label--plain muted">Inside the checklist</span>
+            <dl class="program__rows">
+              <div><dt>Format</dt><dd>One-page checklist</dd></div>
+              <div><dt>Time</dt><dd>Your first hour</dd></div>
+              <div><dt>Best for</dt><dd>Mindset, energy &amp; focus</dd></div>
+              <div><dt>Cost</dt><dd>Free</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {{> cta}}

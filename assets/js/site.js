@@ -1,8 +1,8 @@
 /* ==========================================================================
    Daniel Diaz · Peak Life Now — interface behaviour
-   Global (once): smooth scroll, header, menu, cursor, preloader, in-place
-   page transitions, form delivery. Per page: initPage(root) wires up <main>;
-   it runs on load and again after every in-place page swap.
+   Global (once): smooth scroll, header, menu, cursor, preloader, and
+   in-place page transitions. Per page: initPage(root) wires up the content
+   of <main>; it runs on load and again after every in-place page swap.
    ========================================================================== */
 (function () {
   "use strict";
@@ -12,6 +12,7 @@
   var body = document.body;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (reduced) doc.classList.add("reduced");
 
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -19,14 +20,14 @@
     get: function (k) { try { return window.sessionStorage.getItem(k); } catch (e) { return null; } },
     set: function (k, v) { try { window.sessionStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } }
   };
-  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
+  /* Per-page cleanup hooks (timers, observers, rAF loops) */
   var cleanups = [];
   function onCleanup(fn) { cleanups.push(fn); }
   function runCleanups() { cleanups.splice(0).forEach(function (fn) { try { fn(); } catch (e) { /* ignore */ } }); }
 
-  /* ---------- Smooth scroll ---------- */
+  /* ---------- Smooth scroll (Lenis) ---------- */
   var lenis = null;
   if (!reduced && window.Lenis) {
     lenis = new window.Lenis({ lerp: 0.12, smoothWheel: true });
@@ -37,7 +38,7 @@
     }
   }
   function scrollToEl(target) {
-    if (lenis) lenis.scrollTo(target, { offset: -90 });
+    if (lenis) lenis.scrollTo(target, { offset: -20 });
     else target.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
   }
   function jumpTop() {
@@ -45,125 +46,60 @@
     window.scrollTo(0, 0);
   }
 
-  /* ---------- Toast ---------- */
-  var toastEl = $(".toast"), toastT;
-  function toast(msg) {
-    if (!toastEl) return;
-    toastEl.textContent = msg;
-    toastEl.classList.add("is-on");
-    clearTimeout(toastT);
-    toastT = setTimeout(function () { toastEl.classList.remove("is-on"); }, 4200);
-  }
-
-  /* ---------- Config-driven links ---------- */
-  function wireLinks(root) {
-    if (CFG.bookingUrl) {
-      $$("[data-book]", root).forEach(function (el) {
-        el.setAttribute("href", CFG.bookingUrl);
-        el.setAttribute("target", "_blank");
-        el.setAttribute("rel", "noopener");
-      });
-    }
-    if (CFG.email) $$("[data-email]", root).forEach(function (el) { el.setAttribute("href", "mailto:" + CFG.email); });
-    $$("[data-reply]", root).forEach(function (el) { el.textContent = CFG.replyPromise || "within one business day"; });
-    $$("[data-cohort]", root).forEach(function (el) { el.textContent = CFG.nextCohort || "the next cohort"; });
-    $$("[data-year]", root).forEach(function (el) { el.textContent = new Date().getFullYear(); });
-  }
-  wireLinks(document);
-
-  /* ---------- Form delivery ----------
-     POSTs JSON to CFG.formEndpoint; without one, opens a pre-filled email. */
-  function deliver(kind, subject, data) {
-    var payload = Object.assign({ form: kind, page: location.pathname.split("/").pop() || "index.html", submitted_at: new Date().toISOString() }, data);
-    if (CFG.formEndpoint) {
-      return fetch(CFG.formEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return "sent"; });
-    }
-    var lines = Object.keys(data).filter(function (k) { return data[k] !== "" && data[k] != null; }).map(function (k) {
-      return k.replace(/_/g, " ").replace(/^\w/, function (c) { return c.toUpperCase(); }) + ": " + (Array.isArray(data[k]) ? data[k].join(", ") : data[k]);
+  /* ---------- Booking links ---------- */
+  function wireBooking(root) {
+    if (!CFG.bookingUrl) return;
+    $$("[data-book]", root).forEach(function (el) {
+      el.setAttribute("href", CFG.bookingUrl);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener");
     });
-    var href = "mailto:" + (CFG.email || "") + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
-    window.location.href = href;
-    return Promise.resolve("mailto");
   }
-  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v).trim()); }
-  function formData(form) {
-    var out = {};
-    $$("input, select, textarea", form).forEach(function (el) {
-      if (!el.name || el.disabled) return;
-      if (el.type === "checkbox") {
-        if (!out[el.name]) out[el.name] = [];
-        if (el.checked) out[el.name].push(el.value);
-      } else if (el.type === "radio") {
-        if (el.checked) out[el.name] = el.value;
-        else if (!(el.name in out)) out[el.name] = "";
-      } else out[el.name] = el.value.trim();
-    });
-    return out;
-  }
-  function checkFields(scope) {
-    var ok = true, first = null;
-    $$("[required]", scope).forEach(function (el) {
-      var wrap = el.closest(".field") || el.closest(".fgroup");
-      var bad;
-      if (el.type === "radio" || el.type === "checkbox") {
-        bad = !$$('input[name="' + el.name + '"]', scope).some(function (i) { return i.checked; });
-      } else bad = !el.value.trim() || (el.type === "email" && !validEmail(el.value));
-      if (wrap) wrap.classList.toggle("has-error", bad);
-      if (bad) { ok = false; if (!first) first = el; }
-    });
-    if (first && first.focus && first.type !== "radio" && first.type !== "checkbox") first.focus({ preventScroll: true });
-    return ok;
-  }
+  wireBooking(document);
+  $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
   /* ---------- Header ---------- */
   var header = $(".site-header");
-  var bar = $(".progress i");
-  var lastY = window.scrollY, ticking = false;
+  var lastY = window.scrollY;
+  var ticking = false;
   function darkUnderHeader() {
     if (!header) return false;
-    var r = header.getBoundingClientRect();
-    var y = r.top + r.height / 2;
+    var y = header.offsetHeight / 2;
     var els = document.elementsFromPoint ? document.elementsFromPoint(window.innerWidth / 2, y) : [];
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
-      if (header.contains(el) || el.closest(".menu, .cursor, .preloader, .curtain, .toast") || el.classList.contains("progress")) continue;
+      if (header.contains(el) || el.classList.contains("menu")) continue;
       var sec = el.closest("[data-theme]");
-      return sec ? sec.getAttribute("data-theme") === "dark" : false;
+      if (sec) return sec.getAttribute("data-theme") === "dark";
     }
     return false;
   }
   function onScroll() {
     var y = window.scrollY;
     if (header) {
-      var down = y > lastY && y > 420;
-      if (!body.classList.contains("menu-open")) header.classList.toggle("is-hidden", down);
+      header.classList.toggle("is-scrolled", y > 40);
+      var goingDown = y > lastY && y > 400;
+      if (!body.classList.contains("menu-open")) header.classList.toggle("is-hidden", goingDown);
       header.classList.toggle("on-dark", darkUnderHeader());
-    }
-    if (bar) {
-      var h = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.transform = "scaleX(" + (h > 0 ? Math.min(1, y / h) : 0) + ")";
     }
     lastY = y;
     ticking = false;
   }
-  window.addEventListener("scroll", function () { if (!ticking) { requestAnimationFrame(onScroll); ticking = true; } }, { passive: true });
-  window.addEventListener("resize", function () { requestAnimationFrame(onScroll); });
-  document.addEventListener("site:loaded", function () { requestAnimationFrame(onScroll); });
+  window.addEventListener("scroll", function () {
+    if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
   onScroll();
 
   /* ---------- Menu ---------- */
-  var toggle = $(".menu-toggle"), toggleText = $(".menu-toggle__text"), menu = $(".menu");
+  var toggle = $(".menu-toggle");
+  var toggleText = $(".menu-toggle__text");
+  var menu = $(".menu");
   function openMenu() {
     body.classList.add("menu-open");
     if (toggle) toggle.setAttribute("aria-expanded", "true");
     if (toggleText) toggleText.textContent = "Close";
     if (lenis) lenis.stop();
     if (menu) menu.removeAttribute("inert");
-    if (header) header.classList.remove("is-hidden");
   }
   function closeMenu(instant) {
     if (!body.classList.contains("menu-open")) return;
@@ -179,39 +115,53 @@
   var backdrop = $(".menu-backdrop");
   if (backdrop) backdrop.addEventListener("click", function () { closeMenu(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
-  window.matchMedia("(min-width: 1025px)").addEventListener("change", function (m) { if (m.matches) closeMenu(true); });
 
-  /* ---------- Preloader (first visit to the home page per session) ---------- */
+  /* ---------- Browser chrome colour ---------- */
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  function uiWine() { doc.classList.add("ui-wine"); if (themeMeta) themeMeta.setAttribute("content", "#1b140d"); }
+  function uiIvory() { doc.classList.remove("ui-wine"); if (themeMeta) themeMeta.setAttribute("content", "#f4efe6"); }
+
+  /* ---------- Preloader (first visit per session) ---------- */
   var pre = $(".preloader");
-  function loaded() { body.classList.add("is-loaded"); document.dispatchEvent(new CustomEvent("site:loaded")); }
-  if (pre && doc.classList.contains("is-preloading")) {
-    var count = $(".preloader__count", pre);
-    var letters = $$(".preloader__word span", pre);
-    var start = performance.now(), DURATION = 950;
-    letters.forEach(function (l, i) {
-      l.style.transition = "transform .7s cubic-bezier(.22,1,.36,1) " + (0.08 + 0.03 * i) + "s";
-      requestAnimationFrame(function () { requestAnimationFrame(function () { l.style.transform = "translateY(0)"; }); });
-    });
-    var tick = function (now) {
-      var p = Math.min(1, (now - start) / DURATION);
-      var eased = 1 - Math.pow(1 - p, 3);
-      if (count) count.textContent = String(Math.round(eased * 100)).padStart(3, "0");
-      if (p < 1) requestAnimationFrame(tick);
-      else {
-        doc.classList.add("pre-out");
-        pre.style.transition = "clip-path .75s cubic-bezier(.65,0,.35,1)";
-        pre.style.clipPath = "inset(0 0 100% 0)";
-        setTimeout(function () { doc.classList.remove("is-preloading", "pre-out"); pre.style.cssText = ""; }, 800);
-        setTimeout(loaded, 120);
-      }
-    };
-    requestAnimationFrame(tick);
+  if (pre) {
+    if (doc.classList.contains("no-preloader") || reduced) {
+      if (!doc.classList.contains("pt-enter")) uiIvory();
+      doc.classList.remove("is-preloading");
+      pre.remove();
+      body.classList.add("is-loaded");
+    } else {
+      store.set("pl_seen", "1");
+      var count = $(".preloader__count", pre);
+      var letters = $$(".preloader__word span", pre);
+      var start = performance.now();
+      var DURATION = 900;
+      letters.forEach(function (l, i) {
+        l.style.transition = "transform .7s cubic-bezier(.22,1,.36,1) " + (0.035 * i) + "s";
+        requestAnimationFrame(function () { requestAnimationFrame(function () { l.style.transform = "translateY(0)"; }); });
+      });
+      var tick = function (now) {
+        var p = Math.min(1, (now - start) / DURATION);
+        var eased = 1 - Math.pow(1 - p, 3);
+        if (count) count.textContent = String(Math.round(eased * 100)).padStart(2, "0") + "%";
+        if (p < 1) requestAnimationFrame(tick);
+        else finishPreloader();
+      };
+      requestAnimationFrame(tick);
+    }
   } else {
+    body.classList.add("is-loaded");
+  }
+  function finishPreloader() {
+    pre.style.transition = "clip-path .75s cubic-bezier(.65,0,.35,1)";
+    pre.style.clipPath = "inset(0 0 100% 0)";
     doc.classList.remove("is-preloading");
-    loaded();
+    setTimeout(uiIvory, 500);
+    body.classList.add("is-loaded");
+    document.dispatchEvent(new CustomEvent("site:loaded"));
+    setTimeout(function () { pre.remove(); }, 850);
   }
 
-  /* ---------- Cursor ---------- */
+  /* ---------- Cursor (dot + trailing ring) ---------- */
   if (finePointer && !reduced) {
     var cursor = document.createElement("div");
     cursor.className = "cursor";
@@ -222,16 +172,17 @@
     var mx = -100, my = -100, rx = -100, ry = -100;
     window.addEventListener("mousemove", function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
     (function loop() {
-      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+      rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
       dot.style.transform = "translate3d(" + mx + "px," + my + "px,0)";
       ring.style.transform = "translate3d(" + rx + "px," + ry + "px,0)";
       requestAnimationFrame(loop);
     })();
+    var DARK = '[data-theme="dark"], .dark, .dark-2, .cta-final, .site-footer, .program, .compass, .menu, .svc';
     document.addEventListener("mouseover", function (e) {
-      var t = e.target.closest("[data-cursor], a, button, label, summary, .seg");
-      cursor.classList.remove("is-hover", "is-label");
-      var dk = e.target.closest("[data-theme]");
-      cursor.classList.toggle("on-dark", (dk && dk.getAttribute("data-theme") === "dark") || body.classList.contains("menu-open"));
+      var t = e.target.closest("[data-cursor], a, button, .choice, .option");
+      cursor.classList.toggle("is-hover", false);
+      cursor.classList.toggle("is-label", false);
+      cursor.classList.toggle("on-dark", !!e.target.closest(DARK) || body.classList.contains("menu-open"));
       if (!t) return;
       var txt = t.getAttribute("data-cursor");
       if (txt) { label.textContent = txt; cursor.classList.add("is-label"); }
@@ -243,16 +194,17 @@
 
   /* ==========================================================================
      IN-PLACE PAGE TRANSITIONS
-     Panels cover the screen, the next page's <main> is fetched and swapped in
-     behind them, then they lift. The document itself never reloads.
+     The browser never loads a new document: panels cover the screen, the
+     next page's <main> is fetched and swapped in behind them, then they lift.
+     No document swap = no frame where iOS Safari can flash or resize.
      ========================================================================== */
   var curtain = $(".curtain");
   var ctTitle = curtain ? $(".curtain__title", curtain) : null;
   var PAGE_TITLES = {
     "index": "Peak life <em>now</em>", "": "Peak life <em>now</em>",
-    "about": "Born an <em>entrepreneur</em>", "coaching": "High-impact <em>coaching</em>",
+    "about": "About <em>Daniel</em>", "coaching": "1:1 <em>coaching</em>",
     "ignition": "Ignite your <em>fire</em>", "speaking": "On <em>stage</em>",
-    "results": "Proof from <em>the work</em>", "scorecard": "Find your <em>gap</em>",
+    "results": "Client <em>results</em>", "scorecard": "Find your <em>gap</em>",
     "apply": "Take <em>action</em>", "404": "False <em>summit</em>"
   };
   function titleFor(path) {
@@ -262,17 +214,37 @@
   function resetCurtain() {
     if (!curtain) return;
     curtain.classList.add("no-anim");
+    doc.classList.remove("pt-enter", "pt-covered");
     curtain.classList.remove("is-leaving", "is-covering", "is-covered");
+    doc.style.backgroundColor = "";
+    uiIvory();
     void curtain.offsetHeight;
     requestAnimationFrame(function () { requestAnimationFrame(function () { curtain.classList.remove("no-anim"); }); });
   }
+  /* Lift the panels off a fully covered screen */
   function liftCurtain() {
+    if (!curtain) return;
+    curtain.classList.add("no-anim");
+    doc.classList.add("pt-enter");
+    curtain.classList.remove("is-covering", "is-covered");
+    void curtain.offsetHeight;
+    curtain.classList.remove("no-anim");
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      doc.classList.remove("pt-covered");
+      curtain.classList.add("is-leaving");
+      setTimeout(resetCurtain, 900);
+    }); });
+  }
+  /* First load arriving from a full page load (fallback path) */
+  if (curtain && doc.classList.contains("pt-enter")) {
+    if (ctTitle) ctTitle.innerHTML = titleFor(location.pathname);
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       curtain.classList.add("is-leaving");
       setTimeout(resetCurtain, 900);
     }); });
   }
 
+  /* Page HTML cache (filled by hover/touch prefetch) */
   var pageCache = {};
   function fetchPage(path) {
     if (!pageCache[path]) {
@@ -286,19 +258,22 @@
   function isPageLink(url) {
     return url.origin === location.origin && (/\.html$/.test(url.pathname) || /\/$/.test(url.pathname));
   }
+
+  /* Cover the screen; resolves once fully covered */
   function cover(path) {
     return new Promise(function (resolve) {
       if (ctTitle) ctTitle.innerHTML = titleFor(path);
       curtain.classList.add("is-covering");
+      setTimeout(uiWine, 350);
       var done = false;
       var fin = function () {
         if (done) return; done = true;
-        curtain.classList.add("is-covered");
-        setTimeout(resolve, 30);
+        curtain.classList.add("is-covered"); doc.classList.add("pt-covered");
+        setTimeout(resolve, 40);
       };
-      var cols = $$(".curtain__cols--ink i", curtain);
+      var cols = $$(".curtain__cols--wine i", curtain).filter(function (c) { return c.offsetWidth > 0; });
       var last = cols[cols.length - 1];
-      if (last) last.addEventListener("transitionend", function (ev) { if (ev.propertyName === "transform") fin(); }, { once: true });
+      if (last) last.addEventListener("transitionend", function (ev) { if (ev.propertyName === "transform") setTimeout(fin, 60); }, { once: true });
       setTimeout(fin, 900);
     });
   }
@@ -307,10 +282,14 @@
   function navigate(url, push) {
     if (navigating) return;
     navigating = true;
-    Promise.all([fetchPage(url.pathname), cover(url.pathname)]).then(function (res) {
+    var path = url.pathname;
+    Promise.all([fetchPage(path), cover(path)]).then(function (res) {
       swapPage(res[0], url, push);
       navigating = false;
-    }).catch(function () { location.href = url.href; });
+    }).catch(function () {
+      /* Anything unexpected: fall back to a normal page load */
+      location.href = url.href;
+    });
   }
 
   function swapPage(html, url, push) {
@@ -318,75 +297,90 @@
     var newMain = next.querySelector("main");
     if (!newMain) { location.href = url.href; return; }
 
-    if (window.PLMotion) window.PLMotion.destroy();
+    /* Tear down the old page (all hidden behind the solid curtain) */
+    if (window.ARMotion) window.ARMotion.destroy();
     runCleanups();
+    $$(".hover-img").forEach(function (el) { el.remove(); });
     closeMenu(true);
 
-    $("main").replaceWith(document.importNode(newMain, true));
+    /* Swap content, title, meta and current-page markers */
+    var oldMain = $("main");
+    oldMain.replaceWith(document.importNode(newMain, true));
     document.title = next.title;
-    var a = $('meta[name="description"]'), b = next.querySelector('meta[name="description"]');
-    if (a && b) a.setAttribute("content", b.getAttribute("content"));
+    ["description"].forEach(function (n) {
+      var a = $('meta[name="' + n + '"]'), b = next.querySelector('meta[name="' + n + '"]');
+      if (a && b) a.setAttribute("content", b.getAttribute("content"));
+    });
     var canon = $('link[rel="canonical"]'), nCanon = next.querySelector('link[rel="canonical"]');
     if (canon && nCanon) canon.setAttribute("href", nCanon.getAttribute("href"));
     body.setAttribute("data-page", next.body.getAttribute("data-page") || "");
     [".site-header .nav", ".menu__list"].forEach(function (sel) {
-      var x = $(sel), y = next.querySelector(sel);
-      if (x && y) x.innerHTML = y.innerHTML;
+      var a = $(sel), b = next.querySelector(sel);
+      if (a && b) a.innerHTML = b.innerHTML;
     });
 
-    if (push) history.pushState({ pl: 1 }, "", url.href);
+    if (push) history.pushState({ ar: 1 }, "", url.href);
     jumpTop();
     if (header) header.classList.remove("is-hidden");
 
+    /* Wire up the new page and play its entrance */
     var main = $("main");
-    wireLinks(main);
-    wireLinks($(".site-header"));
+    wireBooking(main);
     initPage(main);
-    if (window.PLMotion) window.PLMotion.init(main, "enter");
+    if (window.ARMotion) window.ARMotion.init(main, "enter");
     lastY = 0; onScroll();
 
     if (url.hash) {
       var t = document.getElementById(url.hash.slice(1));
-      if (t) setTimeout(function () { scrollToEl(t); }, 800);
+      if (t) setTimeout(function () { scrollToEl(t); }, 900);
     }
     liftCurtain();
   }
 
+  /* One delegated click handler for every link on the site */
   document.addEventListener("click", function (e) {
     var a = e.target.closest("a[href]");
     if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     if (a.target && a.target !== "_self") return;
     var href = a.getAttribute("href");
     if (!href || /^(mailto:|tel:|javascript:)/i.test(href)) return;
+
+    /* In-page anchors */
     if (href.charAt(0) === "#") {
       if (href.length < 2) return;
-      var target = document.getElementById(href.slice(1));
+      var target = document.querySelector(href);
       if (!target) return;
-      e.preventDefault(); closeMenu(); scrollToEl(target);
+      e.preventDefault();
+      closeMenu();
+      scrollToEl(target);
       return;
     }
     var url = new URL(a.href, location.href);
     if (!isPageLink(url)) return;
     if (url.pathname === location.pathname && url.search === location.search) {
-      e.preventDefault();
-      closeMenu();
-      if (url.hash) { var t = document.getElementById(url.hash.slice(1)); if (t) scrollToEl(t); }
-      else if (lenis) lenis.scrollTo(0); else window.scrollTo({ top: 0, behavior: "smooth" });
+      if (url.hash) {
+        var t = document.getElementById(url.hash.slice(1));
+        if (t) { e.preventDefault(); closeMenu(); scrollToEl(t); }
+      }
       return;
     }
-    if (!curtain || reduced || location.protocol === "file:") return;
+    if (!curtain || reduced) return;           /* plain navigation */
     e.preventDefault();
     navigate(url, true);
   });
-  if (curtain && !reduced && location.protocol !== "file:") {
-    history.replaceState({ pl: 1 }, "", location.href);
+
+  /* Back / forward */
+  if (curtain && !reduced) {
+    history.replaceState({ ar: 1 }, "", location.href);
     window.addEventListener("popstate", function () {
       var url = new URL(location.href);
-      if (isPageLink(url)) navigate(url, false);
+      if (!isPageLink(url)) return;
+      navigate(url, false);
     });
   }
   window.addEventListener("pageshow", function (e) { if (e.persisted) { closeMenu(true); resetCurtain(); } });
 
+  /* Warm up pages as soon as a finger/cursor reaches a link */
   function warmPath(path) { if (path !== location.pathname) fetchPage(path).catch(function () {}); }
   var warm = function (e) {
     var a = e.target.closest && e.target.closest("a[href]");
@@ -396,13 +390,463 @@
     var u = new URL(a.href, location.href);
     if (isPageLink(u)) warmPath(u.pathname);
   };
-  if (location.protocol !== "file:") {
-    document.addEventListener("touchstart", warm, { passive: true });
-    document.addEventListener("mouseover", warm, { passive: true });
+  document.addEventListener("touchstart", warm, { passive: true });
+  document.addEventListener("mouseover", warm, { passive: true });
+  var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 1500); };
+  idle(function () {
+    $$(".site-header .nav a, .menu__list a").forEach(function (a) {
+      var u = new URL(a.href, location.href);
+      if (isPageLink(u)) warmPath(u.pathname);
+    });
+  });
+
+  /* ==========================================================================
+     PER-PAGE INITIALISATION (content inside <main>)
+     ========================================================================== */
+  function initPage(root) {
+
+    /* Hero: tell CSS how tall the right-hand tile column is, so the big "now."
+       can sit above it (the stage and the column share the same bottom edge). */
+    var hvStage = $(".hv__stage", root), hvRight = $(".hv__right", root);
+    if (hvStage && hvRight) {
+      var setRightH = function () { hvStage.style.setProperty("--right-h", hvRight.offsetHeight + "px"); };
+      setRightH();
+      if ("ResizeObserver" in window) { var hvRO = new ResizeObserver(setRightH); hvRO.observe(hvRight); onCleanup(function () { hvRO.disconnect(); }); }
+      else { window.addEventListener("resize", setRightH); onCleanup(function () { window.removeEventListener("resize", setRightH); }); }
+    }
+
+    /* Magnetic buttons + service hover image (desktop pointer) */
+    if (finePointer && !reduced) {
+      $$("[data-magnetic]", root).forEach(function (el) {
+        el.addEventListener("mousemove", function (e) {
+          var r = el.getBoundingClientRect();
+          el.style.transform = "translate(" + (e.clientX - r.left - r.width / 2) * 0.22 + "px," + (e.clientY - r.top - r.height / 2) * 0.3 + "px)";
+        });
+        el.addEventListener("mouseleave", function () { el.style.transform = ""; });
+      });
+      $$("[data-hover-list]", root).forEach(function (list) {
+        var box = document.createElement("div");
+        box.className = "hover-img";
+        box.setAttribute("aria-hidden", "true");
+        var imgs = {};
+        $$(".svc", list).forEach(function (row) {
+          var src = row.getAttribute("data-img");
+          if (!src || imgs[src]) return;
+          var im = new Image(); im.src = src; im.alt = ""; box.appendChild(im); imgs[src] = im;
+        });
+        body.appendChild(box);
+        var bx = 0, by = 0, tx = 0, ty = 0, on = false, alive = true;
+        onCleanup(function () { alive = false; box.remove(); });
+        (function follow() {
+          if (!alive) return;
+          bx += (tx - bx) * 0.12; by += (ty - by) * 0.12;
+          box.style.left = bx + "px"; box.style.top = by + "px";
+          requestAnimationFrame(follow);
+        })();
+        list.addEventListener("mousemove", function (e) { tx = e.clientX + 200; ty = e.clientY; if (!on) { bx = tx; by = ty; } });
+        $$(".svc", list).forEach(function (row) {
+          row.addEventListener("mouseenter", function () {
+            on = true; box.classList.add("is-visible");
+            Object.keys(imgs).forEach(function (k) { imgs[k].classList.toggle("is-active", k === row.getAttribute("data-img")); });
+          });
+        });
+        list.addEventListener("mouseleave", function () { on = false; box.classList.toggle("is-visible", false); });
+      });
+    }
+
+    /* Mobile carousel dots for the stacking cards */
+    $$("[data-stack]", root).forEach(function (track) {
+      var dots = $$(".stack-dots i", track.parentNode);
+      if (!dots.length) return;
+      var cards = $$(".stack-card", track);
+      var busy = false;
+      track.addEventListener("scroll", function () {
+        if (busy) return; busy = true;
+        requestAnimationFrame(function () {
+          var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bestD = Infinity;
+          cards.forEach(function (c, i) { var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bestD) { bestD = d; best = i; } });
+          dots.forEach(function (d, i) { d.classList.toggle("is-on", i === best); });
+          busy = false;
+        });
+      }, { passive: true });
+    });
+
+    /* Marquees: clone group for a seamless loop */
+    $$(".marquee__track", root).forEach(function (track) {
+      var group = $(".marquee__group", track);
+      if (!group || track.children.length > 1) return;
+      var clone = group.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+    });
+
+    /* Testimonial wall: duplicate cards for a seamless loop */
+    $$("[data-wall] .wall__col", root).forEach(function (col) {
+      if (col.dataset.cloned) return; col.dataset.cloned = "1";
+      Array.prototype.slice.call(col.children).forEach(function (card) {
+        var c = card.cloneNode(true); c.setAttribute("aria-hidden", "true"); col.appendChild(c);
+      });
+    });
+
+    /* FAQ */
+    $$(".faq__item", root).forEach(function (item) {
+      var q = $(".faq__q", item);
+      if (!q) return;
+      q.addEventListener("click", function () {
+        var open = item.classList.toggle("is-open");
+        q.setAttribute("aria-expanded", open ? "true" : "false");
+        setTimeout(function () { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); }, 650);
+      });
+    });
+
+    /* Testimonial slider */
+    $$("[data-quotes]", root).forEach(function (qroot) {
+      var slides = $$(".quote-slide", qroot);
+      var bar = $(".quotes__bar", qroot);
+      var cur = $(".quotes__count b", qroot);
+      var total = $(".quotes__count span", qroot);
+      var i = 0, timer = null, DUR = 9000;
+      if (total) total.textContent = String(slides.length).padStart(2, "0");
+      function show(n) {
+        slides[i].classList.remove("is-active");
+        i = (n + slides.length) % slides.length;
+        slides[i].classList.add("is-active");
+        if (cur) cur.textContent = String(i + 1).padStart(2, "0");
+        run();
+      }
+      function run() {
+        clearTimeout(timer);
+        if (bar) { bar.classList.remove("is-running"); void bar.offsetWidth; bar.style.setProperty("--dur", DUR + "ms"); bar.classList.add("is-running"); }
+        if (!reduced) timer = setTimeout(function () { show(i + 1); }, DUR);
+      }
+      onCleanup(function () { clearTimeout(timer); });
+      var prev = $("[data-prev]", qroot), next = $("[data-next]", qroot);
+      if (prev) prev.addEventListener("click", function () { show(i - 1); });
+      if (next) next.addEventListener("click", function () { show(i + 1); });
+      var started = false;
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) { if (en.isIntersecting && !started) { started = true; run(); } });
+        }, { threshold: 0.3 });
+        io.observe(qroot);
+        onCleanup(function () { io.disconnect(); });
+      } else run();
+    });
+
+    /* Story filters */
+    var filterBar = $("[data-filters]", root);
+    if (filterBar) {
+      var chips = $$(".chip", filterBar);
+      var stories = $$(".story", root);
+      chips.forEach(function (chip) {
+        var f = chip.getAttribute("data-filter");
+        var n = f === "all" ? stories.length : stories.filter(function (s) { return (s.getAttribute("data-cat") || "").indexOf(f) > -1; }).length;
+        if (!chip.querySelector("sup")) { var sup = document.createElement("sup"); sup.textContent = n; chip.appendChild(sup); }
+        chip.addEventListener("click", function () {
+          chips.forEach(function (c) { c.classList.remove("is-active"); c.setAttribute("aria-pressed", "false"); });
+          chip.classList.add("is-active"); chip.setAttribute("aria-pressed", "true");
+          stories.forEach(function (s) {
+            var show = f === "all" || (s.getAttribute("data-cat") || "").indexOf(f) > -1;
+            s.classList.toggle("is-hidden", !show);
+          });
+          if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+        });
+      });
+    }
+
+    initForms(root);
+  }
+
+  function initForms(root) {
+  /* ==========================================================================
+     CLARITY COMPASS — a 60-second fit quiz that routes visitors to the right
+     path and carries their answers into the enquiry form.
+     ========================================================================== */
+  var PATHS = {
+    coaching: {
+      title: '1:1 Peak Now <em>Coaching</em>',
+      text: "You've built real results, but they're costing you your energy, your people or your joy. Six or twelve months one-on-one with Daniel rewires the beliefs and habits behind it, so achievement finally feels like something.",
+      url: "coaching.html", program: "coaching-12", label: "1:1 Peak Now Coaching"
+    },
+    vip: {
+      title: 'VIP Day <em>Intensive</em>',
+      text: "You want to compress time. One full, in-person day with Daniel to release the blocks holding you back and leave with clarity, alignment, momentum and a plan for the road ahead.",
+      url: "coaching.html#vip", program: "vip", label: "VIP Day Intensive"
+    },
+    ignition: {
+      title: 'IGNITION <em>for men</em>',
+      text: "You built the business, the family and the life, and you're ready to sharpen your edge. Sixteen weeks, four phases and twelve men who refuse to drift: physically, mentally and spiritually.",
+      url: "ignition.html", program: "ignition", label: "IGNITION (men's cohort)"
+    },
+    speaking: {
+      title: 'Keynotes <em>&amp; workshops</em>',
+      text: "Bring Daniel to your stage. The Perfect Circle of Performance leaves rooms fired up about peak performance, self-love and a champion's mindset, told by someone who lived every word.",
+      url: "speaking.html#enquire", program: "speaking", label: "Speaking enquiry"
+    }
+  };
+  var FORMAT_LABEL = { ongoing: "One-on-one, six to twelve months", day: "One full day, in person", cohort: "Small group of men", event: "Keynote or workshop" };
+  var TIMING_LABEL = { now: "Ready to start now", soon: "In the next month or two", exploring: "Just exploring" };
+
+  $$("[data-compass]", root).forEach(function (root) {
+    var steps = $$(".compass__step", root);
+    var result = $(".compass__result", root);
+    var bars = $$(".compass__progress i", root);
+    var answers = {};
+    var idx = 0;
+    function go(n) {
+      steps.forEach(function (s, k) { s.classList.toggle("is-active", k === n); });
+      result.classList.remove("is-active");
+      bars.forEach(function (b, k) { b.classList.toggle("is-done", k < n); });
+      idx = n;
+    }
+    function score() {
+      var tally = { coaching: 0, vip: 0, ignition: 0, speaking: 0 };
+      Object.keys(answers).forEach(function (k) {
+        var v = answers[k];
+        if (v.path) v.path.split(" ").forEach(function (p) { tally[p] = (tally[p] || 0) + 1; });
+      });
+      var best = "coaching", max = -1;
+      ["coaching", "vip", "ignition", "speaking"].forEach(function (p) { if (tally[p] > max) { max = tally[p]; best = p; } });
+      return best;
+    }
+    function finish() {
+      var best = score();
+      var p = PATHS[best];
+      var fmt = (answers.format && answers.format.value) || "ongoing";
+      var tim = (answers.timing && answers.timing.value) || "exploring";
+      $(".compass__result-title", result).innerHTML = p.title;
+      $(".compass__result-text", result).textContent = p.text;
+      $(".compass__result-tags", result).innerHTML =
+        "<span>" + FORMAT_LABEL[fmt] + "</span><span>" + TIMING_LABEL[tim] + "</span>";
+      var learn = $("[data-result-learn]", result);
+      if (learn) learn.setAttribute("href", p.url);
+      var send = $("[data-result-send]", result);
+      if (send) send.setAttribute("href", best === "speaking" ? "speaking.html#enquire" : "apply.html?program=" + p.program + "&timing=" + tim + "#application");
+      store.set("pl_compass", JSON.stringify({ path: best, program: p.program, format: fmt, timing: tim }));
+      steps.forEach(function (s) { s.classList.remove("is-active"); });
+      bars.forEach(function (b) { b.classList.add("is-done"); });
+      result.classList.add("is-active");
+    }
+    steps.forEach(function (step, k) {
+      $$(".option", step).forEach(function (opt) {
+        opt.addEventListener("click", function () {
+          $$(".option", step).forEach(function (o) { o.classList.remove("is-selected"); o.setAttribute("aria-pressed", "false"); });
+          opt.classList.add("is-selected"); opt.setAttribute("aria-pressed", "true");
+          answers[step.getAttribute("data-key")] = { path: opt.getAttribute("data-path"), value: opt.getAttribute("data-value") };
+          setTimeout(function () { k < steps.length - 1 ? go(k + 1) : finish(); }, 280);
+        });
+      });
+      var back = $(".compass__back", step);
+      if (back) back.addEventListener("click", function () { if (k > 0) go(k - 1); });
+    });
+    var restart = $(".compass__restart", root);
+    if (restart) restart.addEventListener("click", function () { answers = {}; $$(".option", root).forEach(function (o) { o.classList.remove("is-selected"); }); go(0); });
+    go(0);
+  });
+
+  /* ==========================================================================
+     APPLICATION — Anne's multi-step form engine, generalised: any number of
+     steps, choice / check / scale groups, prefilled from ?program= or from the
+     path finder, carries Scorecard results, posts JSON (or opens email).
+     ========================================================================== */
+  var form = $("[data-enquiry]", root);
+  if (form) {
+    var fSteps = $$(".form__step", form);
+    var fBars = $(".form__steps", form);
+    if (fBars && !fBars.children.length) fBars.innerHTML = fSteps.map(function () { return "<i></i>"; }).join("");
+    fBars = $$(".form__steps i", form);
+    var fCount = $(".form__count", form);
+    var btnNext = $("[data-form-next]", form);
+    var btnBack = $("[data-form-back]", form);
+    var btnLabel = btnNext ? $(".btn__label", btnNext) : null;
+    var cur = 0;
+
+    var params = new URLSearchParams(window.location.search);
+    var saved = {};
+    try { saved = JSON.parse(store.get("pl_compass") || "{}"); } catch (e) { saved = {}; }
+    var pre = { program: params.get("program") || saved.program, start: params.get("timing") || saved.timing };
+    var START = { now: "Within 30 days", soon: "In 1–3 months", exploring: "Just exploring" };
+    if (pre.start && START[pre.start]) pre.start = START[pre.start];
+    Object.keys(pre).forEach(function (k) {
+      if (!pre[k]) return;
+      var input = form.querySelector('input[name="' + k + '"][value="' + pre[k] + '"]');
+      if (input) input.checked = true;
+    });
+    var score = null;
+    try { score = JSON.parse(store.get("pl_score") || "null"); } catch (e) { score = null; }
+    var scoreNote = $("[data-score-note]", form);
+    if (score && scoreNote) { scoreNote.hidden = false; $("b", scoreNote).textContent = score.profile + " · Achievement " + score.achievement + " / Fulfillment " + score.fulfillment; }
+
+    function showStep(n) {
+      fSteps.forEach(function (s, k) { s.classList.toggle("is-active", k === n); });
+      fBars.forEach(function (b, k) { b.classList.toggle("is-done", k <= n); });
+      if (fCount) fCount.textContent = "Step " + (n + 1) + " of " + fSteps.length;
+      if (btnBack) btnBack.hidden = n === 0;
+      if (btnLabel) btnLabel.textContent = n === fSteps.length - 1 ? (form.getAttribute("data-send-label") || "Send to Daniel") : "Continue";
+      cur = n;
+    }
+    function validate(step) {
+      var ok = true;
+      $$(".field", step).forEach(function (f) { f.classList.remove("has-error"); });
+      $$("[required]", step).forEach(function (input) {
+        var field = input.closest(".field");
+        var valid = input.type === "email" ? validEmail(input.value) : input.value.trim().length > 0;
+        if (!valid) { ok = false; if (field) field.classList.add("has-error"); }
+      });
+      $$("[data-require-choice]", step).forEach(function (group) {
+        var name = group.getAttribute("data-require-choice");
+        if (!form.querySelector('input[name="' + name + '"]:checked')) {
+          ok = false;
+          group.classList.remove("shake"); void group.offsetWidth; group.classList.add("shake");
+          var hint = step.querySelector(".form__hint");
+          if (hint) { hint.style.color = "var(--claret)"; setTimeout(function () { hint.style.color = ""; }, 1600); }
+        }
+      });
+      return ok;
+    }
+    function labelOf(input) {
+      var span = input.parentNode.querySelector("span");
+      return span ? span.firstChild.textContent.trim() : input.value;
+    }
+    function summary() {
+      var out = {}, seen = {};
+      $$("input, select, textarea", form).forEach(function (el) {
+        if (!el.name || el.name === "_gotcha" || seen[el.name]) return;
+        seen[el.name] = 1;
+        var q = (el.closest("[data-q]") || {}).getAttribute ? el.closest("[data-q]").getAttribute("data-q") : el.name;
+        var v;
+        if (el.type === "radio") { var c = form.querySelector('input[name="' + el.name + '"]:checked'); v = c ? labelOf(c) : ""; }
+        else if (el.type === "checkbox") v = $$('input[name="' + el.name + '"]:checked', form).map(labelOf).join(", ");
+        else v = el.value.trim();
+        if (v) out[q || el.name] = v;
+      });
+      if (score) out["Scorecard"] = score.profile + " (Achievement " + score.achievement + " / Fulfillment " + score.fulfillment + ", levers: " + score.levers + ")";
+      return out;
+    }
+    function submit() {
+      if (form.elements._gotcha && form.elements._gotcha.value) return;
+      var data = summary();
+      var name = (form.elements.name && form.elements.name.value) || "";
+      if (btnNext) btnNext.setAttribute("aria-busy", "true");
+      deliver(form.getAttribute("data-kind") || "application", (form.getAttribute("data-subject") || "Peak Life Now application") + " — " + name, data).then(function (how) {
+        form.classList.add("is-sent");
+        var nm = $("[data-sent-name]", form);
+        if (nm) nm.textContent = name.split(" ")[0] || "friend";
+        var dl = $("[data-sent-summary]", form);
+        if (dl) dl.innerHTML = Object.keys(data).filter(function (k) { return ["Name", "Email", "Phone"].indexOf(k) < 0; }).slice(0, 6).map(function (k) { return "<div><dt>" + escHTML(k) + "</dt><dd>" + escHTML(data[k]) + "</dd></div>"; }).join("");
+        if (lenis) lenis.scrollTo(form, { offset: -120 }); else form.scrollIntoView();
+        store.set("pl_compass", "");
+        if (how !== "mailto") toast("Sent. Daniel will be in touch " + (CFG.replyPromise || "soon") + ".");
+      }).catch(function () { if (btnNext) btnNext.removeAttribute("aria-busy"); toast("Something went wrong. Please email " + CFG.email + "."); });
+    }
+    if (btnNext) btnNext.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (!validate(fSteps[cur])) return;
+      if (cur < fSteps.length - 1) { showStep(cur + 1); scrollIntoForm(); } else submit();
+    });
+    if (btnBack) btnBack.addEventListener("click", function (e) { e.preventDefault(); if (cur > 0) { showStep(cur - 1); scrollIntoForm(); } });
+    form.addEventListener("submit", function (e) { e.preventDefault(); if (btnNext) btnNext.click(); });
+    function scrollIntoForm() {
+      var top = form.getBoundingClientRect().top + window.scrollY - 120;
+      if (window.scrollY > top) { if (lenis) lenis.scrollTo(top); else window.scrollTo({ top: top, behavior: reduced ? "auto" : "smooth" }); }
+    }
+    $$(".form__step", form).forEach(function (step, k) {
+      if (!step.hasAttribute("data-auto")) return;
+      $$('input[type="radio"]', step).forEach(function (r) {
+        r.addEventListener("change", function () { setTimeout(function () { if (cur === k && k < fSteps.length - 1) showStep(k + 1); }, 320); });
+      });
+    });
+    showStep(0);
+    var preNote = $("[data-prefilled]", form);
+    if (preNote && pre.program && form.querySelector('input[name="program"]:checked')) preNote.hidden = false;
+  }
+  if (CFG.replyPromise) $$("[data-reply-promise]", root).forEach(function (el) { el.textContent = CFG.replyPromise; });
+  if (CFG.nextCohort) $$("[data-cohort]", root).forEach(function (el) { el.textContent = CFG.nextCohort; });
+
+  /* Peak Life Scorecard */
+  $$("[data-scorecard]", root).forEach(initScorecard);
+
+  /* Simple forms: speaking enquiry, IGNITION waitlist */
+  $$("form[data-form]", root).forEach(function (f) {
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!checkFields(f)) { toast("Please complete the highlighted fields."); return; }
+      var btn = $('[type="submit"]', f); if (btn) btn.setAttribute("aria-busy", "true");
+      deliver(f.getAttribute("data-form"), f.getAttribute("data-subject") || "Website enquiry", formData(f)).then(function (how) {
+        f.classList.add("is-sent");
+        if (how !== "mailto") toast("Sent. Daniel's team will reply " + (CFG.replyPromise || "soon") + ".");
+      }).catch(function () { if (btn) btn.removeAttribute("aria-busy"); toast("Something went wrong. Please email " + CFG.email + "."); });
+    });
+    $$("input, textarea, select", f).forEach(function (el) {
+      el.addEventListener("input", function () { var w = el.closest(".field"); if (w) w.classList.remove("has-error"); });
+    });
+  });
   }
 
   /* ==========================================================================
-     PEAK LIFE SCORECARD — shared data + radar drawing
+     SHARED HELPERS — delivery, validation, toast
+     ========================================================================== */
+  function escHTML(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  var esc = escHTML;
+  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v).trim()); }
+  function deliver(kind, subject, data) {
+    var payload = Object.assign({ form: kind, page: location.pathname.split("/").pop() || "index.html", submitted_at: new Date().toISOString() }, data);
+    if (CFG.formEndpoint) {
+      return fetch(CFG.formEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return "sent"; });
+    }
+    var lines = Object.keys(data).filter(function (k) { return data[k] !== "" && data[k] != null; }).map(function (k) {
+      return k.replace(/_/g, " ").replace(/^\w/, function (c) { return c.toUpperCase(); }) + ": " + (Array.isArray(data[k]) ? data[k].join(", ") : data[k]);
+    });
+    window.location.href = "mailto:" + (CFG.email || "") + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+    return Promise.resolve("mailto");
+  }
+  function formData(f) {
+    var out = {};
+    $$("input, select, textarea", f).forEach(function (el) {
+      if (!el.name || el.disabled || el.name === "_gotcha") return;
+      if (el.type === "checkbox") { if (!out[el.name]) out[el.name] = []; if (el.checked) out[el.name].push(el.value); }
+      else if (el.type === "radio") { if (el.checked) out[el.name] = el.value; else if (!(el.name in out)) out[el.name] = ""; }
+      else out[el.name] = el.value.trim();
+    });
+    return out;
+  }
+  function checkFields(scope) {
+    var ok = true, first = null;
+    $$("[required]", scope).forEach(function (el) {
+      var wrap = el.closest(".field");
+      var bad = (el.type === "radio" || el.type === "checkbox") ? !$$('input[name="' + el.name + '"]', scope).some(function (i) { return i.checked; })
+        : (!el.value.trim() || (el.type === "email" && !validEmail(el.value)));
+      if (wrap) wrap.classList.toggle("has-error", bad);
+      if (bad) { ok = false; if (!first) first = el; }
+    });
+    if (first && first.focus && first.type !== "radio" && first.type !== "checkbox") first.focus({ preventScroll: true });
+    return ok;
+  }
+  var toastEl = document.createElement("div");
+  toastEl.className = "toast"; toastEl.setAttribute("role", "status"); toastEl.setAttribute("aria-live", "polite");
+  body.appendChild(toastEl);
+  var toastT;
+  function toast(msg) { toastEl.textContent = msg; toastEl.classList.add("is-on"); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("is-on"); }, 4200); }
+
+  /* Morning Mastery opt-in (footer, global) */
+  $$("form[data-optin]").forEach(function (f) {
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (f.elements._gotcha && f.elements._gotcha.value) return;
+      var em = f.elements.email;
+      if (!validEmail(em.value)) { em.focus(); toast("Please enter a valid email address."); return; }
+      deliver("morning-mastery", "Morning Mastery Checklist request", { first_name: f.elements.first_name.value.trim(), email: em.value.trim() })
+        .then(function (how) { f.classList.add("is-sent"); var ok = $(".footer__optin-ok", f); if (ok) ok.hidden = false; if (how !== "mailto") toast("Done. Check your inbox."); })
+        .catch(function () { toast("Something went wrong. Please try again."); });
+    });
+  });
+
+  /* ==========================================================================
+     PEAK LIFE SCORECARD — data, radar, profile and the step-through tool
      ========================================================================== */
   var SC_Q = [
     { k: "performance", area: "Performance", side: "a", t: "I'm hitting the goals I set for my <em>business</em> or career." },
@@ -455,186 +899,6 @@
     p.A = A; p.F = F; p.gap = gap; p.levers = ranked.slice(0, 2).map(function (r) { return r.area; });
     return p;
   }
-
-  /* ==========================================================================
-     PER-PAGE INITIALISATION
-     ========================================================================== */
-  function initPage(root) {
-
-    /* Pause the hero's spinning rays while the hero is off screen */
-    var heroEl = $(".hero", root);
-    if (heroEl && "IntersectionObserver" in window) {
-      var heroIO = new IntersectionObserver(function (en) { heroEl.classList.toggle("is-off", !en[0].isIntersecting); });
-      heroIO.observe(heroEl);
-      onCleanup(function () { heroIO.disconnect(); });
-    }
-
-    /* Magnetic buttons + pointer glow on cards */
-    if (finePointer && !reduced) {
-      $$("[data-magnetic]", root).forEach(function (el) {
-        el.addEventListener("mousemove", function (e) {
-          var r = el.getBoundingClientRect();
-          el.style.transform = "translate(" + (e.clientX - r.left - r.width / 2) * 0.2 + "px," + (e.clientY - r.top - r.height / 2) * 0.28 + "px)";
-        });
-        el.addEventListener("mouseleave", function () { el.style.transform = ""; });
-      });
-      $$(".pillar", root).forEach(function (el) {
-        el.addEventListener("mousemove", function (e) {
-          var r = el.getBoundingClientRect();
-          el.style.setProperty("--mx", (e.clientX - r.left) + "px");
-          el.style.setProperty("--my", (e.clientY - r.top) + "px");
-        });
-      });
-    }
-
-    /* Testimonial slider */
-    $$("[data-tslider]", root).forEach(function (sl) {
-      var slides = $$(".tslide", sl), people = $$(".tperson", sl), count = $(".tslider__count b", sl), barI = $(".tslider__bar i", sl);
-      var i = 0, t0 = performance.now(), DUR = 8000, paused = false, alive = true;
-      function go(n) {
-        i = (n + slides.length) % slides.length;
-        slides.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
-        people.forEach(function (p, k) { p.classList.toggle("is-active", k === i); p.setAttribute("aria-selected", k === i ? "true" : "false"); });
-        if (count) count.textContent = String(i + 1).padStart(2, "0");
-        t0 = performance.now();
-        var active = people[i];
-        if (active && active.parentNode.scrollWidth > active.parentNode.clientWidth) {
-          active.parentNode.scrollTo({ left: active.offsetLeft - 20, behavior: reduced ? "auto" : "smooth" });
-        }
-        if (window.gsap && !reduced) {
-          var q = $("blockquote", slides[i]);
-          window.gsap.fromTo([q, $(".chip", slides[i]), $("figcaption", slides[i])], { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .8, ease: "expo.out", stagger: .06 });
-        }
-      }
-      people.forEach(function (p, k) { p.addEventListener("click", function () { go(k); }); });
-      var prev = $("[data-prev]", sl), nxt = $("[data-next]", sl);
-      if (prev) prev.addEventListener("click", function () { go(i - 1); });
-      if (nxt) nxt.addEventListener("click", function () { go(i + 1); });
-      sl.addEventListener("mouseenter", function () { paused = true; });
-      sl.addEventListener("mouseleave", function () { paused = false; t0 = performance.now() - (barI ? parseFloat(barI.dataset.p || 0) * DUR : 0); });
-      var x0 = null;
-      sl.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-      sl.addEventListener("touchend", function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1)); x0 = null; });
-      (function loop(now) {
-        if (!alive) return;
-        if (!paused && !reduced) {
-          var p = Math.min(1, (now - t0) / DUR);
-          if (barI) { barI.style.transform = "scaleX(" + p + ")"; barI.dataset.p = p; }
-          if (p >= 1) go(i + 1);
-        }
-        requestAnimationFrame(loop);
-      })(performance.now());
-      onCleanup(function () { alive = false; });
-    });
-
-    /* Filters (results) */
-    $$("[data-filters]", root).forEach(function (group) {
-      var target = $(group.getAttribute("data-filters"), root);
-      if (!target) return;
-      var cards = $$("[data-cat]", target);
-      $$("button", group).forEach(function (btn) {
-        var f = btn.getAttribute("data-filter");
-        var n = f === "all" ? cards.length : cards.filter(function (c) { return c.getAttribute("data-cat").split(" ").indexOf(f) > -1; }).length;
-        var sm = $("small", btn); if (sm) sm.textContent = String(n).padStart(2, "0");
-        btn.addEventListener("click", function () {
-          $$("button", group).forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
-          cards.forEach(function (c) {
-            var show = f === "all" || c.getAttribute("data-cat").split(" ").indexOf(f) > -1;
-            c.classList.toggle("is-hidden", !show);
-          });
-          if (window.gsap && !reduced) window.gsap.fromTo(cards.filter(function (c) { return !c.classList.contains("is-hidden"); }), { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "expo.out", stagger: .04 });
-          if (window.ScrollTrigger) window.ScrollTrigger.refresh();
-        });
-      });
-    });
-
-    /* Tabs (keynote circle) */
-    $$("[data-tabs]", root).forEach(function (wrap) {
-      var tabs = $$('[role="tab"]', wrap), panels = $$('[role="tabpanel"]', wrap), segs = $$("[data-seg]", wrap);
-      function sel(k) {
-        tabs.forEach(function (t, n) { t.setAttribute("aria-selected", n === k ? "true" : "false"); t.tabIndex = n === k ? 0 : -1; });
-        panels.forEach(function (p, n) { p.hidden = n !== k; });
-        segs.forEach(function (s) { var on = +s.getAttribute("data-seg") === k; s.classList.toggle("is-on", on); });
-        $$(".seg-lab", wrap).forEach(function (l) { l.classList.toggle("is-on", +l.getAttribute("data-seg-lab") === k); });
-      }
-      tabs.forEach(function (t, n) {
-        t.addEventListener("click", function () { sel(n); });
-        t.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowRight" || e.key === "ArrowLeft") { var k = (n + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length; sel(k); tabs[k].focus(); }
-        });
-      });
-      segs.forEach(function (s) {
-        var k = +s.getAttribute("data-seg");
-        s.addEventListener("click", function () { sel(k); });
-        s.addEventListener("mouseenter", function () { sel(k); });
-      });
-      sel(0);
-    });
-
-    /* FAQ: one open at a time */
-    $$(".faq__list", root).forEach(function (list) {
-      var items = $$("details", list);
-      items.forEach(function (d) { d.addEventListener("toggle", function () { if (d.open) items.forEach(function (o) { if (o !== d) o.open = false; }); if (window.ScrollTrigger) setTimeout(function () { window.ScrollTrigger.refresh(); }, 50); }); });
-    });
-
-    /* Home scorecard teaser: animate demo radar */
-    $$("[data-radar-demo]", root).forEach(function (host) {
-      host.innerHTML = radarSVG("radar-demo");
-      var svg = $("svg", host);
-      var sets = [[9, 8, 9, 4, 3, 5, 3, 4], [8, 7, 8, 7, 6, 7, 6, 7], [9, 9, 9, 8, 9, 8, 9, 9]];
-      var k = 0, alive = true;
-      var labs = $$(".lab", svg);
-      function step() {
-        if (!alive) return;
-        var v = sets[k % sets.length];
-        drawRadar(svg, v, -1);
-        labs.forEach(function (l, i) { l.classList.toggle("is-low", v[i] <= 4); });
-        k++;
-        setTimeout(step, 2600);
-      }
-      setTimeout(step, 400);
-      onCleanup(function () { alive = false; });
-    });
-
-    /* Full scorecard */
-    $$("[data-scorecard]", root).forEach(initScorecard);
-
-    /* Multi-step application */
-    $$("[data-apply]", root).forEach(initApply);
-
-    /* Simple forms (speaking enquiry, IGNITION waitlist, contact) */
-    $$("form[data-form]", root).forEach(function (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        if (!checkFields(form)) { toast("Please complete the highlighted fields."); return; }
-        var kind = form.getAttribute("data-form");
-        var subj = form.getAttribute("data-subject") || "Website enquiry";
-        var btn = $('[type="submit"]', form); if (btn) btn.disabled = true;
-        deliver(kind, subj, formData(form)).then(function (how) {
-          var done = form.parentNode.querySelector("[data-done]");
-          if (done) { form.hidden = true; done.hidden = false; done.classList.add("is-active"); }
-          toast(how === "mailto" ? "Your email app is opening with the details filled in." : "Sent. Daniel will be in touch " + (CFG.replyPromise || "soon") + ".");
-        }).catch(function () { toast("Something went wrong. Please email " + CFG.email + "."); if (btn) btn.disabled = false; });
-      });
-      $$("input, textarea, select", form).forEach(function (el) {
-        el.addEventListener("input", function () { var w = el.closest(".field, .fgroup"); if (w) w.classList.remove("has-error"); });
-        el.addEventListener("change", function () { var w = el.closest(".field, .fgroup"); if (w) w.classList.remove("has-error"); });
-      });
-    });
-  }
-
-  /* ---------- Opt-in (global, lives in the footer area) ---------- */
-  $$("[data-optin]").forEach(function (box) {
-    var form = $("form", box);
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var em = form.elements.email;
-      if (!validEmail(em.value)) { em.focus(); toast("Please enter a valid email address."); return; }
-      deliver("morning-mastery", "Morning Mastery Checklist request", { first_name: form.elements.first_name.value.trim(), email: em.value.trim() })
-        .then(function (how) { box.classList.add("is-done"); if (how !== "mailto") toast("Done. Check your inbox."); })
-        .catch(function () { toast("Something went wrong. Please try again."); });
-    });
-  });
 
   /* ---------- Scorecard ---------- */
   function initScorecard(host) {
@@ -695,7 +959,7 @@
       $("[data-r-rec]", res).textContent = p.rec;
       $("[data-r-rectext]", res).textContent = p.recText;
       var cta = $("[data-r-cta]", res);
-      cta.firstChild.nodeValue = p.cta + " ";
+      var ctaLabel = $(".btn__label", cta); if (ctaLabel) ctaLabel.textContent = p.cta; else cta.firstChild.nodeValue = p.cta + " ";
       cta.setAttribute("href", p.href);
       if (p.book && CFG.bookingUrl) { cta.setAttribute("href", CFG.bookingUrl); cta.setAttribute("target", "_blank"); cta.setAttribute("rel", "noopener"); }
       else { cta.removeAttribute("target"); }
@@ -735,74 +999,6 @@
     render();
   }
 
-  /* ---------- Multi-step application ---------- */
-  function initApply(host) {
-    var form = $("form", host), steps = $$(".fstep", host), labels = $$(".msf__steps li", host);
-    var barI = $(".msf__bar i", host), back = $("[data-back]", host), next = $("[data-next-step]", host), submit = $("[data-submit]", host);
-    var note = $(".fnote", host), done = $(".fdone", host), stepN = $("[data-step-n]", host);
-    var i = 0;
-    var params = new URLSearchParams(location.search);
-    var pre = params.get("program");
-    if (pre) { var r = $('input[name="program"][value="' + pre + '"]', form); if (r) r.checked = true; }
-    var saved = null;
-    try { saved = JSON.parse(store.get("pl_score") || "null"); } catch (e) { saved = null; }
-    var scoreNote = $("[data-score-note]", host);
-    if (saved && scoreNote) {
-      scoreNote.hidden = false;
-      $("b", scoreNote).textContent = saved.profile + " · Achievement " + saved.achievement + " / Fulfillment " + saved.fulfillment;
-    }
-    function show(n) {
-      i = n;
-      steps.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
-      labels.forEach(function (l, k) { l.classList.toggle("is-current", k === i); l.classList.toggle("is-done", k < i); });
-      if (barI) barI.style.transform = "scaleX(" + ((i + 1) / steps.length) + ")";
-      if (stepN) stepN.textContent = String(i + 1).padStart(2, "0");
-      back.hidden = i === 0;
-      next.hidden = i === steps.length - 1;
-      submit.hidden = i !== steps.length - 1;
-      note.textContent = "";
-    }
-    function scrollIn() {
-      var top = host.getBoundingClientRect().top + window.scrollY - 110;
-      if (window.scrollY > top) { if (lenis) lenis.scrollTo(top); else window.scrollTo({ top: top, behavior: "smooth" }); }
-    }
-    next.addEventListener("click", function () {
-      if (!checkFields(steps[i])) { note.textContent = "Pick an answer to keep going."; return; }
-      show(i + 1); scrollIn();
-    });
-    back.addEventListener("click", function () { show(Math.max(0, i - 1)); scrollIn(); });
-    $$("input, textarea, select", form).forEach(function (el) {
-      el.addEventListener("change", function () { var w = el.closest(".field, .fgroup"); if (w) w.classList.remove("has-error"); note.textContent = ""; });
-    });
-    var LABELS = { "coaching-6": "Peak Now Coaching · 6 months", "coaching-12": "Peak Now Coaching · 12 months", "vip": "VIP Day Intensive", "ignition": "IGNITION (men's cohort)", "unsure": "Not sure yet" };
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!checkFields(steps[i])) { note.textContent = "Add your name and a valid email."; return; }
-      var d = formData(form);
-      var data = {
-        name: d.name, email: d.email, phone: d.phone,
-        program: LABELS[d.program] || d.program, role: d.role, revenue_last_30_days: d.revenue,
-        missing_most: d.missing, goals_this_year: d.tenten, commitment: d.commit ? d.commit + "/10" : "",
-        start: d.start, why_now: d.why_now, best_time: d.best_time, heard_about: d.heard
-      };
-      if (saved) { data.scorecard = saved.profile + " (A " + saved.achievement + " / F " + saved.fulfillment + ", levers: " + saved.levers + ")"; }
-      submit.disabled = true;
-      deliver("application", "Peak Life Now application: " + (d.name || ""), data).then(function (how) {
-        form.hidden = true;
-        $(".msf__bar", host).style.display = "none";
-        labels.forEach(function (l) { l.classList.remove("is-current"); l.classList.add("is-done"); });
-        var sum = $(".summary", done);
-        if (sum) sum.innerHTML = [["Program", data.program], ["You are", data.role], ["Missing most", (data.missing_most || []).join(", ")], ["Commitment", data.commitment], ["Start", data.start]].filter(function (r) { return r[1]; }).map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + esc(r[1]) + "</dd></div>"; }).join("");
-        var first = $("[data-first]", done); if (first) first.textContent = (d.name || "").split(" ")[0] || "friend";
-        done.classList.add("is-active");
-        scrollIn();
-        if (how !== "mailto") toast("Application sent.");
-      }).catch(function () { submit.disabled = false; note.textContent = "Something went wrong. Please email " + CFG.email + "."; });
-    });
-    show(0);
-  }
 
-  /* Boot */
-  initPage(document.querySelector("main"));
-  window.PLSite = { initPage: initPage, toast: toast, lenis: lenis };
+  initPage($("main") || document);
 })();

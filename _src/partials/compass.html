@@ -1,0 +1,72 @@
+<div class="compass" id="path" data-compass data-theme="dark">
+        <div class="compass__intro">
+          <span class="label">Find your path</span>
+          <h2 class="h2" data-split>Not sure where <em>to start?</em></h2>
+          <p>Four quick questions. Sixty seconds. Find the way of working with Daniel that fits where you are right now, then send it straight to him, already filled in.</p>
+          <div class="compass__meta">
+            <span>{{icon:clock}} 60 seconds</span>
+            <span>{{icon:lock}} Nothing stored until you send</span>
+          </div>
+        </div>
+        <div class="compass__panel" aria-live="polite">
+          <div class="compass__progress" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+          <div class="compass__step" data-key="pull">
+            <span class="compass__q">Question 01 / 04</span>
+            <h3>Where do you feel the gap most right now?</h3>
+            <div class="options">
+              <button class="option" type="button" data-path="coaching"><span class="option__key">A</span>The business is growing, but I'm running on fumes</button>
+              <button class="option" type="button" data-path="vip"><span class="option__key">B</span>I need a breakthrough, fast, not another slow year</button>
+              <button class="option" type="button" data-path="ignition"><span class="option__key">C</span>I've lost my edge: body, mind and spirit</button>
+              <button class="option" type="button" data-path="speaking"><span class="option__key">D</span>My team or audience needs to be fired up</button>
+            </div>
+          </div>
+
+          <div class="compass__step" data-key="win">
+            <span class="compass__q">Question 02 / 04</span>
+            <h3>Ninety days from now, what would feel like a win?</h3>
+            <div class="options">
+              <button class="option" type="button" data-path="coaching"><span class="option__key">A</span>Results and fulfillment, finally at the same time</button>
+              <button class="option" type="button" data-path="vip"><span class="option__key">B</span>Clarity, a plan and real momentum after one deep day</button>
+              <button class="option" type="button" data-path="ignition"><span class="option__key">C</span>Stronger, sharper and leading at home again</button>
+              <button class="option" type="button" data-path="speaking"><span class="option__key">D</span>A room that leaves energized and ready to act</button>
+            </div>
+            <button class="compass__back" type="button">{{icon:arrow}} Back</button>
+          </div>
+
+          <div class="compass__step" data-key="format">
+            <span class="compass__q">Question 03 / 04</span>
+            <h3>How would you like to do the work?</h3>
+            <div class="options">
+              <button class="option" type="button" data-value="ongoing" data-path="coaching"><span class="option__key">A</span>One-on-one with Daniel, over six to twelve months</button>
+              <button class="option" type="button" data-value="day" data-path="vip"><span class="option__key">B</span>One full day, in person, all in</button>
+              <button class="option" type="button" data-value="cohort" data-path="ignition"><span class="option__key">C</span>Alongside a small group of driven men</button>
+              <button class="option" type="button" data-value="event" data-path="speaking"><span class="option__key">D</span>As a keynote or workshop for a group</button>
+            </div>
+            <button class="compass__back" type="button">{{icon:arrow}} Back</button>
+          </div>
+
+          <div class="compass__step" data-key="timing">
+            <span class="compass__q">Question 04 / 04</span>
+            <h3>How soon are you ready to begin?</h3>
+            <div class="options">
+              <button class="option" type="button" data-value="now"><span class="option__key">A</span>Now. I'm done waiting.</button>
+              <button class="option" type="button" data-value="soon"><span class="option__key">B</span>In the next month or two</button>
+              <button class="option" type="button" data-value="exploring"><span class="option__key">C</span>I'm exploring for now</button>
+            </div>
+            <button class="compass__back" type="button">{{icon:arrow}} Back</button>
+          </div>
+
+          <div class="compass__result">
+            <span class="compass__q">Your path</span>
+            <h3 class="h3 compass__result-title">1:1 Peak Now <em>Coaching</em></h3>
+            <div class="compass__result-tags"></div>
+            <p class="compass__result-text"></p>
+            <div class="btn-row">
+              <a class="btn btn--rose" href="apply.html" data-result-send><span class="btn__label">Send this to Daniel</span><span class="btn__icon">{{icon:arrow-ur}}</span></a>
+              <a class="link-arrow" href="coaching.html" data-result-learn>Explore this path {{icon:arrow}}</a>
+            </div>
+            <button class="compass__restart" type="button">Start over</button>
+          </div>
+        </div>
+      </div>

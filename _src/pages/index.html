@@ -1,427 +1,327 @@
-<!--meta {
-  "title": "Daniel Diaz · Peak Life Now — Peak Performance Coaching for Entrepreneurs",
-  "description": "Daniel Diaz helps purpose-driven entrepreneurs and team leaders match their achievement with fulfillment by mastering mindset, heart and habits. 1:1 coaching, VIP Days, IGNITION and keynotes.",
-  "nav": "home"
-} -->
-    <!-- HERO -->
-    <section class="hero" data-theme="dark">
-      <div class="hero__frame">
-        <div class="hero__media">
-          <picture>
-            <source media="(max-width: 700px)" srcset="assets/img/hero-peak-m.webp">
-            <img src="assets/img/hero-peak.webp" alt="Daniel Diaz with his arms wide open, smiling up at the sky" width="2200" height="1168" fetchpriority="high">
-          </picture>
-        </div>
-        <div class="hero__rays" aria-hidden="true"></div>
-        <div class="hero__glow" aria-hidden="true"></div>
-        <div class="hero__shade" aria-hidden="true"></div>
+<!--meta {"title": "Daniel Diaz · Peak Life Now — Peak Performance Coaching for Entrepreneurs", "description": "Daniel Diaz helps purpose-driven entrepreneurs and team leaders match their achievement with fulfillment by mastering mindset, heart and habits. 1:1 coaching, VIP Days, IGNITION and keynotes.", "nav": "home"} -->
 
-        <div class="hero__inner">
-          <div class="hero__top">
-            <span class="kicker kicker--dot" style="color:rgba(242,238,230,.72)">Peak performance coaching · Entrepreneurs &amp; team leaders</span>
-            <h1 class="h-xl" data-split><span class="line">Your peak life</span> <span class="line">starts <em>now.</em></span></h1>
+    <!-- ============ HERO — magazine cover ============ -->
+    <section class="hv" data-theme="dark" data-hv>
+      <div class="hv__mesh" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="hv__dots" aria-hidden="true"></div>
+      <div class="hv__rings" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="hv__rose" aria-hidden="true">{{> peak}}</div>
+
+      <div class="hv__top" data-hero>
+        <span class="label">Peak performance coach &amp; speaker</span>
+        <span class="hv__avail"><i></i>1:1 coaching · VIP Days · IGNITION Cohort 02 waitlist open</span>
+      </div>
+
+      <div class="hv__stage">
+        <h1 class="sr-only">Daniel Diaz — Your peak life starts now. Peak performance coaching for entrepreneurs and team leaders.</h1>
+        <div class="hv__pre" aria-hidden="true" data-split><span class="row">Your</span> <span class="row">peak life</span></div>
+        <div class="hv__giant" aria-hidden="true" data-giant>starts</div>
+        <div class="hv__figure"><img class="hv__anne" src="assets/img/daniel-laugh-cut.webp" alt="Daniel Diaz laughing, hands clasped, in a blue polo" width="646" height="1265" fetchpriority="high" data-hero-rise></div>
+        <div class="hv__post" aria-hidden="true" data-split>now.</div>
+        <span class="sparkle sparkle--lg" style="left:41%;top:4%" aria-hidden="true">{{icon:spark}}</span>
+        <span class="sparkle" style="left:62%;top:14%" aria-hidden="true">{{icon:spark}}</span>
+        <span class="sparkle sparkle--sm" style="left:30%;top:62%" aria-hidden="true">{{icon:spark}}</span>
+        <span class="sparkle" style="right:26%;top:48%" aria-hidden="true">{{icon:spark}}</span>
+        <span class="sparkle sparkle--sm" style="left:8%;top:30%" aria-hidden="true">{{icon:spark}}</span>
+        <div class="sticker sticker--gold hv__sticker" data-pop><div><b>Top 10</b><span>performance<br>coaches · Yahoo</span></div></div>
+        <div class="tile tile--glass hv__proof" data-pop>
+          <div class="stars">{{icon:star}}{{icon:star}}{{icon:star}}{{icon:star}}{{icon:star}}</div>
+          <blockquote>“I have 5x'd my company in less than a year after partnering with him.”</blockquote>
+          <div class="row"><div class="avatars"><img src="assets/img/clients/anthony-miller.webp" alt="" width="40" height="40"><img src="assets/img/clients/matthew-crandall.webp" alt="" width="40" height="40"><img src="assets/img/clients/julia-goehring.webp" alt="" width="40" height="40"><img src="assets/img/clients/chris-farwell.webp" alt="" width="40" height="40"></div><span>Anthony Miller<br>Business owner</span></div>
+        </div>
+      </div>
+
+      <div class="hv__left">
+        <div class="tile tile--glass hv__intro" data-pop>
+          <span class="hand-note hv__note" aria-hidden="true">start here <svg viewBox="0 0 70 46"><path d="M64 4 C 44 4, 22 14, 12 38"/><path d="M12 38 L 8 26 M12 38 L 23 32"/></svg></span>
+          <p>You built the business. Daniel helps purpose-driven entrepreneurs and team leaders build the life to match it, by mastering <em>mindset, heart and habits.</em></p>
+          <div class="btn-row">
+            <a class="btn btn--rose" href="apply.html" data-book data-magnetic><span class="btn__label">Book a discovery call</span><span class="btn__icon">{{icon:arrow-ur}}</span></a>
+            <a class="link-arrow" href="#path"><span>Find your path</span> {{icon:arrow}}</a>
           </div>
-          <div></div>
-          <div class="hero__bottom">
-            <p class="hero__lead">Daniel Diaz helps purpose-driven entrepreneurs and team leaders <strong>match their level of achievement with their level of fulfillment</strong>, by mastering mindset, heart and habits.</p>
-            <div class="btns">
-              <a class="btn btn--gold" href="apply.html" data-book data-magnetic>Book a discovery call <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-              <a class="btn btn--ghost" href="scorecard.html">Take the scorecard <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
+        </div>
+      </div>
+
+      <div class="hv__right">
+        <div class="tile tile--glass hv__stat" data-pop>
+          <div class="big-num"><span data-count="15">15</span><sup>yrs</sup></div>
+          <p>inside transformation, as an entrepreneur, <b>coach, endurance athlete and dad</b>.</p>
+        </div>
+        <div class="tile tile--glass" data-pop>
+          <div class="hv__press"><b>Yahoo Finance</b><b>Disrupt</b><b>Influencive</b></div>
+          <span class="hv__press-note">Named one of “The Top 10 Performance Coaches To Be Following”</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TICKER ============ -->
+    <div class="ticker">
+      <div class="ticker__lead"><div class="avatars"><img src="assets/img/clients/anthony-miller.webp" alt="" width="40" height="40"><img src="assets/img/clients/julia-goehring.webp" alt="" width="40" height="40"><img src="assets/img/clients/billy-ruehlmann.webp" alt="" width="40" height="40"></div>As featured in</div>
+      {{> trust}}
+    </div>
+
+    <!-- ============ SOUND FAMILIAR — stacking cards ============ -->
+    <section class="section">
+      <div class="container stack-sec">
+        <div class="stack-sec__intro">
+          <span class="label">Sound familiar?</span>
+          <h2 class="h2" data-split>All the drive. <em>None of the fulfillment.</em></h2>
+          <p class="lead muted" data-reveal>You put in the work and your results speak for themselves. Yet at the end of the day you feel drained, disconnected and unfulfilled. Daniel knows, because he's been there.</p>
+          <div class="btn-row" data-reveal>
+            <a class="btn" href="about.html" data-magnetic><span class="btn__label">Meet Daniel</span><span class="btn__icon">{{icon:arrow}}</span></a>
+            <a class="link-arrow" href="scorecard.html"><span>Measure your gap</span> {{icon:arrow}}</a>
+          </div>
+        </div>
+        <div class="stack" data-stack>
+          <div class="stack-card"><span class="deco deco--ring"></span><span class="deco deco--ring2"></span><div class="stack-card__n"><span>You are</span><b>01</b></div><p>Driven. A builder, a <em>provider and a leader</em> people count on.</p></div>
+          <div class="stack-card"><span class="deco deco--arch"></span><span class="deco deco--arch2"></span><div class="stack-card__n"><span>You're expected</span><b>02</b></div><p>To keep winning, <em>at work and at home,</em> without ever slowing down.</p></div>
+          <div class="stack-card"><span class="deco deco--sun"></span><span class="deco deco--star">{{icon:spark}}</span><div class="stack-card__n"><span>And yet</span><b>03</b></div><p>At the end of the day you feel <em>drained, disconnected</em> and unfulfilled.</p></div>
+          <div class="stack-card"><span class="deco deco--dots"></span><span class="deco deco--half"></span><div class="stack-card__n"><span>The shift</span><b>04</b></div><p>More success won't fix it. <em>Matching achievement with fulfillment will.</em></p></div>
+        </div>
+        <div class="stack-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <!-- ============ RESULTS BENTO ============ -->
+    <section class="section section--flush-top">
+      <div class="container">
+        <div class="sec-head">
+          <div class="sec-head__title">
+            <span class="label">The proof</span>
+            <h2 class="h2" data-split>Results that <em>speak for themselves.</em></h2>
+          </div>
+          <div class="sec-head__aside" data-reveal><p class="muted">Founders, owners and leaders who decided they'd had enough of “almost.” Here's what changed, in their own words.</p></div>
+        </div>
+        <div class="bento" data-stagger>
+          <div class="tile tile--wine c-6 r-2 ring-tile"><span class="deco deco--dots" style="color:var(--gold-light)"></span><span class="deco deco--ring" style="color:var(--gold-light)"></span>
+            <div class="ring" data-ring="100">
+              <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="ring__bg" cx="50" cy="50" r="46"/><circle class="ring__fg" cx="50" cy="50" r="46"/></svg>
+              <div class="ring__val"><span><span data-count="5">5</span><small>×</small></span></div>
+            </div>
+            <div>
+              <h3 class="h3">company growth, <em>in under a year.</em></h3>
+              <p class="mt-s">“His unique approach to centering your head, heart and habits was exactly what I needed.” Anthony Miller, business owner.</p>
+              <div class="avatars mt-m"><img src="assets/img/clients/anthony-miller.webp" alt="" width="40" height="40"><img src="assets/img/clients/matthew-crandall.webp" alt="" width="40" height="40"><img src="assets/img/clients/chris-farwell.webp" alt="" width="40" height="40"><img src="assets/img/clients/julia-goehring.webp" alt="" width="40" height="40"><img src="assets/img/clients/billy-ruehlmann.webp" alt="" width="40" height="40"></div>
             </div>
           </div>
+          <div class="tile tile--gold c-3"><span class="deco deco--ring2"></span>
+            <div class="big-num"><span data-count="32">32</span><sup>mi</sup></div>
+            <p>Through the Grand Canyon. Prepared and led by Danny, says founder Josh Goodman.</p>
+          </div>
+          <div class="tile tile--peach c-3"><span class="deco deco--arch"></span>
+            <div class="big-num"><span data-count="7">7</span><sup>yrs old</sup></div>
+            <p>When Daniel opened his first business. Landscaping by ten, a payroll by thirteen.</p>
+          </div>
+          <div class="tile tile--teal c-6"><span class="deco deco--half" style="color:var(--gold-light)"></span><span class="deco deco--star" style="right:90px;top:38%;color:var(--gold-light)">{{icon:spark}}</span>
+            <div class="tile__top"><div class="big-num"><span data-count="4">4</span><sup>×</sup></div><span class="tile__go">{{icon:mountain}}</span></div>
+            <p>Divisions in the <b style="color:var(--ivory)">seven-figure hospitality company</b> he built from zero capital, then walked away from to coach.</p>
+          </div>
         </div>
-
-        <a class="hero__card" href="scorecard.html" data-cursor="Start">
-          <span class="hero__card-viz" aria-hidden="true">
-            <svg class="radar-mini" viewBox="0 0 100 100">
-              <polygon points="50,10 78.3,21.7 90,50 78.3,78.3 50,90 21.7,78.3 10,50 21.7,21.7" fill="none" stroke="rgba(255,255,255,.14)"/>
-              <polygon points="50,30 64.1,35.9 70,50 64.1,64.1 50,70 35.9,64.1 30,50 35.9,35.9" fill="none" stroke="rgba(255,255,255,.1)"/>
-              <polygon points="50,14 72.6,27.4 86,50 61.3,61.3 50,62 35.9,64.1 38,50 38.7,38.7" fill="rgba(255,184,28,.25)" stroke="#ffb81c" stroke-width="1.6" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span><span class="mono">New · 2-minute scorecard</span><b>Where's your fulfillment gap?</b></span>
-          <span class="circle-btn">{{icon:arrow-ur}}</span>
-        </a>
-        <span class="hero__side mono" aria-hidden="true">Coach · Speaker · Entrepreneur · Leader</span>
-        <span class="hero__scroll mono" aria-hidden="true">Scroll<i></i></span>
       </div>
     </section>
 
-    <!-- PRESS -->
-    <section class="press" aria-label="As featured in">
-      <div class="wrap press__row">
-        <span class="kicker">As featured in</span>
-        <div class="press__logos">
-          <a class="press__logo pl-yahoo" href="https://finance.yahoo.com/news/top-10-performance-coaches-following-203200529.html" target="_blank" rel="noopener" aria-label="Yahoo Finance">yahoo!<small>finance</small></a>
-          <span class="press__logo pl-disrupt">Disrupt</span>
-          <span class="press__logo pl-influencive">Influencive</span>
+    <!-- ============ SERVICES BENTO ============ -->
+    <section class="section paper-2 dots-bg">
+      <div class="container">
+        <div class="sec-head">
+          <div class="sec-head__title">
+            <span class="label">Ways to work together</span>
+            <h2 class="h2" data-split>Four ways up. <em>One summit.</em></h2>
+          </div>
+          <div class="sec-head__aside" data-reveal><p class="muted">Every path runs on the same system. Pick the depth and pace that fit the season you're in. Not sure? That's what the discovery call is for.</p></div>
         </div>
-        <p class="press__note">Named one of <b>“The Top 10 Performance Coaches To Be Following”</b> by Yahoo Finance.</p>
-      </div>
-    </section>
-
-    <!-- 01 SOUND FAMILIAR -->
-    <section class="sec">
-      <div class="wrap">
-        <div class="shead" style="margin-bottom:clamp(32px,4vw,56px)">
-          <div class="shead__top" data-reveal><span class="mono">(01) — Sound familiar?</span><span class="mono">For high achievers</span></div>
-        </div>
-        <p class="statement" data-scrub>You put in the work. Your drive speaks for itself. Yet at the end of the day you feel drained, disconnected and <em>unfulfilled.</em> That “busy” feeling keeps pulling you away from the parts of your life that need you most.</p>
-
-        <div class="areas">
-          <article class="area" data-reveal>
-            <div class="area__top"><span class="mono">01</span><span class="area__ic">{{icon:users}}</span></div>
-            <h3 class="h-s">Relationships</h3>
-            <p>Surface-level at best, because there's never enough of you left over at the end of the day.</p>
-          </article>
-          <article class="area" data-reveal>
-            <div class="area__top"><span class="mono">02</span><span class="area__ic">{{icon:pulse}}</span></div>
-            <h3 class="h-s">Health</h3>
-            <p>Burning the candle at both ends, and running the business on fumes.</p>
-          </article>
-          <article class="area" data-reveal>
-            <div class="area__top"><span class="mono">03</span><span class="area__ic">{{icon:bulb}}</span></div>
-            <h3 class="h-s">Mindset</h3>
-            <p>Old beliefs quietly capping what you think is possible, no matter how hard you push.</p>
-          </article>
-          <article class="area" data-reveal>
-            <div class="area__top"><span class="mono">04</span><span class="area__ic">{{icon:target}}</span></div>
-            <h3 class="h-s">Performance</h3>
-            <p>Moving the needle and hitting goals, but never feeling like you've actually arrived.</p>
-          </article>
-          <article class="area" data-reveal>
-            <div class="area__top"><span class="mono">05</span><span class="area__ic">{{icon:heart}}</span></div>
-            <h3 class="h-s">Self-love</h3>
-            <p>Giving everything to everyone, except to the person in the mirror.</p>
-          </article>
-          <a class="area area--gold" href="about.html" data-reveal data-cursor="His story">
-            <div class="area__top"><span class="mono">If this is you</span><span class="circle-btn">{{icon:arrow-ur}}</span></div>
-            <h3 class="h-s">“It sucks to feel unfulfilled. I know, because <em>I've been there.</em>”</h3>
-            <p>Daniel Diaz</p>
+        <div class="bento" data-stagger>
+          <a class="tile tile--img c-7 r-2" href="coaching.html" data-tilt data-cursor="Explore" style="min-height:560px">
+            <img class="tone" src="assets/img/daniel-seated.webp" alt="" width="1800" height="1314" loading="lazy" style="object-position:50% 30%">
+            <span class="tile__shade"></span>
+            <div class="tile__top"><span class="tile__num">i. Deepest support</span><span class="tile__go">{{icon:arrow-ur}}</span></div>
+            <div class="tile__foot">
+              <div class="chips"><span>6 or 12 months</span><span>One-on-one</span><span>Highly selective</span></div>
+              <h3 class="h2 mt-m">1:1 Peak Now <em>Coaching</em></h3>
+              <p class="mt-s" style="color:rgba(244,239,230,.82);max-width:46ch">Amplify your beliefs, mindset and habits to reach peak performance, with a coach, a partner and a friend fully committed to your success.</p>
+            </div>
+          </a>
+          <a class="tile tile--wine c-5" href="coaching.html#vip" data-tilt data-cursor="Explore"><span class="deco deco--ring" style="color:var(--gold-light)"></span><span class="deco deco--ring2" style="color:var(--gold-light)"></span>
+            <div class="tile__top"><span class="tile__num">ii. Compress time</span><span class="tile__go">{{icon:arrow-ur}}</span></div>
+            <h3 class="h3">VIP Day <em>Intensive</em></h3>
+            <p>One full, in-person deep dive to release what's holding you back, and leave with clarity, momentum and courage.</p>
+            <div class="chips tile__foot"><span>One full day</span><span>In person</span><span>Extremely limited</span></div>
+          </a>
+          <a class="tile tile--gold c-5" href="ignition.html" data-tilt data-cursor="Explore"><span class="deco deco--arch"></span><span class="deco deco--arch2"></span>
+            <div class="tile__top"><span class="tile__num">iii. For men</span><span class="tile__go">{{icon:arrow-ur}}</span></div>
+            <h3 class="h3">IGNITION <em>for men</em></h3>
+            <p>A 16-week cohort to strengthen you physically, mentally and spiritually, alongside men who refuse to drift.</p>
+          </a>
+          <a class="tile tile--img c-4" href="speaking.html" data-tilt data-cursor="Explore" style="min-height:340px">
+            <img class="tone" src="assets/img/daniel-speaker.webp" alt="" width="1100" height="1100" loading="lazy" style="object-position:50% 20%">
+            <span class="tile__shade"></span>
+            <div class="tile__top"><span class="tile__num">iv. On stage</span><span class="tile__go">{{icon:arrow-ur}}</span></div>
+            <div class="tile__foot"><h3 class="h3">Keynotes <em>&amp; workshops</em></h3><p style="color:rgba(244,239,230,.8)">The Perfect Circle of Performance.</p></div>
+          </a>
+          <a class="tile tile--peach c-4" href="scorecard.html" data-tilt data-cursor="Start"><span class="deco deco--sun" style="background:radial-gradient(circle, rgba(194,96,12,.25), rgba(194,96,12,0) 65%)"></span>
+            <div class="tile__top"><span class="label">Free · 2 minutes</span><span class="tile__go">{{icon:arrow-ur}}</span></div>
+            <h3 class="h3">The Peak Life <em>Scorecard</em></h3>
+            <p>Eight honest questions. Your achievement and fulfillment, side by side.</p>
+            <div class="tile__foot" style="display:flex;align-items:baseline;gap:10px"><span class="big-num" style="font-size:3.4rem">8</span><span class="small muted">questions · instant results</span></div>
+          </a>
+          <a class="tile tile--teal c-4" href="#path" data-tilt data-cursor="Start"><span class="deco deco--ring" style="color:var(--gold-light)"></span><span class="deco deco--dots" style="color:var(--gold-light)"></span>
+            <div class="tile__top"><span class="tile__num">Not sure?</span><span class="tile__go">{{icon:compass}}</span></div>
+            <h3 class="h3">Find your <em>path</em></h3>
+            <p>Four questions, sixty seconds. Find the way of working together that fits you right now.</p>
+            <div class="chips tile__foot"><span>60 seconds</span><span>Goes straight to Daniel</span></div>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- 02 THE GAP -->
-    <section class="band is-dark" data-theme="dark">
-      <div class="wrap grid-2">
-        <div class="gap-copy">
-          <span class="kicker kicker--dot" data-reveal>(02) — The fulfillment gap</span>
-          <h2 class="h-m" data-split>More success won't fix <em>this.</em></h2>
-          <div class="prose" data-reveal>
-            <p>Most high achievers don't have a performance problem. They have a <strong>fulfillment gap</strong>: the distance between what they've built and how their life actually feels.</p>
-            <p>Daniel built a four-division, seven-figure company from zero capital, and still felt something was missing. Closing that gap is what he now coaches: a heart-centered transformation of mindset and habits that lifts both lines at once.</p>
-          </div>
-          <div class="btns" data-reveal>
-            <a class="btn btn--gold" href="scorecard.html" data-magnetic>Measure your gap <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-            <a class="link-arrow" href="about.html" style="margin-left:10px">Daniel's story {{icon:arrow}}</a>
-          </div>
-        </div>
-        <figure class="gapviz" data-gapviz data-reveal="scale" style="margin:0">
-          <svg viewBox="0 0 600 360" role="img" aria-label="Chart: achievement keeps rising over time while fulfillment stays flat, creating a fulfillment gap.">
-            <defs>
-              <linearGradient id="gapfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb81c" stop-opacity=".34"/><stop offset="1" stop-color="#f2eee6" stop-opacity=".03"/></linearGradient>
-              <clipPath id="gapreveal"><rect x="0" y="0" width="600" height="360"/></clipPath>
-            </defs>
-            <line class="grid" x1="40" y1="100" x2="580" y2="100"/><line class="grid" x1="40" y1="180" x2="580" y2="180"/><line class="grid" x1="40" y1="260" x2="580" y2="260"/>
-            <line class="axis" x1="40" y1="20" x2="40" y2="320"/><line class="axis" x1="40" y1="320" x2="580" y2="320"/>
-            <text class="lbl" x="40" y="346">Year 1</text><text class="lbl" x="580" y="346" text-anchor="end">Year 7 →</text>
-            <g clip-path="url(#gapreveal)">
-              <path class="gap-area" d="M40 300 C160 280 240 200 330 150 S500 60 580 40 L580 268 C520 268 440 262 330 255 C240 250 160 270 40 290 Z"/>
-              <path class="l-ach" d="M40 300 C160 280 240 200 330 150 S500 60 580 40"/>
-              <path class="l-ful" d="M40 290 C160 270 240 250 330 255 C440 262 520 268 580 268"/>
-              <circle class="dot" cx="580" cy="40" r="6"/><circle class="dot-ful" cx="580" cy="268" r="5"/>
-            </g>
-            <g class="gap-callout">
-              <line x1="532" y1="66" x2="532" y2="258" stroke="rgba(242,238,230,.5)" stroke-dasharray="2 4"/>
-              <line x1="526" y1="66" x2="538" y2="66" stroke="rgba(242,238,230,.5)"/><line x1="526" y1="258" x2="538" y2="258" stroke="rgba(242,238,230,.5)"/>
-              <text class="lbl-gap" x="516" y="170" text-anchor="end">the gap</text>
-            </g>
-            <text class="lbl lbl-gold gap-callout" x="566" y="26" text-anchor="end">Achievement</text>
-            <text class="lbl gap-callout" x="566" y="296" text-anchor="end">Fulfillment</text>
-          </svg>
-          <figcaption class="gapviz__legend"><span><i></i>Achievement: revenue, goals, titles</span><span><i class="f"></i>Fulfillment: energy, love, joy, presence</span></figcaption>
-        </figure>
-      </div>
-    </section>
+    {{> creds-marquee}}
 
-    <!-- 03 METHOD -->
-    <section class="sec">
-      <div class="wrap">
-        <div class="shead">
-          <div class="shead__top" data-reveal><span class="mono">(03) — The Peak Method</span><span class="mono">Mindset · Fulfillment · Performance</span></div>
-          <div class="shead__main">
-            <h2 class="h-l" data-split>Head. Heart. <em>Habits.</em></h2>
-            <p data-reveal>Clients describe it the same way: “a unique approach to centering your head, heart and habits.” Three parts, one system, built from over a decade of education and lived experience.</p>
+    <!-- ============ MEET DANIEL BENTO ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="bento" data-stagger>
+          <div class="tile tile--img c-4 r-2" style="min-height:560px">
+            <img src="assets/img/daniel-peak-tee.webp" alt="Daniel Diaz smiling in a Peak Life Now t-shirt in front of a mural" width="800" height="1061" loading="lazy" style="object-position:50% 20%">
+            <div style="position:absolute;left:16px;bottom:16px;right:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 10px;padding:12px 16px;border-radius:14px;background:rgba(252,250,246,.92);backdrop-filter:blur(10px);color:var(--ink)"><b>Daniel Diaz</b><span class="small" style="color:var(--muted)">Co-founder, Peak Life Now</span></div>
           </div>
-        </div>
-        <div class="method">
-          <article class="pillar" data-reveal>
-            <div class="pillar__top"><span class="mono">01 / 03</span><span class="mono">Mindset</span></div>
-            <div class="pillar__word caps">Head</div>
-            <h3 class="h-s">Rewire the beliefs that run you.</h3>
-            <p>Identify and eliminate limiting beliefs and toxic patterns, so your thoughts power your decisions and your decisions drive your actions.</p>
-            <div class="pillar__foot"><span class="mono">Remember</span><p>You may already know what to do. Your beliefs decide whether you do it.</p></div>
-          </article>
-          <article class="pillar" data-reveal>
-            <div class="pillar__top"><span class="mono">02 / 03</span><span class="mono">Fulfillment</span></div>
-            <div class="pillar__word caps outline">Heart</div>
-            <h3 class="h-s">Lead from fulfillment, not fumes.</h3>
-            <p>Reconnect with your purpose, your people and your self-love, so achievement finally feels like something. Heart-centered, never soft.</p>
-            <div class="pillar__foot"><span class="mono">Remember</span><p>Mastering your energy is the most vital element of a fulfilled, high-achieving life.</p></div>
-          </article>
-          <article class="pillar" data-reveal>
-            <div class="pillar__top"><span class="mono">03 / 03</span><span class="mono">Performance</span></div>
-            <div class="pillar__word caps">Habits</div>
-            <h3 class="h-s">Build a fortress of habits.</h3>
-            <p>Brick by brick, install unwavering daily habits that protect your mindset, from the first hour of your morning to how you close the day.</p>
-            <div class="pillar__foot"><span class="mono">Remember</span><p>Small steps, done daily, become a new identity.</p></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 PROGRAMS -->
-    <section class="sec sec--top0">
-      <div class="wrap">
-        <div class="shead">
-          <div class="shead__top" data-reveal><span class="mono">(04) — Ways to work together</span><span class="mono">Coaching · Intensive · Cohort · Stage</span></div>
-          <div class="shead__main">
-            <h2 class="h-l" data-split>Choose your <em>climb.</em></h2>
-            <p data-reveal>Every path runs on the same system. Pick the depth and pace that fit the season you're in. Not sure which? That's exactly what the discovery call is for.</p>
+          <div class="tile c-5">
+            <span class="label" style="align-self:flex-start">Meet Daniel</span>
+            <h2 class="h2" data-split>Coach. Speaker. <em>Founder.</em> Dad.</h2>
+            <p>Once trapped in a long cycle of addiction, bad habits and toxic environments, Daniel found personal development and transformed his life. From zero capital he built a four-division, seven-figure company, then took a massive leap: he walked away from it to help others live their Peak Life Now.</p>
+            <div class="btn-row tile__foot"><a class="btn" href="about.html" data-magnetic><span class="btn__label">Daniel's story</span><span class="btn__icon">{{icon:arrow}}</span></a></div>
           </div>
-        </div>
-
-        <div class="stack">
-          <article class="prog" style="--i:0">
-            <div class="prog__body">
-              <div class="prog__meta-top"><span class="prog__num">01 / 04</span><span class="chip">{{icon:star}} Deepest level of support</span></div>
-              <h3 class="h-m">1:1 Peak Now <em>Coaching</em></h3>
-              <p class="prog__desc">The highly selective, deepest level of support Daniel offers. Amplify your beliefs, mindset and habits to reach peak performance, with a coach, a partner and a friend fully committed to your success.</p>
-              <dl class="prog__facts">
-                <div><dt>Length</dt><dd>6 or 12 months</dd></div>
-                <div><dt>Format</dt><dd>One-on-one with Daniel</dd></div>
-                <div><dt>Best for</dt><dd>Owners ready to have it all</dd></div>
-              </dl>
-              <div class="btns"><a class="btn btn--ink" href="coaching.html">Explore coaching <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a></div>
+          <div class="tile tile--wine c-3" style="align-items:center;text-align:center;justify-content:center"><span class="deco deco--ring" style="color:var(--gold-light);right:-120px;top:-120px;width:320px"></span><span class="sparkle sparkle--sm" style="left:18%;top:16%" aria-hidden="true">{{icon:spark}}</span><span class="sparkle" style="right:16%;top:30%" aria-hidden="true">{{icon:spark}}</span>
+            <span class="tile__num">Yahoo Finance</span>
+            <p class="h3" style="margin:12px 0 10px">Top <em>10</em></p>
+            <p class="small">“The Top 10 Performance Coaches To Be Following.”</p>
+          </div>
+          <div class="tile tile--mint c-5">
+            <div class="tile__top"><span class="label">Lived, not theorized</span><span class="small muted">Fifteen years in</span></div>
+            <div class="chips" style="gap:8px">
+              <span>Seven-figure founder</span><span>Trained in the work of Tony Robbins</span><span>Endurance athlete</span><span>Keynote speaker</span><span>IGNITION founder</span><span>Husband &amp; dad</span>
             </div>
-            <div class="prog__media" data-parallax="0.1"><img src="assets/img/daniel-laugh.webp" alt="Daniel Diaz laughing against a white wall" loading="lazy" width="1100" height="1387" style="object-position:50% 20%"></div>
-          </article>
-
-          <article class="prog" style="--i:1" id="vip-card">
-            <div class="prog__body">
-              <div class="prog__meta-top"><span class="prog__num">02 / 04</span><span class="chip">{{icon:clock}} Extremely limited each year</span></div>
-              <h3 class="h-m">VIP Day <em>Intensive</em></h3>
-              <p class="prog__desc">Compress time. One full, in-person deep dive to release the blocks and limiting beliefs holding you back, and leave with clarity, alignment, momentum, energy and courage for the road ahead.</p>
-              <dl class="prog__facts">
-                <div><dt>Length</dt><dd>One full day</dd></div>
-                <div><dt>Format</dt><dd>In person</dd></div>
-                <div><dt>Best for</dt><dd>Leveling up, fast</dd></div>
-              </dl>
-              <div class="btns"><a class="btn btn--ink" href="coaching.html#vip">See the VIP Day <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a></div>
-            </div>
-            <div class="prog__media" data-parallax="0.1"><img src="assets/img/daniel-seated.webp" alt="Daniel Diaz seated in a teal chair, smiling" loading="lazy" width="1800" height="1314" style="object-position:30% 50%"></div>
-          </article>
-
-          <article class="prog prog--fire is-dark" style="--i:2" data-theme="dark">
-            <div class="prog__body">
-              <div class="prog__meta-top"><span class="prog__num">03 / 04</span><span class="chip">{{icon:flame}} <span data-cohort>Cohort 02</span> · Waitlist open</span></div>
-              <h3 class="h-m">IGNITION <em>for men</em></h3>
-              <p class="prog__desc">A 16-week cohort to strengthen you physically, mentally and spiritually, alongside men who refuse to drift. Not about being broken. About becoming sharper.</p>
-              <dl class="prog__facts">
-                <div><dt>Length</dt><dd>16 weeks, 4 phases</dd></div>
-                <div><dt>Group</dt><dd>12 men maximum</dd></div>
-                <div><dt>Includes</dt><dd>Group calls, 1:1s, training app</dd></div>
-              </dl>
-              <div class="btns"><a class="btn btn--gold" href="ignition.html">Explore IGNITION <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a></div>
-            </div>
-            <div class="prog__media" style="background:transparent">
-              <div class="prog__type"><span class="caps">Ignite<br>your <span>fire.</span></span></div>
-            </div>
-          </article>
-
-          <article class="prog is-dark" style="--i:3" data-theme="dark">
-            <div class="prog__body">
-              <div class="prog__meta-top"><span class="prog__num">04 / 04</span><span class="chip">{{icon:mic}} Signature keynote</span></div>
-              <h3 class="h-m">The Perfect Circle of <em>Performance</em></h3>
-              <p class="prog__desc">Daniel's signature keynote: a powerful, inspiring message that catapults audiences into peak performance, self-love and a champion's mindset. Told by someone who's lived every word.</p>
-              <dl class="prog__facts">
-                <div><dt>For</dt><dd>Conferences, teams, masterminds</dd></div>
-                <div><dt>Format</dt><dd>Keynote or workshop</dd></div>
-                <div><dt>The story</dt><dd>Rock bottom to 7 figures</dd></div>
-              </dl>
-              <div class="btns"><a class="btn btn--gold" href="speaking.html">Book Daniel to speak <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a></div>
-            </div>
-            <div class="prog__media" data-parallax="0.1"><img src="assets/img/daniel-mural.webp" alt="Daniel Diaz leaning against a colorful geometric mural" loading="lazy" width="1800" height="1116" style="object-position:18% 50%"></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 05 NUMBERS -->
-    <section class="band is-dark" data-theme="dark" style="padding-top:clamp(48px,6vw,88px)">
-      <div class="marquee mega-marquee caps" aria-hidden="true" style="--dur:46s">
-        <div class="marquee__track">
-          <span class="marquee__item">Peak life now {{icon:spark}} Head {{icon:spark}} Heart {{icon:spark}} Habits {{icon:spark}}</span>
-          <span class="marquee__item">Peak life now {{icon:spark}} Head {{icon:spark}} Heart {{icon:spark}} Habits {{icon:spark}}</span>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="shead">
-          <div class="shead__top" data-reveal><span class="mono">(05) — The story in numbers</span><span class="mono">Lived, not theorized</span></div>
-          <div class="shead__main">
-            <h2 class="h-m" data-split>From zero capital to <em>seven figures,</em> then to what matters most.</h2>
-            <p data-reveal>Daniel doesn't coach from theory. He's built the businesses, hit the bottom, rebuilt from it, and walked away from success to chase something bigger.</p>
+            <p class="small">Featured in Yahoo Finance, Disrupt Magazine and Influencive. He doesn't coach from theory: he built the businesses, hit the bottom, rebuilt, and walked away from success to chase something bigger.</p>
           </div>
-        </div>
-        <div class="stats">
-          <div class="stat" data-reveal><span class="stat__n caps"><span data-count="7">7</span></span><p><b>Age of his first business</b>A neighborhood candy and firework store. Landscaping by 10, a payroll by 13.</p></div>
-          <div class="stat" data-reveal><span class="stat__n caps"><span data-count="4">4</span></span><p><b>Divisions, seven figures</b>The hospitality company he grew from zero capital.</p></div>
-          <div class="stat" data-reveal><span class="stat__n caps"><span data-count="15">15</span><small>yrs</small></span><p><b>Inside transformation</b>As an entrepreneur, coach, endurance athlete, husband and dad.</p></div>
-          <div class="stat" data-reveal><span class="stat__n caps"><span data-count="2018">2018</span></span><p><b>The leap</b>Stepped down from his thriving company to coach full time.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 06 MEET -->
-    <section class="sec">
-      <div class="wrap meet">
-        <div class="meet__media" data-reveal="scale">
-          <div class="media" data-parallax="0.05"><img style="object-position:50% 0%" src="assets/img/daniel-peak-tee.webp" alt="Daniel Diaz in a Peak Life Now t-shirt, smiling in front of a colorful mural" loading="lazy" width="800" height="1061"></div>
-          <div class="badge-rot" aria-hidden="true">
-            <svg class="ring" viewBox="0 0 148 148"><defs><path id="badgeCircle" d="M74 74m-56 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0"/></defs><text><textPath href="#badgeCircle">Coach · Speaker · Entrepreneur · Leader ·</textPath></text></svg>
-            {{mark}}
-          </div>
-        </div>
-        <div class="meet__copy">
-          <span class="kicker kicker--dot" data-reveal>(06) — Meet Daniel</span>
-          <h2 class="h-l" data-split>I've been <em>exactly</em> where you are.</h2>
-          <div class="prose" data-reveal>
-            <p>Once trapped in a long, vicious cycle of addiction, bad habits, poor relationships and toxic environments, Daniel found personal development and transformed his life and business. <strong>Starting with zero capital, he built multiple seven-figure businesses in hospitality.</strong></p>
-            <p>Then he took a massive leap: he left his company to help others live their Peak Life Now. Today he removes limiting beliefs and toxic patterns for his clients, and helps them build a rock-solid mindset with unwavering habits.</p>
-          </div>
-          <div class="meet__roles" data-reveal>
-            <span class="chip">Coach</span><span class="chip">Speaker</span><span class="chip">Entrepreneur</span><span class="chip">Endurance athlete</span><span class="chip">Husband &amp; dad</span>
-          </div>
-          <div class="btns" data-reveal>
-            <a class="btn btn--ink" href="about.html">Read Daniel's story <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-          </div>
-          <div class="meet__sig" data-reveal>
-            <span class="serif">Daniel Diaz</span>
-            <small>Co-founder, Peak Life Now<br>Coach · Speaker · Entrepreneur</small>
+          <div class="tile tile--gold c-3 rose-tile">{{> peak}}
+            <span class="tile__num" style="color:var(--wine)">How clients describe it</span>
+            <p class="h3" style="color:var(--wine-2)">“Centering your <em>head, heart and habits.</em>”</p>
+            <p class="small tile__foot">Anthony Miller, business owner</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 07 TESTIMONIALS -->
-    <section class="sec">
-      <div class="wrap">
-        <div class="shead">
-          <div class="shead__top" data-reveal><span class="mono">(07) — Proof from the work</span><a class="mono link-arrow" href="results.html" style="border:0;padding:0">All results {{icon:arrow}}</a></div>
-          <div class="shead__main">
-            <h2 class="h-l" data-split>What people are <em>saying.</em></h2>
-            <p data-reveal>Business owners, founders and leaders who decided they'd had enough of “almost.” Here's what changed.</p>
+    <!-- ============ THE PEAK METHOD ============ -->
+    <section class="section dark" data-theme="dark">
+      <div class="container dims">
+        <div class="dims__copy">
+          <span class="label">The Peak Method</span>
+          <h2 class="h2" data-split>Head. Heart. Habits. <em>Fueled by energy.</em></h2>
+          <p class="lead muted" data-reveal>Clients describe it the same way: “a unique approach to centering your head, heart and habits.” Three parts, one system, built from over a decade of education and lived experience.</p>
+          <div class="btn-row mt-l" data-reveal>
+            <a class="btn btn--rose" href="coaching.html" data-magnetic><span class="btn__label">How coaching works</span><span class="btn__icon">{{icon:arrow}}</span></a>
           </div>
         </div>
+        <div class="dims__visual" data-reveal>
+          <div class="dims__ring"></div>
+          <div class="dims__ring dims__ring--2"></div>
+          <div class="dims__core"><p>Your peak <em>life</em></p></div>
+          <div class="dim dim--1"><b><i></i>Head</b><span>Rewire the beliefs that run you.</span></div>
+          <div class="dim dim--2"><b><i></i>Heart</b><span>Lead from fulfillment, not fumes.</span></div>
+          <div class="dim dim--3"><b><i></i>Habits</b><span>Build a fortress, brick by brick.</span></div>
+          <div class="dim dim--4"><b><i></i>Energy</b><span>Master it, and you master your life.</span></div>
+        </div>
+      </div>
+    </section>
 
-        <div class="tslider" data-tslider>
-          <div class="tslider__people" role="tablist" aria-label="Choose a client story" data-reveal>
-            <button class="tperson is-active" type="button" role="tab"><img src="assets/img/clients/anthony-miller.webp" alt="" width="48" height="48"><span><b>Anthony Miller</b><small>Business owner</small></span></button>
-            <button class="tperson" type="button" role="tab"><span class="ini">JG</span><span><b>Josh Goodman</b><small>Founder, PourMyBev</small></span></button>
-            <button class="tperson" type="button" role="tab"><img src="assets/img/clients/matthew-crandall.webp" alt="" width="48" height="48"><span><b>Matthew Crandall</b><small>1:1 coaching client</small></span></button>
-            <button class="tperson" type="button" role="tab"><span class="ini">BS</span><span><b>Brett Selestay</b><small>Founder, Selestay RE Group</small></span></button>
-            <button class="tperson" type="button" role="tab"><img src="assets/img/clients/chris-farwell.webp" alt="" width="48" height="48"><span><b>Chris Farwell</b><small>Founder</small></span></button>
-            <button class="tperson" type="button" role="tab"><img src="assets/img/clients/julia-goehring.webp" alt="" width="48" height="48"><span><b>Julia Goehring</b><small>1:1 coaching client</small></span></button>
+    <!-- ============ METHOD ============ -->
+    <section class="method" data-method data-theme="dark">
+      <div class="method__pin">
+        <div class="container method__head">
+          <div>
+            <span class="label">How the work works</span>
+            <h2 class="h2 mt-m" data-split>From running on fumes <em>to your peak.</em></h2>
           </div>
-          <div class="tslider__stage" data-reveal>
-            <figure class="tslide is-active" style="margin:0">
-              <span class="chip chip--gold">{{icon:bolt}} 5x company growth in under a year</span>
-              <blockquote>“Working with Daniel took my life and business to the next level. His unique approach to centering your <em>head, heart and habits</em> was exactly what I needed. I have 5x'd my company in less than a year after partnering with him.”</blockquote>
-              <figcaption><img src="assets/img/clients/anthony-miller.webp" alt="" width="52" height="52" loading="lazy"><span><b>Anthony Miller</b><small>Business owner</small></span></figcaption>
-            </figure>
-            <figure class="tslide" style="margin:0">
-              <span class="chip chip--gold">{{icon:mountain}} Led on a 32-mile Grand Canyon run</span>
-              <blockquote>“Danny changed my entire life by helping me see the lies in my stories and how they held me back. He got me prepared for and led me on a <em>32-mile run through the Grand Canyon.</em> I will never be the same.”</blockquote>
-              <figcaption><span class="ini" aria-hidden="true">JG</span><span><b>Josh Goodman</b><small>Founder, PourMyBev</small></span></figcaption>
-            </figure>
-            <figure class="tslide" style="margin:0">
-              <span class="chip chip--gold">{{icon:target}} Higher income, bigger role</span>
-              <blockquote>“I am healthier and happier than I have ever been. While working with him I have increased my income and moved into a <em>higher-paying, higher position</em> in a new company I truly stand behind. Best decision ever.”</blockquote>
-              <figcaption><img src="assets/img/clients/matthew-crandall.webp" alt="" width="52" height="52" loading="lazy"><span><b>Matthew Crandall</b><small>1:1 coaching client</small></span></figcaption>
-            </figure>
-            <figure class="tslide" style="margin:0">
-              <span class="chip chip--gold">{{icon:heart}} Health, marriage and mission</span>
-              <blockquote>“I started because I wanted to tighten up my health. I walked away with a <em>better marriage,</em> a better relationship with my kids, and a clearer understanding of my core values and mission. Gamechanger.”</blockquote>
-              <figcaption><span class="ini" aria-hidden="true">BS</span><span><b>Brett Selestay</b><small>Founder, Selestay Real Estate Group</small></span></figcaption>
-            </figure>
-            <figure class="tslide" style="margin:0">
-              <span class="chip chip--gold">{{icon:spark}} Launched his own company</span>
-              <blockquote>“Finally fulfilled! After years of working a job I did not enjoy, Daniel helped me find the belief in myself to follow my passion and <em>launch my own company.</em>”</blockquote>
-              <figcaption><img src="assets/img/clients/chris-farwell.webp" alt="" width="52" height="52" loading="lazy"><span><b>Chris Farwell</b><small>Founder</small></span></figcaption>
-            </figure>
-            <figure class="tslide" style="margin:0">
-              <span class="chip chip--gold">{{icon:sun}} Self-love restored</span>
-              <blockquote>“Working with Daniel has been a Godsend in my life. <em>I am finally in love with myself again!</em> He has an incredible way of helping you realize your power and use it to create your ideal life.”</blockquote>
-              <figcaption><img src="assets/img/clients/julia-goehring.webp" alt="" width="52" height="52" loading="lazy"><span><b>Julia Goehring</b><small>1:1 coaching client</small></span></figcaption>
-            </figure>
-            <div class="tslider__nav">
-              <span class="tslider__count"><b>01</b> / 06</span>
-              <span class="tslider__bar"><i></i></span>
-              <button class="circle-btn" type="button" data-prev aria-label="Previous story">{{icon:arrow-left}}</button>
-              <button class="circle-btn" type="button" data-next aria-label="Next story">{{icon:arrow}}</button>
-            </div>
+          <div class="method__progress" aria-hidden="true"><i></i></div>
+        </div>
+        <div class="method__track">
+          <article class="step"><span class="step__num">01</span><div class="step__title"><h3 class="h3">Discovery call</h3><p>Connect with Daniel and identify your quickest route to having it all. A real conversation, with no pressure either way.</p><div class="step__tags"><span>Free</span><span>Confidential</span></div></div></article>
+          <article class="step"><span class="step__num">02</span><div class="step__title"><h3 class="h3">Apply</h3><p>A short application so your first real session starts further along. Already know you're in? Skip straight here.</p><div class="step__tags"><span>Five short steps</span><span>Scorecard results attached</span></div></div></article>
+          <article class="step"><span class="step__num">03</span><div class="step__title"><h3 class="h3">The work</h3><p>Identify and remove limiting beliefs and toxic patterns, master your energy, and install habits that protect your mindset.</p><div class="step__tags"><span>Head</span><span>Heart</span><span>Habits</span></div></div></article>
+          <article class="step step--rose"><span class="step__num">04</span><div class="step__title"><h3 class="h3">Peak life</h3><p>More energy, fulfillment, clarity, drive, income, passion, joy and love. Achievement that finally feels like something.</p><div class="step__tags"><span>Results</span><span>Fulfillment</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TESTIMONIAL WALL ============ -->
+    <section class="section">
+      <div class="container wall">
+        <div class="wall__intro">
+          <span class="label" style="justify-self:start">Client stories</span>
+          <h2 class="h2" data-split>Leaders who found <em>their peak.</em></h2>
+          <p class="muted" data-reveal>From founders and business owners to dads who wanted their edge back: what changed when they worked with Daniel.</p>
+          <div class="tile tile--wine" data-reveal style="flex-direction:row;align-items:center;justify-content:space-between">
+            <div><div class="big-num" style="font-size:3.6rem">9</div><span class="small muted">stories, in their words</span></div>
+            <div class="avatars"><img src="assets/img/clients/chris-farwell.webp" alt="" width="40" height="40"><img src="assets/img/clients/julia-goehring.webp" alt="" width="40" height="40"><img src="assets/img/clients/billy-ruehlmann.webp" alt="" width="40" height="40"><img src="assets/img/clients/matthew-crandall.webp" alt="" width="40" height="40"></div>
+          </div>
+          <div data-reveal><a class="btn" href="results.html" data-magnetic><span class="btn__label">Read every story</span><span class="btn__icon">{{icon:arrow}}</span></a></div>
+        </div>
+        <p class="wall__hint">Swipe for more stories {{icon:arrow}}</p>
+        <div class="wall__cols" data-wall>
+          <div class="wall__col">
+            <figure class="qcard qcard--wine"><blockquote><strong>“5x'd my company.”</strong>Working with Daniel took my life and business to the next level. I have 5x'd my company in less than a year after partnering with him.</blockquote><figcaption><img src="assets/img/clients/anthony-miller.webp" alt="" width="38" height="38" loading="lazy"><div><b>Anthony Miller</b><span>Business owner</span></div></figcaption></figure>
+            <figure class="qcard"><blockquote><strong>“I will never be the same.”</strong>Danny helped me see the lies in my stories and how they held me back. He got me prepared for and led me on a 32-mile run through the Grand Canyon.</blockquote><figcaption><span class="ini">JG</span><div><b>Josh Goodman</b><span>Founder, PourMyBev</span></div></figcaption></figure>
+            <figure class="qcard qcard--teal"><blockquote><strong>“He got me my edge back.”</strong>Instead of getting me all fired up only to burn out later, Danny trained me to sustain that invigorating energy. It helped my marriage too.</blockquote><figcaption><span class="ini">JC</span><div><b>Jacob Cox</b><span>Co-Founder, Downs Designer Homes</span></div></figcaption></figure>
+          </div>
+          <div class="wall__col">
+            <figure class="qcard"><blockquote><strong>“Best decision ever.”</strong>I am healthier and happier than I have ever been. I've increased my income and moved into a higher position at a company I truly stand behind.</blockquote><figcaption><img src="assets/img/clients/matthew-crandall.webp" alt="" width="38" height="38" loading="lazy"><div><b>Matthew Crandall</b><span>1:1 coaching client</span></div></figcaption></figure>
+            <figure class="qcard qcard--gold"><blockquote><strong>“Gamechanger.”</strong>I started because I wanted to tighten up my health. I walked away with a better marriage, a better relationship with my kids, and a clearer mission.</blockquote><figcaption><span class="ini">BS</span><div><b>Brett Selestay</b><span>Founder, Selestay Real Estate Group</span></div></figcaption></figure>
+            <figure class="qcard qcard--wine"><blockquote><strong>“Finally fulfilled!”</strong>After years of working a job I did not enjoy, Daniel helped me find the belief in myself to follow my passion and launch my own company.</blockquote><figcaption><img src="assets/img/clients/chris-farwell.webp" alt="" width="38" height="38" loading="lazy"><div><b>Chris Farwell</b><span>Founder</span></div></figcaption></figure>
+          </div>
+          <div class="wall__col">
+            <figure class="qcard qcard--peach"><blockquote><strong>“A Godsend in my life.”</strong>I am finally in love with myself again! He has an incredible way of helping you realize your power and use it to create your ideal life.</blockquote><figcaption><img src="assets/img/clients/julia-goehring.webp" alt="" width="38" height="38" loading="lazy"><div><b>Julia Goehring</b><span>1:1 coaching client</span></div></figcaption></figure>
+            <figure class="qcard"><blockquote><strong>“His energy is infectious.”</strong>If you are ready for the greatest experience of total transformation, do not wait to hire Daniel as your coach. A true leader in our industry!</blockquote><figcaption><img src="assets/img/clients/billy-ruehlmann.webp" alt="" width="38" height="38" loading="lazy"><div><b>Billy Ruehlmann</b><span>Worked with Daniel</span></div></figcaption></figure>
+            <figure class="qcard qcard--mint"><blockquote><strong>“Obstacles seem smaller now.”</strong>Danny made it easy to follow a plan that led me to doing something physical I never thought possible.</blockquote><figcaption><span class="ini">JW</span><div><b>Jordan Watts</b><span>Traveling Physician</span></div></figcaption></figure>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 08 SCORECARD TEASER -->
-    <section class="band is-dark" data-theme="dark">
-      <div class="wrap steaser">
-        <div>
-          <span class="kicker kicker--dot" data-reveal>(08) — New · The Peak Life Scorecard</span>
-          <h2 class="h-m" data-split>Where's your <em>fulfillment gap?</em></h2>
-          <p class="muted" data-reveal>Eight honest questions across the areas busy entrepreneurs neglect first. See your achievement and fulfillment scores side by side, your two biggest levers, and the path that fits you.</p>
-          <ul class="steaser__list" data-reveal>
-            <li>Performance</li><li>Energy</li><li>Income</li><li>Relationships</li><li>Drive</li><li>Mindset</li><li>Self-love</li><li>Joy</li>
-          </ul>
-          <div class="btns" data-reveal>
-            <a class="btn btn--gold" href="scorecard.html" data-magnetic>Take the scorecard <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-            <span class="mono muted" style="margin-left:8px">Free · 2 minutes · Instant results</span>
+    <!-- ============ FIND YOUR PATH ============ -->
+    <section class="section section--flush-top">
+      <div class="container">
+        {{> compass}}
+      </div>
+    </section>
+
+    <!-- ============ IGNITION ============ -->
+    <section class="section section--flush-top">
+      <div class="container">
+        <div class="program" data-reveal>
+          <div class="program__copy">
+            <span class="label">The men's cohort</span>
+            <h2 class="h2">IGNITION. <em>Reclaim your edge.</em></h2>
+            <p>For the man who built the business, the family and the life, and is ready to sharpen his edge. Sixteen weeks to strengthen you physically, mentally and spiritually, alongside men who refuse to drift.</p>
+            <ul class="program__wins">
+              <li>{{icon:check}} Athlete-level conditioning, inside your real life</li>
+              <li>{{icon:check}} An unshakable mind under pressure</li>
+              <li>{{icon:check}} A routine that owns the day</li>
+              <li>{{icon:check}} More presence at home, with your people</li>
+            </ul>
+          </div>
+          <div class="program__card">
+            <span class="label" style="align-self:flex-start"><span data-cohort>Cohort 02</span> · waitlist open</span>
+            <div class="program__price">16<small>weeks · 4 phases</small></div>
+            <dl class="program__rows">
+              <div><dt>Group</dt><dd>12 men maximum</dd></div>
+              <div><dt>Calls</dt><dd>2 group calls a month + 1:1s</dd></div>
+              <div><dt>Training</dt><dd>Plan in the app</dd></div>
+              <div><dt>Enrollment</dt><dd>Waitlist hears first</dd></div>
+            </dl>
+            <a class="btn btn--rose" href="ignition.html#waitlist"><span class="btn__label">Join the waitlist</span><span class="btn__icon">{{icon:arrow-ur}}</span></a>
           </div>
         </div>
-        <div class="steaser__viz" data-radar-demo data-reveal="scale" aria-hidden="true"></div>
       </div>
     </section>
 
-    <!-- IGNITION -->
-    <section class="band band--ember is-dark ignite" data-theme="dark">
-      <div class="ignite__flame" aria-hidden="true"></div>
-      <div class="wrap">
-        <span class="kicker kicker--dot" data-reveal>IGNITION · <span data-cohort>Cohort 02</span> · Waitlist open</span>
-        <h2 class="ignite__title caps" data-split><span>Ignite your fire.</span> <span>Reclaim your <span class="hot">edge.</span></span></h2>
-        <p class="ignite__lead big-p" data-reveal>A 16-week men's cohort to strengthen you physically, mentally and spiritually. For the man who built the business, the family and the life, and is ready to sharpen his edge.</p>
-        <div class="ignite__facts" data-reveal>
-          <span class="chip">16 weeks</span><span class="chip">4 phases</span><span class="chip">12 men maximum</span><span class="chip">Body · Mind · Spirit</span>
-        </div>
-        <div class="btns" data-reveal>
-          <a class="btn btn--gold" href="ignition.html#waitlist" data-magnetic>Join the waitlist <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-          <a class="btn btn--ghost" href="ignition.html">See how it works <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- QUOTE -->
-    <section class="sec bigquote">
-      <div class="wrap">
-        <span class="bigquote__mark" aria-hidden="true">{{icon:quote}}</span>
-        <figure style="margin:0">
-          <blockquote data-split>Anyone can be taught to achieve at a higher level. However, if we do not master the internal machine of mind, body and spirit, our empires will be built on <em>toothpicks.</em></blockquote>
-          <figcaption data-reveal><img src="assets/img/daniel-brick.webp" alt="" width="44" height="44" style="width:44px;height:44px;border-radius:50%;object-fit:cover"><span><b>Daniel Diaz</b> in Yahoo Finance</span></figcaption>
-        </figure>
-      </div>
-    </section>
-
-{{> cta}}
+    {{> cta}}

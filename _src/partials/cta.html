@@ -1,18 +1,23 @@
-    <section class="band is-dark" data-theme="dark">
-      <div class="cta-final__glow" aria-hidden="true"></div>
-      <div class="wrap cta-final">
-        <div>
-          <span class="kicker kicker--dot" data-reveal>Your move</span>
-          <h2 class="h-xl" data-split>Your peak life starts <em>now.</em></h2>
-          <p class="big-p" data-reveal>How long will you allow yourself to stay exactly where you are? Book a free discovery call and find your quickest route to having it all.</p>
-          <div class="btns" data-reveal>
-            <a class="btn btn--gold" href="apply.html" data-book data-magnetic>Book a discovery call <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-            <a class="btn btn--ghost" href="apply.html">Apply for coaching <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-          </div>
+<section class="cta-final" data-theme="dark">
+      <div class="hero__glow" aria-hidden="true"><i></i><i></i></div>
+      <div class="cta-rose cta-rose--l" aria-hidden="true">{{> peak}}</div>
+      <div class="cta-rose cta-rose--r" aria-hidden="true">{{> peak}}</div>
+      <span class="sparkle sparkle--lg" style="left:22%;top:20%" aria-hidden="true">{{icon:spark}}</span>
+      <span class="sparkle" style="right:24%;top:70%" aria-hidden="true">{{icon:spark}}</span>
+      <span class="sparkle sparkle--sm" style="left:30%;bottom:16%" aria-hidden="true">{{icon:spark}}</span>
+      <span class="sparkle sparkle--sm" style="right:14%;top:24%" aria-hidden="true">{{icon:spark}}</span>
+      <div class="container cta-final__inner">
+        <span class="label">Your next level starts with one conversation</span>
+        <h2 class="h-mega" data-split>Your peak life <em>starts now.</em></h2>
+        <p>How long will you allow yourself to stay exactly where you are? Book a free discovery call and leave with your quickest route to having it all.</p>
+        <div class="btn-row" style="justify-content:center">
+          <a class="btn btn--rose" href="apply.html" data-book data-magnetic><span class="btn__label">Book a discovery call</span><span class="btn__icon">{{icon:arrow-ur}}</span></a>
+          <a class="btn btn--light" href="scorecard.html" data-magnetic><span class="btn__label">Take the scorecard</span><span class="btn__icon">{{icon:compass}}</span></a>
         </div>
-        <div class="cta-final__media" data-reveal="scale">
-          <img src="assets/img/daniel-point-flip.webp" alt="Daniel Diaz smiling and pointing" loading="lazy" width="1100" height="1127">
-          <div class="cta-final__note"><i aria-hidden="true"></i>Free discovery call with Daniel</div>
+        <div class="cta-final__contact">
+          <a href="mailto:daniel@iamdanieldiaz.com" data-email>{{icon:mail}} Email Daniel</a>
+          <a href="apply.html#application">{{icon:arrow-ur}} Apply for coaching</a>
+          <span style="display:inline-flex;gap:10px;align-items:center">{{icon:calendar}} Free discovery call · VIP Days in person</span>
         </div>
       </div>
     </section>

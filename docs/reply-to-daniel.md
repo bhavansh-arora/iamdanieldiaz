@@ -16,13 +16,13 @@ It works on phones, tablets and desktop. Here's what we added and how each piece
 
 **1. A homepage that leads with proof.** The Yahoo Finance mention, your zero-capital-to-seven-figures story, and client results like a company grown 5x in under a year and the 32-mile Grand Canyon run now appear within the first few scrolls. A busy owner can tell quickly that you're the real deal.
 
-**2. The Peak Life Scorecard.** A two-minute, eight-question check-in built around your own idea of matching achievement with fulfillment. Visitors see their achievement and fulfillment scores side by side, their two biggest levers (for example, relationships and energy), and the path that fits them: 1:1 coaching, a VIP Day or a discovery call. They can send the results to you, so you know where someone stands before you ever speak.
+**2. The Peak Life Scorecard.** A two-minute, eight-question check-in built around your own idea of matching achievement with fulfillment. Visitors see their achievement and fulfillment scores side by side, their two biggest levers (for example, relationships and energy), and the path that fits them: 1:1 coaching, a VIP Day or a discovery call. They can send the results to you, so you know where someone stands before you ever speak. For anyone still deciding, a 60-second "Find your path" quiz points them to 1:1 coaching, a VIP Day, IGNITION or a keynote, and carries their answers into the application.
 
 **3. A five-step application.** Your current application asks great questions, but it's one long page, which is a lot on a phone. We kept your key questions (goals, 30-day revenue, why now) and broke them into short, tap-to-answer steps, with a 1–10 commitment question so you can see at a glance who's ready now and who's exploring. If someone took the scorecard first, their results arrive with the application.
 
 **4. IGNITION on your main site.** The cohort gets a full page: the six-part system, the four phases, what men walk away with and the founders' results, plus a waitlist for Cohort 02. One small thing we noticed: when the current IGNITION link is shared, its preview text still reads "built on Replit. Update this description to reflect the app." The new page has proper share previews.
 
-**5. A speaking page that books.** The Perfect Circle of Performance gets its own page, with an interactive view of the keynote's themes and an enquiry form that captures the date, format and audience size up front, so every speaking lead arrives ready to quote.
+**5. A speaking page that books.** The Perfect Circle of Performance gets its own page, with a visual of the keynote's three forces around energy and an enquiry form that captures the date, format and audience size up front, so every speaking lead arrives ready to quote.
 
 **6. All your client stories in one place.** Nine stories, filterable by business, life and IGNITION, so a founder and a dad who wants his edge back can each find someone like them.
 

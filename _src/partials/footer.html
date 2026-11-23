@@ -1,65 +1,67 @@
-<section class="sec--s" aria-label="Free Morning Mastery Checklist">
-    <div class="wrap">
-      <div class="optin" data-optin>
-        <div class="optin__img"><img src="assets/img/morning-checklist.webp" alt="The #1 Morning Mastery Checklist by Daniel Diaz" loading="lazy" width="700" height="503"></div>
-        <div>
-          <span class="kicker kicker--dot">Free · The #1 Morning Mastery Checklist</span>
-          <h2 class="h-s">Start winning your days, <em>one morning at a time.</em></h2>
-          <p>Daniel's checklist for a morning that protects your mindset, plus a short note of inspiration in your inbox.</p>
+<footer class="site-footer" data-theme="dark">
+    <div class="container">
+      <div class="footer__optin" id="checklist">
+        <div class="footer__optin-art" aria-hidden="true"><img src="assets/img/morning-checklist.webp" alt="" width="520" height="520" loading="lazy"></div>
+        <div class="footer__optin-copy">
+          <span class="label">Free · The #1 Morning Mastery Checklist</span>
+          <h3 class="h3 mt-s">Start winning your days, <em>one morning at a time.</em></h3>
+          <p class="muted small mt-s">Daniel's checklist for a morning that protects your mindset, plus a short note of inspiration in your inbox.</p>
         </div>
-        <form novalidate>
-          <label class="sr-only" for="optin-name">First name</label>
-          <input id="optin-name" name="first_name" type="text" placeholder="First name" autocomplete="given-name">
-          <label class="sr-only" for="optin-email">Email</label>
-          <input id="optin-email" name="email" type="email" placeholder="Email address" autocomplete="email" required>
-          <button class="btn btn--ink" type="submit">Send it <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></button>
+        <form class="footer__optin-form" data-optin novalidate>
+          <label class="sr-only" for="o-name">First name</label>
+          <input id="o-name" name="first_name" type="text" placeholder="First name" autocomplete="given-name">
+          <label class="sr-only" for="o-email">Email address</label>
+          <input id="o-email" name="email" type="email" placeholder="Email address" autocomplete="email" required>
+          <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn--rose btn--sm" type="submit"><span class="btn__label">Send it</span><span class="btn__icon">{{icon:arrow-ur}}</span></button>
+          <p class="footer__optin-ok" role="status" hidden>{{icon:check}} It's on its way. Check your inbox.</p>
         </form>
-        <p class="optin__ok">{{icon:check}} You're in. Check your inbox for the checklist.</p>
+      </div>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a class="brand" href="index.html" aria-label="Daniel Diaz — home"><span class="brand__mono">dd</span><span class="brand__text"><span class="brand__name">Daniel <em>Diaz</em></span><span class="brand__sub">Peak Life Now · Coach</span></span></a>
+          <p>Peak performance coaching for purpose-driven entrepreneurs and team leaders. Match your level of achievement with your level of fulfillment.</p>
+          <div class="footer__press"><span>As featured in</span><b>Yahoo Finance</b><b>Disrupt</b><b>Influencive</b></div>
+        </div>
+        <div class="footer__col">
+          <h3>Work with Daniel</h3>
+          <ul>
+            <li><a href="coaching.html">1:1 Peak Now Coaching</a></li>
+            <li><a href="coaching.html#vip">VIP Day Intensive</a></li>
+            <li><a href="ignition.html">IGNITION for men</a></li>
+            <li><a href="speaking.html">Keynote speaking</a></li>
+            <li><a href="apply.html">Apply</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="about.html">About Daniel</a></li>
+            <li><a href="results.html">Client results</a></li>
+            <li><a href="scorecard.html">Peak Life Scorecard</a></li>
+            <li><a href="index.html#path">Find your path</a></li>
+            <li><a href="ignition.html#waitlist">IGNITION waitlist</a></li>
+          </ul>
+        </div>
+        <div class="footer__col footer__col--wide">
+          <h3>Connect</h3>
+          <ul>
+            <li><a href="mailto:daniel@iamdanieldiaz.com" data-email>Email Daniel</a></li>
+            <li><a href="apply.html" data-book>Book a discovery call</a></li>
+            <li>Free discovery call · VIP Days in person</li>
+          </ul>
+          <div class="socials mt-m">
+            <a href="https://www.instagram.com/itsdannydiaz/" target="_blank" rel="noopener" aria-label="Daniel Diaz on Instagram">{{icon:instagram}}</a>
+            <a href="https://www.linkedin.com/in/peaklifenow/" target="_blank" rel="noopener" aria-label="Daniel Diaz on LinkedIn">{{icon:linkedin}}</a>
+            <a href="mailto:daniel@iamdanieldiaz.com" data-email aria-label="Email Daniel">{{icon:mail}}</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__word" aria-hidden="true">Peak Life <em>Now</em></div>
+      <div class="footer__bar">
+        <span>© <span data-year>2026</span> Daniel Diaz · Peak Life Now. All rights reserved.</span>
+        <span>Photography by Blue Ridge Vantage · Website by Code Bunny</span>
+        <a href="#main">Back to top ↑</a>
       </div>
     </div>
-  </section>
-
-  <footer class="site-footer" data-theme="dark">
-    <div class="wrap footer__top">
-      <div class="footer__brand">
-        <a class="brand" href="index.html" aria-label="Daniel Diaz, Peak Life Now — home">{{mark}}<span class="brand__name">Daniel <em>Diaz</em></span><span class="brand__sub">Peak Life Now</span></a>
-        <p>Peak performance coaching for purpose-driven entrepreneurs and team leaders. Maximizing performance, achievement and fulfillment.</p>
-        <a class="btn btn--gold btn--sm" href="scorecard.html">Take the scorecard <span class="btn__ic">{{icon:arrow}}{{icon:arrow}}</span></a>
-      </div>
-      <div class="footer__col">
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Daniel</a></li>
-          <li><a href="results.html">Client results</a></li>
-          <li><a href="scorecard.html">Peak Life Scorecard</a></li>
-          <li><a href="speaking.html">Speaking</a></li>
-        </ul>
-      </div>
-      <div class="footer__col">
-        <h4>Work with Daniel</h4>
-        <ul>
-          <li><a href="coaching.html">1:1 Peak Now Coaching</a></li>
-          <li><a href="coaching.html#vip">VIP Day Intensive</a></li>
-          <li><a href="ignition.html">IGNITION for men</a></li>
-          <li><a href="speaking.html#keynote">Keynote speaking</a></li>
-          <li><a href="apply.html">Apply</a></li>
-        </ul>
-      </div>
-      <div class="footer__col">
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="mailto:daniel@iamdanieldiaz.com" data-email>{{icon:mail}} Email Daniel</a></li>
-          <li><a href="https://www.instagram.com/itsdannydiaz/" target="_blank" rel="noopener">{{icon:instagram}} @itsdannydiaz</a></li>
-          <li><a href="https://www.linkedin.com/in/peaklifenow/" target="_blank" rel="noopener">{{icon:linkedin}} LinkedIn</a></li>
-          <li><a href="apply.html" data-book>{{icon:calendar}} Book a discovery call</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer__mega caps" aria-hidden="true">Peak Life <span class="g">Now</span></div>
-    <div class="wrap footer__bottom">
-      <span>© <span data-year>2026</span> Daniel Diaz · Peak Life Now. All rights reserved.</span>
-      <span>Photography by Blue Ridge Vantage · Website by <a href="https://codebunny.net" target="_blank" rel="noopener">Code Bunny</a></span>
-    </div>
-    <div class="footer__glow" aria-hidden="true"></div>
   </footer>

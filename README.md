@@ -17,6 +17,13 @@ The pitch email that goes with it is in [`docs/reply-to-daniel.md`](docs/reply-t
 | Apply / book a discovery call (5-step application) | `apply.html` |
 | Not found | `404.html` |
 
+## Design system
+The site runs on the same Code Bunny design system as annerose.codebunny.net: the same layout engine, components, typography (Bricolage Grotesque, Instrument Serif, Inter Tight) and motion, re-themed to Daniel's brand: warm near-black, Daniel's gold, burnt amber and ember. Colours are tokens at the top of `assets/css/main.css`.
+
+Components used across the pages: magazine-cover hero with a cut-out portrait, page heroes with breadcrumbs, stacking cards, bento tiles, credentials marquee, the Peak Method circle, a pinned horizontal method strip, testimonial wall, "Find your path" quiz, program cards, timeline, statements that reveal word by word, quotes slider, FAQ, multi-step forms, and the Peak Life Scorecard.
+
+The hero cut-out (`assets/img/daniel-laugh-cut.webp`) was made from `daniel-laugh.webp` by removing the plain wall behind Daniel. Any photo on a plain background can be cut the same way.
+
 ## Editing
 The pages in this folder are **generated**. Edit the source and rebuild:
 
@@ -25,11 +32,11 @@ python3 _src/build.py
 ```
 
 - `_src/pages/*.html`: the body of each page (the meta block at the top sets the title and description)
-- `_src/partials/*.html`: shared layout, header and menu, final call-to-action, footer with the Morning Mastery opt-in
-- `_src/build.py`: icons, the logo mark, and `SITE_URL` (used for canonical and share links)
-- `assets/css/main.css`: design tokens (colours, type scale, spacing) at the top, then the components
-- `assets/js/site.js`: menu, header, cursor, in-place page transitions, testimonial slider, filters, keynote circle, scorecard engine, multi-step application, form delivery
-- `assets/js/motion.js`: GSAP + ScrollTrigger animations: hero intros and scroll depth, headline word rises, gold hand-drawn underlines, image wipes, drawing dividers, decoding labels, scroll-reactive marquees, letter flips, 3D card tilt (desktop). Respects `prefers-reduced-motion`; content always shows if scripts fail
+- `_src/partials/*.html`: layout, header and menu, footer with the Morning Mastery opt-in, final call-to-action, "Find your path" quiz, marquees, line-art peak
+- `_src/build.py`: icons, `SITE_URL` (used for canonical and share links)
+- `assets/css/main.css`: design tokens at the top, then the components; Daniel-specific pieces (scorecard, application extras, opt-in) are at the end
+- `assets/js/site.js`: smooth scroll, header, menu, cursor, in-place page transitions, stacking cards, testimonial wall, quotes, filters, path finder, application, Peak Life Scorecard, form delivery
+- `assets/js/motion.js`: GSAP + ScrollTrigger animations (hero intro and depth, word reveals, hand-drawn underlines, image wipes, pinned method strip, counters, rings). Respects `prefers-reduced-motion`; content always shows if scripts fail
 
 ## Connecting the automations
 Everything is set in **`assets/js/config.js`**:
