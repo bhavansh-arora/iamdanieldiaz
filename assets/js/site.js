@@ -212,6 +212,7 @@
     return PAGE_TITLES[key] || "Daniel <em>Diaz</em>";
   }
   function resetCurtain() {
+    resetT = null;
     if (!curtain) return;
     curtain.classList.add("no-anim");
     doc.classList.remove("pt-enter", "pt-covered");
@@ -221,6 +222,7 @@
     void curtain.offsetHeight;
     requestAnimationFrame(function () { requestAnimationFrame(function () { curtain.classList.remove("no-anim"); }); });
   }
+  var resetT = null;
   /* Lift the panels off a fully covered screen */
   function liftCurtain() {
     if (!curtain) return;
@@ -232,7 +234,7 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       doc.classList.remove("pt-covered");
       curtain.classList.add("is-leaving");
-      setTimeout(resetCurtain, 900);
+      clearTimeout(resetT); resetT = setTimeout(resetCurtain, 1250);
     }); });
   }
   /* First load arriving from a full page load (fallback path) */
@@ -240,7 +242,7 @@
     if (ctTitle) ctTitle.innerHTML = titleFor(location.pathname);
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       curtain.classList.add("is-leaving");
-      setTimeout(resetCurtain, 900);
+      clearTimeout(resetT); resetT = setTimeout(resetCurtain, 1250);
     }); });
   }
 
@@ -262,6 +264,13 @@
   /* Cover the screen; resolves once fully covered */
   function cover(path) {
     return new Promise(function (resolve) {
+      var busy = curtain.classList.contains("is-leaving") || curtain.classList.contains("no-anim") || resetT !== null;
+      if (busy) { clearTimeout(resetT); resetCurtain(); }
+      setTimeout(function () { startCover(path, resolve); }, busy ? 70 : 0);
+    });
+  }
+  function startCover(path, resolve) {
+    (function () {
       if (ctTitle) ctTitle.innerHTML = titleFor(path);
       curtain.classList.add("is-covering");
       setTimeout(uiWine, 350);
@@ -269,13 +278,13 @@
       var fin = function () {
         if (done) return; done = true;
         curtain.classList.add("is-covered"); doc.classList.add("pt-covered");
-        setTimeout(resolve, 40);
+        setTimeout(resolve, 260);   /* a beat to read the destination */
       };
       var cols = $$(".curtain__cols--wine i", curtain).filter(function (c) { return c.offsetWidth > 0; });
       var last = cols[cols.length - 1];
       if (last) last.addEventListener("transitionend", function (ev) { if (ev.propertyName === "transform") setTimeout(fin, 60); }, { once: true });
-      setTimeout(fin, 900);
-    });
+      setTimeout(fin, 1300);
+    })();
   }
 
   var navigating = false;

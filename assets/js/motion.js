@@ -185,7 +185,7 @@
         if (heroBits.length) tl.to(heroBits, { autoAlpha: 1, y: 0, duration: 1.4, stagger: 0.1 }, 0.8);
       }
       if (mode === "preloader") document.addEventListener("site:loaded", playHero, { once: true });
-      else if (mode === "enter") gsap.delayedCall(0.15, playHero);
+      else if (mode === "enter") gsap.delayedCall(0.4, playHero);
       else playHero();
 
       /* Other split headings reveal on scroll */
@@ -226,9 +226,19 @@
       if (hv) mm.add("(min-width: 1025px)", function () {
         var o = { trigger: hv, start: "top top", end: "bottom top", scrub: true };
         if (giant) gsap.to(giant, { xPercent: -14, ease: "none", scrollTrigger: o });
-        if (heroRise) gsap.to(heroRise, { yPercent: 8, scale: 1.04, ease: "none", scrollTrigger: Object.assign({}, o) });
+        /* Scroll depth uses a different transform channel than each element's intro
+           (Daniel: intro yPercent, depth y; proof tile: intro y, depth yPercent), so the
+           first scroll can't snap them back to their pre-intro offsets. */
+        if (heroRise) gsap.fromTo(heroRise, { y: 0, scale: 1 }, { y: function () { return heroRise.offsetHeight * 0.08; }, scale: 1.04, ease: "none", scrollTrigger: Object.assign({ invalidateOnRefresh: true }, o) });
         gsap.to($$(".hv__left", root), { y: -60, ease: "none", scrollTrigger: Object.assign({}, o) });
-        gsap.to($$(".hv__right, .hv__proof", root), { y: -110, ease: "none", scrollTrigger: Object.assign({}, o) });
+        gsap.to($$(".hv__right", root), { y: -110, ease: "none", scrollTrigger: Object.assign({}, o) });
+        /* "now." and the top row travel with the tiles, so nothing slides over them on the way out */
+        var postEl = root.querySelector(".hv__post");
+        if (postEl) gsap.fromTo(postEl, { y: 0 }, { y: -110, ease: "none", scrollTrigger: Object.assign({}, o) });
+        var topRow = root.querySelector(".hv__top");
+        if (topRow) gsap.fromTo(topRow, { yPercent: 0 }, { yPercent: function () { return -110 / Math.max(1, topRow.offsetHeight) * 100; }, ease: "none", scrollTrigger: Object.assign({ invalidateOnRefresh: true }, o) });
+        var proofTile = root.querySelector(".hv__proof");
+        if (proofTile) gsap.fromTo(proofTile, { yPercent: 0 }, { yPercent: function () { return -110 / Math.max(1, proofTile.offsetHeight) * 100; }, ease: "none", scrollTrigger: Object.assign({ invalidateOnRefresh: true }, o) });
       });
 
       /* Hand-drawn underlines */
@@ -340,6 +350,73 @@
           scrollTrigger: { trigger: group, start: "top 95%", once: true }
         });
       });
+
+      /* ---------- Peak Life Now: animate every text block that isn't animated yet ---------- */
+      var STILL = "[data-reveal], [data-split], [data-hero], [data-pop], [data-words], [data-no-anim], .hv, .page-hero, .notfound, .marquee, .compass__panel, .form, .sc, .faq__a, .wall__cols, .quotes__stage, .stack, .ticker, .split__float, .sec-head .label, .statement__label, .dims__visual, .method__track";
+      var staggerHost = function (el) {
+        for (var p = el.parentElement; p && p !== root; p = p.parentElement) if (p.parentElement && p.parentElement.hasAttribute("data-stagger")) return p;
+        return null;
+      };
+      var noTransition = function (els, on) { els.forEach(function (e) { e.style.transition = on ? "none" : ""; }); };
+
+      /* Headings without a reveal rise word by word, like the big ones */
+      $$("h3, h4, .h3, .h4", root).forEach(function (h) {
+        if (h.closest(STILL) || h.closest("[data-split]") || !h.textContent.trim()) return;
+        if (h.matches(".compass__result-title, .form__title, .res__profile, .curtain__title")) return;
+        splitWords(h);
+        var words = $$(".split-line > span", h);
+        if (!words.length) return;
+        gsap.set(words, { yPercent: 118 });
+        var host = staggerHost(h);
+        ST.create({ trigger: h, start: "top 95%", once: true, onEnter: function () {
+          gsap.to(words, { yPercent: 0, duration: 1.15, ease: "expo.out", stagger: 0.04, delay: host ? 0.28 : 0,
+            onComplete: function () { $$(".split-line", h).forEach(function (l) { l.classList.add("is-done"); }); } });
+        } });
+      });
+
+      /* Copy, lists, chips, numbers and buttons cascade in (inside cards: after the card lands) */
+      var BLOCK = "p, li, blockquote, figcaption, dl, .label, .chips, .btn-row, .big-num, .stat, .program__price, .index-num, .card__num, .card__tag, .card__icon, .tile__top, .step__tags, .format__list, .topic, .book__pillars, .note-strip > div, .lead-item, .story, .avatars, .ring, .stars, .filters, .link-arrow, .press-marks, .g-bars, .g-canyon, .yl";
+      var cands = $$(BLOCK, root).filter(function (el) {
+        if (el.closest(STILL)) return false;
+        if (el.closest("h1, h2, h3, h4, .h3, .h4, .split-line")) return false;
+        if (el.parentElement && el.parentElement.hasAttribute("data-stagger")) return false;
+        return el.offsetParent !== null;
+      });
+      var chosen = new Set(cands);
+      cands = cands.filter(function (el) { for (var q = el.parentElement; q && q !== root; q = q.parentElement) if (chosen.has(q)) return false; return true; });
+      var hosts = new Map(), free = [];
+      cands.forEach(function (el) { var hst = staggerHost(el); if (hst) { if (!hosts.has(hst)) hosts.set(hst, []); hosts.get(hst).push(el); } else free.push(el); });
+      hosts.forEach(function (els, hst) {
+        gsap.set(els, { opacity: 0, y: 18 });
+        ST.create({ trigger: hst, start: "top 94%", once: true, onEnter: function () {
+          noTransition(els, true);
+          gsap.to(els, { opacity: 1, y: 0, duration: 0.95, ease: "expo.out", stagger: 0.07, delay: 0.32, overwrite: "auto",
+            onComplete: function () { noTransition(els, false); gsap.set(els, { clearProps: "transform" }); } });
+        } });
+      });
+      if (free.length) {
+        gsap.set(free, { opacity: 0, y: 28 });
+        ST.batch(free, { start: "top 94%", once: true, onEnter: function (batch) {
+          noTransition(batch, true);
+          gsap.to(batch, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out", stagger: 0.08, overwrite: "auto",
+            onComplete: function () { noTransition(batch, false); gsap.set(batch, { clearProps: "transform" }); } });
+        } });
+      }
+
+      /* Graphics: bars rise, routes draw, the years line fills */
+      $$("[data-bars]", root).forEach(function (svg) {
+        gsap.fromTo($$(".g-bar", svg), { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 1.3, ease: "expo.out", stagger: 0.14, delay: 0.4, scrollTrigger: { trigger: svg, start: "top 92%", once: true } });
+      });
+      $$("[data-line]", root).forEach(function (svg) {
+        var st = { trigger: svg, start: "top 92%", once: true };
+        gsap.fromTo($$(".g-line:not(.g-line--ghost)", svg), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.2, ease: "power2.inOut", delay: 0.4, scrollTrigger: st });
+        gsap.fromTo($$(".g-dot", svg), { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.7, ease: "back.out(2.2)", stagger: 1.8, delay: 0.35, scrollTrigger: Object.assign({}, st) });
+      });
+      $$("[data-yl]", root).forEach(function (yl) {
+        var st = { trigger: yl, start: "top 92%", once: true };
+        gsap.fromTo(yl.querySelector(".yl__fill"), { scaleX: 0 }, { scaleX: 1, duration: 2.2, ease: "power2.inOut", delay: 0.3, scrollTrigger: st });
+        gsap.fromTo($$(".yl__pts li", yl), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", stagger: 0.42, delay: 0.45, scrollTrigger: Object.assign({}, st) });
+      });
     }, root);
 
     ST.refresh();
@@ -351,6 +428,11 @@
   }
 
   /* ---------- Global, once: footer + rose art outside page content ---------- */
+  var footBits = $$(".footer__optin, .footer__brand > *, .footer__col, .footer__bar > *");
+  if (footBits.length) {
+    gsap.set(footBits, { opacity: 0, y: 26 });
+    ST.batch(footBits, { start: "top 97%", once: true, onEnter: function (batch) { gsap.to(batch, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out", stagger: 0.08, overwrite: "auto" }); } });
+  }
   var word = document.querySelector(".footer__word");
   if (word) gsap.fromTo(word, { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, ease: "expo.out", duration: 1.6, scrollTrigger: { trigger: word, start: "top 98%", once: true } });
 

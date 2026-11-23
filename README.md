@@ -34,6 +34,7 @@ python3 _src/build.py
 - `_src/pages/*.html`: the body of each page (the meta block at the top sets the title and description)
 - `_src/partials/*.html`: layout, header and menu, footer with the Morning Mastery opt-in, final call-to-action, "Find your path" quiz, marquees, line-art peak
 - `_src/build.py`: icons, `SITE_URL` (used for canonical and share links)
+- `_src/og/og.html`: the link-preview card (1200×630). Open it in a browser at that size, screenshot it, and save as `assets/img/og-daniel-diaz.jpg`. When you change it, save under a new filename and update `og_image` in `_src/build.py`, because LinkedIn, Facebook and WhatsApp cache previews by URL
 - `assets/css/main.css`: design tokens at the top, then the components; Daniel-specific pieces (scorecard, application extras, opt-in) are at the end
 - `assets/js/site.js`: smooth scroll, header, menu, cursor, in-place page transitions, stacking cards, testimonial wall, quotes, filters, path finder, application, Peak Life Scorecard, form delivery
 - `assets/js/motion.js`: GSAP + ScrollTrigger animations (hero intro and depth, word reveals, hand-drawn underlines, image wipes, pinned method strip, counters, rings). Respects `prefers-reduced-motion`; content always shows if scripts fail

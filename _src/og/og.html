@@ -1,24 +1,62 @@
 <!doctype html>
-<html><head><meta charset="utf-8">
-<link rel="stylesheet" href="../../assets/css/fonts.css">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG card</title>
+<!-- Share-image template (1200×630). Render with a headless browser and save as assets/img/og-daniel-diaz.jpg -->
 <style>
-  html,body{margin:0;width:1200px;height:630px;background:#0c0c0e;overflow:hidden}
-  .f{position:relative;width:1200px;height:630px;overflow:hidden;font-family:'Inter Tight',sans-serif;color:#f2eee6}
-  .f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 70%;filter:saturate(.7) contrast(1.1) brightness(.6)}
-  .g{position:absolute;inset:0;background:radial-gradient(28% 40% at 50% 62%,rgba(255,184,28,.55),rgba(255,90,31,.15) 50%,transparent 72%);mix-blend-mode:screen}
-  .r{position:absolute;left:50%;top:62%;width:2000px;height:2000px;translate:-50% -50%;background:repeating-conic-gradient(rgba(255,196,80,.1) 0 2.2deg,transparent 2.2deg 12deg);-webkit-mask:radial-gradient(circle,#000 0,rgba(0,0,0,.6) 9%,transparent 30%);mix-blend-mode:screen}
-  .s{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,14,.92) 0%,rgba(12,12,14,.5) 42%,rgba(12,12,14,.1) 62%,rgba(12,12,14,.9) 100%)}
-  .t{position:absolute;left:64px;top:56px;right:64px}
-  .k{font:400 15px/1 'Geist Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,238,230,.75);display:flex;align-items:center;gap:12px}
-  .k:before{content:"";width:9px;height:9px;border-radius:50%;background:#ffb81c;box-shadow:0 0 0 5px rgba(255,184,28,.2)}
-  h1{margin:26px 0 0;font:800 116px/.86 Archivo,sans-serif;font-stretch:88%;letter-spacing:-.052em}
-  h1 em{font:italic 400 1.04em/1 'Instrument Serif',serif;color:#ffb81c;letter-spacing:-.035em}
-  .b{position:absolute;left:64px;right:64px;bottom:48px;display:flex;justify-content:space-between;align-items:center;font-size:24px;font-weight:600;letter-spacing:-.01em}
-  .b span:last-child{font:400 15px/1 'Geist Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#ffb81c}
-</style></head>
-<body><div class="f">
-  <img src="../../assets/img/hero-peak.webp" alt="">
-  <div class="r"></div><div class="g"></div><div class="s"></div>
-  <div class="t"><div class="k">Daniel Diaz · Peak performance coaching</div><h1>Your peak life<br>starts <em>now.</em></h1></div>
-  <div class="b"><span>Daniel Diaz · Peak Life Now</span><span>Coach · Speaker · Entrepreneur</span></div>
-</div></body></html>
+  @font-face { font-family: "Bricolage Grotesque"; font-weight: 300 800; src: url("../../assets/fonts/bricolage-grotesque-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Instrument Serif"; font-style: italic; src: url("../../assets/fonts/instrument-serif-italic.woff2") format("woff2"); }
+  @font-face { font-family: "Inter Tight"; font-weight: 300 700; src: url("../../assets/fonts/inter-tight-normal.woff2") format("woff2"); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; background: #f4efe6; }
+  .card { position: relative; width: 1200px; height: 630px; padding: 14px; }
+  .frame { position: relative; width: 100%; height: 100%; border-radius: 34px; overflow: hidden; color: #f4efe6;
+    background: radial-gradient(60% 80% at 72% 70%, rgba(194, 96, 12, .55), transparent 62%), radial-gradient(50% 60% at 0% 0%, #3a2614, transparent 70%), linear-gradient(160deg, #1b140d, #100c07); }
+  .dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 184, 28, .16) 1.2px, transparent 1.3px); background-size: 22px 22px; -webkit-mask-image: radial-gradient(70% 70% at 70% 50%, #000, transparent 75%); mask-image: radial-gradient(70% 70% at 70% 50%, #000, transparent 75%); }
+  .ring { position: absolute; border-radius: 50%; border: 1px solid rgba(255, 184, 28, .16); }
+  .r1 { width: 760px; height: 760px; right: -160px; bottom: -420px; }
+  .r2 { width: 520px; height: 520px; right: -40px; bottom: -300px; border-style: dashed; border-color: rgba(255, 184, 28, .14); }
+  .copy { position: absolute; left: 58px; top: 54px; width: 640px; display: grid; gap: 22px; }
+  .label { display: inline-flex; align-items: center; gap: 10px; align-self: start; justify-self: start; padding: 8px 15px 8px 13px; border: 1px solid rgba(255, 255, 255, .16); border-radius: 999px; font: 600 13px/1.2 "Inter Tight", sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+  .label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #ffb81c; box-shadow: 0 0 0 4px rgba(255, 184, 28, .2); }
+  h1 { font: 600 96px/.9 "Bricolage Grotesque", sans-serif; letter-spacing: -.055em; }
+  h1 em { position: relative; display: inline-block; font: italic 400 108px/.9 "Instrument Serif", serif; letter-spacing: -.02em; color: #ffb81c; }
+  h1 svg { position: absolute; left: -4px; right: -4px; bottom: -12px; width: calc(100% + 8px); height: 22px; overflow: visible; }
+  h1 svg path { fill: none; stroke: #ffb81c; stroke-width: 3.4; stroke-linecap: round; }
+  .sub { font: 500 22px/1.4 "Inter Tight", sans-serif; color: rgba(244, 239, 230, .78); max-width: 30ch; }
+  .press { display: flex; gap: 8px; }
+  .press b { font: 700 14px/1 "Inter Tight", sans-serif; padding: 9px 13px; border-radius: 999px; background: rgba(255, 255, 255, .1); }
+  .brand { position: absolute; left: 58px; bottom: 44px; display: flex; align-items: center; gap: 14px; }
+  .mono { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #ffb81c; color: #100c07; font: italic 400 24px "Instrument Serif", serif; }
+  .brand b { display: block; font: 600 24px/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.03em; }
+  .brand b em { font: italic 400 26px "Instrument Serif", serif; color: #ffb81c; }
+  .brand .tag { display: block; margin-top: 5px; font: 600 12px/1 "Inter Tight", sans-serif; letter-spacing: .18em; text-transform: uppercase; color: rgba(244, 239, 230, .6); }
+  .glow { position: absolute; right: 40px; bottom: -60px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 184, 28, .5), rgba(255, 106, 43, .18) 45%, transparent 70%); }
+  .daniel { position: absolute; right: 70px; bottom: -12px; height: 568px; filter: drop-shadow(0 30px 50px rgba(10, 8, 5, .6)); }
+  .sticker { position: absolute; right: 372px; top: 318px; width: 128px; height: 128px; border-radius: 50%; display: grid; place-items: center; text-align: center; background: #ffb81c; color: #100c07; transform: rotate(-10deg); box-shadow: 0 18px 40px -16px rgba(10, 8, 5, .7); }
+  .sticker::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; border: 1.5px dashed rgba(16, 12, 7, .35); }
+  .sticker b { display: block; font: 700 30px/.9 "Bricolage Grotesque", sans-serif; letter-spacing: -.05em; }
+  .sticker span { display: block; margin-top: 4px; font: italic 400 15px/1.05 "Instrument Serif", serif; }
+  .spark { position: absolute; width: 26px; height: 26px; color: #ffb81c; }
+  .spark svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+  <div class="card"><div class="frame">
+    <div class="dots"></div><span class="ring r1"></span><span class="ring r2"></span>
+    <div class="glow"></div>
+    <img class="daniel" src="../../assets/img/daniel-laugh-cut.webp" alt="">
+    <div class="sticker"><div><b>Top 10</b><span>performance<br>coaches · Yahoo</span></div></div>
+    <span class="spark" style="left:640px;top:70px"><svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
+    <span class="spark" style="right:90px;top:120px;width:18px;height:18px"><svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
+    <div class="copy">
+      <span class="label">Peak performance coach &amp; speaker</span>
+      <h1>Your peak life <em>starts now.<svg viewBox="0 0 300 20" preserveAspectRatio="none"><path d="M3 13 C 46 5, 96 3, 148 8 S 236 15, 297 6"/></svg></em></h1>
+      <p class="sub">Coaching for entrepreneurs and team leaders who want achievement and fulfillment, at the same time.</p>
+      <div class="press"><b>Yahoo Finance</b><b>Disrupt</b><b>Influencive</b></div>
+    </div>
+    <div class="brand"><span class="mono">dd</span><div><b>Daniel <em>Diaz</em></b><span class="tag">Peak Life Now · iamdanieldiaz.codebunny.net</span></div></div>
+  </div></div>
+</body>
+</html>

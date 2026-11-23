@@ -117,7 +117,7 @@ def build():
         body = raw[m.end():] if m else raw
         meta.setdefault("slug", page.name)
         meta["canonical"] = SITE_URL + "/" + ("" if page.name == "index.html" else page.name)
-        meta.setdefault("og_image", "assets/img/og-peak-life-now.jpg")
+        meta.setdefault("og_image", "assets/img/og-daniel-diaz.jpg")
         meta.setdefault("htmlclass", "" if page.name == "index.html" else "no-preloader")
         meta["body"] = "{{BODY}}"
         html = render(layout, meta)
