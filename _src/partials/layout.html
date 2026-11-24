@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script>
-    (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||sessionStorage.getItem('pl_seen')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
+    (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
   </script>
   <script type="application/ld+json">
   {
@@ -57,7 +57,11 @@
 
   <div class="preloader" aria-hidden="true">
     <svg class="preloader__seal" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/><circle cx="60" cy="60" r="56"/></svg>
-    <div class="preloader__word"><span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span><span>&nbsp;</span><span><em>D</em></span><span><em>i</em></span><span><em>a</em></span><span><em>z</em></span></div>
+    <div class="preloader__stack">
+      <svg class="preloader__peak" viewBox="0 0 120 60" aria-hidden="true"><path pathLength="1" d="M4 56 44 10l20 26 14-17 38 37"/><circle cx="92" cy="14" r="5.5"/></svg>
+      <div class="preloader__word"><span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span><span>&nbsp;</span><span><em>D</em></span><span><em>i</em></span><span><em>a</em></span><span><em>z</em></span></div>
+      <span class="preloader__rule"><i></i></span>
+    </div>
     <div class="preloader__tag">Your peak life starts now</div>
     <div class="preloader__count">00%</div>
   </div>

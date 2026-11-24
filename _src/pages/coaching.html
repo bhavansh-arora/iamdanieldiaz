@@ -30,7 +30,9 @@
     <!-- GO mode statement -->
     <section class="statement">
       <div class="container statement__grid">
-        <div class="statement__label"><span class="label">In Daniel's words</span></div>
+        <div class="statement__label"><span class="label">In Daniel's words</span>
+          {{> dial}}
+        </div>
         <p class="statement__text" data-words>I was always in GO mode: planning, acting, tackling obstacles, burning the candle at both ends. I was good at it. But my health suffered. My relationships suffered. My joy suffered. <em>Why am I working so hard if I just end up miserable and tired?</em></p>
         <div class="statement__foot" data-reveal>
           <p class="muted">If that sounds familiar, coaching gives you three things you can't give yourself: a road map, a partner to navigate it, and the momentum to keep going.</p>
@@ -155,6 +157,8 @@
       </div>
     </section>
 
+    {{> divider}}
+
     <!-- Fit -->
     <section class="section section--flush-top">
       <div class="container">
@@ -218,6 +222,7 @@
           <span class="label">Questions</span>
           <h2 class="h2" data-split>Before <em>you book.</em></h2>
           <p class="muted" data-reveal>Still wondering? <a class="link-arrow" href="apply.html" data-book><span>Ask Daniel on a free call</span> {{icon:arrow}}</a></p>
+          {{> dial}}
         </div>
         <div class="faq faq-sec__list" data-reveal>
           <div class="faq__item">

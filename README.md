@@ -22,6 +22,8 @@ The site runs on the same Code Bunny design system as annerose.codebunny.net: th
 
 Components used across the pages: magazine-cover hero with a cut-out portrait, page heroes with breadcrumbs, stacking cards, bento tiles, credentials marquee, the Peak Method circle, a pinned horizontal method strip, testimonial wall, "Find your path" quiz, program cards, timeline, statements that reveal word by word, quotes slider, FAQ, multi-step forms, and the Peak Life Scorecard.
 
+Motion highlights: a welcome animation on every fresh page load (drawn peak, name rising, counter), Anne's page transition timing with a drawn peak and the destination title, every heading and text block animated in, the footer wordmark rising letter by letter (with a light sweep on "Now" and a cursor wave on desktop), animated proof graphics on About, and peak dials and contour dividers (`_src/partials/dial.html`, `divider.html`) in otherwise empty space.
+
 The hero cut-out (`assets/img/daniel-laugh-cut.webp`) was made from `daniel-laugh.webp` by removing the plain wall behind Daniel. Any photo on a plain background can be cut the same way.
 
 ## Editing

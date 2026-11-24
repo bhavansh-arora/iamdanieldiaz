@@ -185,7 +185,7 @@
         if (heroBits.length) tl.to(heroBits, { autoAlpha: 1, y: 0, duration: 1.4, stagger: 0.1 }, 0.8);
       }
       if (mode === "preloader") document.addEventListener("site:loaded", playHero, { once: true });
-      else if (mode === "enter") gsap.delayedCall(0.4, playHero);
+      else if (mode === "enter") gsap.delayedCall(0.6, playHero);
       else playHero();
 
       /* Other split headings reveal on scroll */
@@ -412,6 +412,10 @@
         gsap.fromTo($$(".g-line:not(.g-line--ghost)", svg), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.2, ease: "power2.inOut", delay: 0.4, scrollTrigger: st });
         gsap.fromTo($$(".g-dot", svg), { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.7, ease: "back.out(2.2)", stagger: 1.8, delay: 0.35, scrollTrigger: Object.assign({}, st) });
       });
+      $$("[data-scrubline]", root).forEach(function (svg) {
+        gsap.fromTo($$(".g-line", svg), { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: "none", stagger: 0.08,
+          scrollTrigger: { trigger: svg, start: "top 92%", end: "bottom 40%", scrub: 0.7 } });
+      });
       $$("[data-yl]", root).forEach(function (yl) {
         var st = { trigger: yl, start: "top 92%", once: true };
         gsap.fromTo(yl.querySelector(".yl__fill"), { scaleX: 0 }, { scaleX: 1, duration: 2.2, ease: "power2.inOut", delay: 0.3, scrollTrigger: st });
@@ -433,8 +437,45 @@
     gsap.set(footBits, { opacity: 0, y: 26 });
     ST.batch(footBits, { start: "top 97%", once: true, onEnter: function (batch) { gsap.to(batch, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out", stagger: 0.08, overwrite: "auto" }); } });
   }
+  /* Footer wordmark: letters rise from behind the line as the footer scrolls in (scrubbed),
+     "Now" catches a sweep of light, and on desktop a wave of letters follows the cursor. */
   var word = document.querySelector(".footer__word");
-  if (word) gsap.fromTo(word, { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, ease: "expo.out", duration: 1.6, scrollTrigger: { trigger: word, start: "top 98%", once: true } });
+  if (word) {
+    if (!word.getAttribute("data-letters")) {
+      word.setAttribute("data-letters", "1");
+      var em = word.querySelector("em");
+      Array.prototype.slice.call(word.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split("").forEach(function (ch) {
+            if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+            var s = document.createElement("span"); s.className = "fw-l"; s.textContent = ch; frag.appendChild(s);
+          });
+          word.replaceChild(frag, n);
+        }
+      });
+      if (em) { var nw = document.createElement("span"); nw.className = "fw-l fw-now"; nw.textContent = em.textContent; em.textContent = ""; em.appendChild(nw); }
+    }
+    word.classList.add("is-split");
+    var wl = Array.prototype.slice.call(word.querySelectorAll(".fw-l"));
+    gsap.fromTo(wl, { yPercent: 112, rotate: 7 }, {
+      yPercent: 0, rotate: 0, ease: "none", stagger: 0.07,
+      scrollTrigger: { trigger: word, start: "top bottom", end: "bottom bottom-=30", scrub: 0.9,
+        onLeave: function () { word.classList.add("is-shining"); }, onEnterBack: function () { word.classList.remove("is-shining"); } }
+    });
+    ST.create({ trigger: word, start: "bottom bottom-=30", onEnter: function () { word.classList.add("is-shining"); } });
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      var lift = wl.map(function (l) { return gsap.quickTo(l, "y", { duration: 0.6, ease: "power3" }); });
+      word.addEventListener("mousemove", function (e) {
+        wl.forEach(function (l, i) {
+          var r = l.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2);
+          var f = Math.max(0, 1 - Math.abs(dx) / 240);
+          lift[i](-f * f * 34);
+        });
+      });
+      word.addEventListener("mouseleave", function () { lift.forEach(function (q) { q(0); }); });
+    }
+  }
 
   window.ARMotion = { init: init, destroy: destroy, refresh: function () { ST.refresh(); placeSwashes(); } };
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-US" class="no-preloader">
+<html lang="en-US" class="">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -33,9 +33,9 @@
   <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-tight-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=b056bc4e">
-  <link rel="stylesheet" href="assets/css/main.css?v=82f9b798">
+  <link rel="stylesheet" href="assets/css/main.css?v=f8d1cd24">
   <script>
-    (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||sessionStorage.getItem('pl_seen')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
+    (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
   </script>
   <script type="application/ld+json">
   {
@@ -57,7 +57,11 @@
 
   <div class="preloader" aria-hidden="true">
     <svg class="preloader__seal" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/><circle cx="60" cy="60" r="56"/></svg>
-    <div class="preloader__word"><span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span><span>&nbsp;</span><span><em>D</em></span><span><em>i</em></span><span><em>a</em></span><span><em>z</em></span></div>
+    <div class="preloader__stack">
+      <svg class="preloader__peak" viewBox="0 0 120 60" aria-hidden="true"><path pathLength="1" d="M4 56 44 10l20 26 14-17 38 37"/><circle cx="92" cy="14" r="5.5"/></svg>
+      <div class="preloader__word"><span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span><span>&nbsp;</span><span><em>D</em></span><span><em>i</em></span><span><em>a</em></span><span><em>z</em></span></div>
+      <span class="preloader__rule"><i></i></span>
+    </div>
     <div class="preloader__tag">Your peak life starts now</div>
     <div class="preloader__count">00%</div>
   </div>
@@ -198,13 +202,37 @@
     <!-- The message -->
     <section class="statement">
       <div class="container statement__grid">
-        <div class="statement__label"><span class="label">The message</span></div>
+        <div class="statement__label"><span class="label">The message</span>
+          <div class="g-dial" aria-hidden="true">
+            <svg viewBox="0 0 240 240" data-line>
+              <circle class="g-dial__ring" cx="120" cy="120" r="114"/>
+              <circle class="g-dial__ticks" cx="120" cy="120" r="102"/>
+              <path class="g-line g-line--soft" pathLength="1" d="M34 170h172"/>
+              <path class="g-line" pathLength="1" d="M42 170 94 92l24 32 20-24 60 70"/>
+              <path class="g-line g-line--soft" pathLength="1" d="M94 92l-10 15 10-4 8 8 6-6M138 100l-8 12 8-3 7 6"/>
+              <path class="g-line g-line--trail" pathLength="1" d="M62 170c16-12 26-6 40-18s18-22 34-26 22-14 30-26"/>
+              <circle class="g-dot" cx="170" cy="64" r="9"/>
+            </svg>
+            <span class="g-dial__orbit"><i></i></span>
+          </div>
+
+        </div>
         <p class="statement__text" data-words>Why achievement alone never feels like enough, and how mastering the internal machine of mind, body and spirit <em>keeps your empire from crashing down later.</em></p>
         <div class="statement__foot" data-reveal>
           <p class="muted">Leaders who back themselves make better decisions, lead better teams and stop running on fumes. Self-love isn't soft. It's fuel. Every audience leaves with a first step to take today.</p>
         </div>
       </div>
     </section>
+
+    <div class="container g-divider" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none" data-scrubline>
+        <path class="g-line g-line--soft" pathLength="1" d="M0 62 C 120 62, 160 40, 260 44 S 420 70, 540 58 S 700 30, 820 40 S 1020 66, 1200 50"/>
+        <path class="g-line" pathLength="1" d="M0 70 C 140 70, 190 52, 300 54 S 460 76, 580 66 S 720 44, 840 50 S 1040 72, 1200 60"/>
+        <path class="g-line g-line--peak" pathLength="1" d="M556 66 590 18l14 18 12-14 30 44"/>
+      </svg>
+      <span class="g-divider__dot"></span>
+    </div>
+
 
     <!-- Why audiences listen -->
     <section class="section section--flush-top">
@@ -475,7 +503,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js?v=ba1fa78e" defer></script>
   <script src="assets/vendor/lenis.min.js?v=79e3a064" defer></script>
   <script src="assets/js/config.js?v=df94eb78" defer></script>
-  <script src="assets/js/site.js?v=6adcd696" defer></script>
-  <script src="assets/js/motion.js?v=61a75200" defer></script>
+  <script src="assets/js/site.js?v=78fffd10" defer></script>
+  <script src="assets/js/motion.js?v=22c0b8af" defer></script>
 </body>
 </html>

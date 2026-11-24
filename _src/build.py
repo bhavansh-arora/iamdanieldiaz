@@ -118,7 +118,7 @@ def build():
         meta.setdefault("slug", page.name)
         meta["canonical"] = SITE_URL + "/" + ("" if page.name == "index.html" else page.name)
         meta.setdefault("og_image", "assets/img/og-daniel-diaz.jpg")
-        meta.setdefault("htmlclass", "" if page.name == "index.html" else "no-preloader")
+        meta.setdefault("htmlclass", "")
         meta["body"] = "{{BODY}}"
         html = render(layout, meta)
         html = html.replace("{{BODY}}", render(body, meta))

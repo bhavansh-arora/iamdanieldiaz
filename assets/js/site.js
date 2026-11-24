@@ -134,9 +134,9 @@
       var count = $(".preloader__count", pre);
       var letters = $$(".preloader__word span", pre);
       var start = performance.now();
-      var DURATION = 900;
+      var DURATION = 1500;
       letters.forEach(function (l, i) {
-        l.style.transition = "transform .7s cubic-bezier(.22,1,.36,1) " + (0.035 * i) + "s";
+        l.style.transition = "transform 1s cubic-bezier(.22,1,.36,1) " + (0.05 * i) + "s";
         requestAnimationFrame(function () { requestAnimationFrame(function () { l.style.transform = "translateY(0)"; }); });
       });
       var tick = function (now) {
@@ -152,13 +152,13 @@
     body.classList.add("is-loaded");
   }
   function finishPreloader() {
-    pre.style.transition = "clip-path .75s cubic-bezier(.65,0,.35,1)";
+    pre.style.transition = "clip-path 1.1s cubic-bezier(.65,0,.35,1)";
     pre.style.clipPath = "inset(0 0 100% 0)";
     doc.classList.remove("is-preloading");
     setTimeout(uiIvory, 500);
     body.classList.add("is-loaded");
     document.dispatchEvent(new CustomEvent("site:loaded"));
-    setTimeout(function () { pre.remove(); }, 850);
+    setTimeout(function () { pre.remove(); }, 1200);
   }
 
   /* ---------- Cursor (dot + trailing ring) ---------- */
@@ -234,7 +234,7 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       doc.classList.remove("pt-covered");
       curtain.classList.add("is-leaving");
-      clearTimeout(resetT); resetT = setTimeout(resetCurtain, 1250);
+      clearTimeout(resetT); resetT = setTimeout(resetCurtain, 2100);
     }); });
   }
   /* First load arriving from a full page load (fallback path) */
@@ -242,7 +242,7 @@
     if (ctTitle) ctTitle.innerHTML = titleFor(location.pathname);
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       curtain.classList.add("is-leaving");
-      clearTimeout(resetT); resetT = setTimeout(resetCurtain, 1250);
+      clearTimeout(resetT); resetT = setTimeout(resetCurtain, 2100);
     }); });
   }
 
@@ -278,12 +278,12 @@
       var fin = function () {
         if (done) return; done = true;
         curtain.classList.add("is-covered"); doc.classList.add("pt-covered");
-        setTimeout(resolve, 260);   /* a beat to read the destination */
+        setTimeout(resolve, 500);   /* hold on the page title for a beat */
       };
       var cols = $$(".curtain__cols--wine i", curtain).filter(function (c) { return c.offsetWidth > 0; });
       var last = cols[cols.length - 1];
       if (last) last.addEventListener("transitionend", function (ev) { if (ev.propertyName === "transform") setTimeout(fin, 60); }, { once: true });
-      setTimeout(fin, 1300);
+      setTimeout(fin, 1700);
     })();
   }
 
@@ -413,6 +413,7 @@
      PER-PAGE INITIALISATION (content inside <main>)
      ========================================================================== */
   function initPage(root) {
+
 
     /* Hero: tell CSS how tall the right-hand tile column is, so the big "now."
        can sit above it (the stage and the column share the same bottom edge). */

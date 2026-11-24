@@ -33,9 +33,9 @@
   <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-tight-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=b056bc4e">
-  <link rel="stylesheet" href="assets/css/main.css?v=82f9b798">
+  <link rel="stylesheet" href="assets/css/main.css?v=f8d1cd24">
   <script>
-    (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||sessionStorage.getItem('pl_seen')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
+    (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
   </script>
   <script type="application/ld+json">
   {
@@ -57,7 +57,11 @@
 
   <div class="preloader" aria-hidden="true">
     <svg class="preloader__seal" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/><circle cx="60" cy="60" r="56"/></svg>
-    <div class="preloader__word"><span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span><span>&nbsp;</span><span><em>D</em></span><span><em>i</em></span><span><em>a</em></span><span><em>z</em></span></div>
+    <div class="preloader__stack">
+      <svg class="preloader__peak" viewBox="0 0 120 60" aria-hidden="true"><path pathLength="1" d="M4 56 44 10l20 26 14-17 38 37"/><circle cx="92" cy="14" r="5.5"/></svg>
+      <div class="preloader__word"><span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span><span>&nbsp;</span><span><em>D</em></span><span><em>i</em></span><span><em>a</em></span><span><em>z</em></span></div>
+      <span class="preloader__rule"><i></i></span>
+    </div>
     <div class="preloader__tag">Your peak life starts now</div>
     <div class="preloader__count">00%</div>
   </div>
@@ -140,66 +144,46 @@
 
 
     <!-- ============ HERO — magazine cover ============ -->
-    <section class="hv" data-theme="dark" data-hv>
+    <section class="hv hvx" data-theme="dark" data-hv>
       <div class="hv__mesh" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="hv__dots" aria-hidden="true"></div>
-      <div class="hv__rings" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="hv__rose" aria-hidden="true"><svg class="rose-art peak-art" viewBox="0 0 200 260" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-draw>
-  <path pathLength="1" d="M128 58a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/>
-  <path pathLength="1" d="M145 28v-9M145 97v-9M115 58h-9M184 58h-9M124 37l-6-6M172 85l-6-6M166 37l6-6"/>
-  <path pathLength="1" d="M8 206 74 104l22 32 26-42 70 112"/>
-  <path pathLength="1" d="M74 104l-9 15 9-4 8 8 6-6M122 94l-11 18 10-5 9 9 7-7"/>
-  <path pathLength="1" d="M122 94V64l20 7-20 7"/>
-  <path pathLength="1" d="M30 206c14-12 10-26 26-34s18-20 30-26 14-12 22-20"/>
-  <path pathLength="1" d="M2 182l30-26 14 12M156 150l18-14 24 26"/>
-  <path pathLength="1" d="M4 206h192"/>
-  <path pathLength="1" d="M28 222h144M52 236h96M76 250h48"/>
-</svg>
-</div>
 
-      <div class="hv__top" data-hero>
+      <div class="hvx__top" data-hero>
         <span class="label">Peak performance coach &amp; speaker</span>
-        <span class="hv__avail"><i></i>1:1 coaching · VIP Days · IGNITION Cohort 02 waitlist open</span>
+        <span class="hv__avail"><i></i>1:1 coaching · VIP Days · IGNITION waitlist open</span>
       </div>
 
-      <div class="hv__stage">
-        <h1 class="sr-only">Daniel Diaz — Your peak life starts now. Peak performance coaching for entrepreneurs and team leaders.</h1>
-        <div class="hv__pre" aria-hidden="true" data-split><span class="row">Your</span> <span class="row">peak life</span></div>
-        <div class="hv__giant" aria-hidden="true" data-giant>starts</div>
-        <div class="hv__figure"><img class="hv__anne" src="assets/img/daniel-laugh-cut.webp" alt="Daniel Diaz laughing, hands clasped, in a blue polo" width="646" height="1265" fetchpriority="high" data-hero-rise></div>
-        <div class="hv__post" aria-hidden="true" data-split>now.</div>
-        <span class="sparkle sparkle--lg" style="left:41%;top:4%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
-        <span class="sparkle" style="left:62%;top:14%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
-        <span class="sparkle sparkle--sm" style="left:30%;top:62%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
-        <span class="sparkle" style="right:26%;top:48%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
-        <span class="sparkle sparkle--sm" style="left:8%;top:30%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
-        <div class="sticker sticker--gold hv__sticker" data-pop><div><b>Top 10</b><span>performance<br>coaches · Yahoo</span></div></div>
-        <div class="tile tile--glass hv__proof" data-pop>
-          <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></div>
-          <blockquote>“I have 5x'd my company in less than a year after partnering with him.”</blockquote>
-          <div class="row"><div class="avatars"><img src="assets/img/clients/anthony-miller.webp" alt="" width="40" height="40"><img src="assets/img/clients/matthew-crandall.webp" alt="" width="40" height="40"><img src="assets/img/clients/julia-goehring.webp" alt="" width="40" height="40"><img src="assets/img/clients/chris-farwell.webp" alt="" width="40" height="40"></div><span>Anthony Miller<br>Business owner</span></div>
+      <div class="hvx__titlewrap">
+        <h1 class="hvx__title" data-split><span class="row">Your peak life</span> <span class="row row--gold"><em>starts now.</em></span></h1>
+        <svg class="hvx__swash" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 13 C 46 5, 96 3, 148 8 S 236 15, 297 6"/></svg>
+      </div>
+
+      <div class="hvx__visual" aria-hidden="false">
+        <div class="hvx__glow" aria-hidden="true"></div>
+        <div class="hvx__orbit" aria-hidden="true"><i></i><i></i><i><b></b></i></div>
+        <span class="sparkle sparkle--lg hvx__sp1" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
+        <span class="sparkle hvx__sp2" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
+        <span class="sparkle sparkle--sm hvx__sp3" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
+        <img class="hvx__daniel" src="assets/img/daniel-laugh-cut.webp" alt="Daniel Diaz laughing, hands clasped, in a blue polo" width="644" height="1264" fetchpriority="high" data-hero-rise>
+      </div>
+
+      <div class="tile tile--glass hv__intro hvx__intro" data-pop>
+        <span class="hand-note hv__note" aria-hidden="true">start here <svg viewBox="0 0 70 46"><path d="M64 4 C 44 4, 22 14, 12 38"/><path d="M12 38 L 8 26 M12 38 L 23 32"/></svg></span>
+        <p>You built the business. Daniel helps purpose-driven entrepreneurs and team leaders build the life to match it, by mastering <em>mindset, heart and habits.</em></p>
+        <div class="btn-row">
+          <a class="btn btn--rose" href="apply.html" data-book data-magnetic><span class="btn__label">Book a discovery call</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+          <a class="link-arrow" href="#path"><span>Find your path</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </div>
 
-      <div class="hv__left">
-        <div class="tile tile--glass hv__intro" data-pop>
-          <span class="hand-note hv__note" aria-hidden="true">start here <svg viewBox="0 0 70 46"><path d="M64 4 C 44 4, 22 14, 12 38"/><path d="M12 38 L 8 26 M12 38 L 23 32"/></svg></span>
-          <p>You built the business. Daniel helps purpose-driven entrepreneurs and team leaders build the life to match it, by mastering <em>mindset, heart and habits.</em></p>
-          <div class="btn-row">
-            <a class="btn btn--rose" href="apply.html" data-book data-magnetic><span class="btn__label">Book a discovery call</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
-            <a class="link-arrow" href="#path"><span>Find your path</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="hv__right">
+      <div class="hvx__facts">
         <div class="tile tile--glass hv__stat" data-pop>
           <div class="big-num"><span data-count="15">15</span><sup>yrs</sup></div>
           <p>inside transformation, as an entrepreneur, <b>coach, endurance athlete and dad</b>.</p>
         </div>
-        <div class="tile tile--glass" data-pop>
+        <div class="tile tile--glass hvx__press" data-pop>
           <div class="hv__press"><b>Yahoo Finance</b><b>Disrupt</b><b>Influencive</b></div>
-          <span class="hv__press-note">Named one of “The Top 10 Performance Coaches To Be Following”</span>
+          <span class="hv__press-note"><b>Top 10</b> “Performance Coaches To Be Following”</span>
         </div>
       </div>
     </section>
@@ -237,6 +221,19 @@
             <a class="btn" href="about.html" data-magnetic><span class="btn__label">Meet Daniel</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
             <a class="link-arrow" href="scorecard.html"><span>Measure your gap</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </div>
+          <div class="g-dial" aria-hidden="true">
+            <svg viewBox="0 0 240 240" data-line>
+              <circle class="g-dial__ring" cx="120" cy="120" r="114"/>
+              <circle class="g-dial__ticks" cx="120" cy="120" r="102"/>
+              <path class="g-line g-line--soft" pathLength="1" d="M34 170h172"/>
+              <path class="g-line" pathLength="1" d="M42 170 94 92l24 32 20-24 60 70"/>
+              <path class="g-line g-line--soft" pathLength="1" d="M94 92l-10 15 10-4 8 8 6-6M138 100l-8 12 8-3 7 6"/>
+              <path class="g-line g-line--trail" pathLength="1" d="M62 170c16-12 26-6 40-18s18-22 34-26 22-14 30-26"/>
+              <circle class="g-dot" cx="170" cy="64" r="9"/>
+            </svg>
+            <span class="g-dial__orbit"><i></i></span>
+          </div>
+
         </div>
         <div class="stack" data-stack>
           <div class="stack-card"><span class="deco deco--ring"></span><span class="deco deco--ring2"></span><div class="stack-card__n"><span>You are</span><b>01</b></div><p>Driven. A builder, a <em>provider and a leader</em> people count on.</p></div>
@@ -247,6 +244,16 @@
         <div class="stack-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
       </div>
     </section>
+
+    <div class="container g-divider" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none" data-scrubline>
+        <path class="g-line g-line--soft" pathLength="1" d="M0 62 C 120 62, 160 40, 260 44 S 420 70, 540 58 S 700 30, 820 40 S 1020 66, 1200 50"/>
+        <path class="g-line" pathLength="1" d="M0 70 C 140 70, 190 52, 300 54 S 460 76, 580 66 S 720 44, 840 50 S 1040 72, 1200 60"/>
+        <path class="g-line g-line--peak" pathLength="1" d="M556 66 590 18l14 18 12-14 30 44"/>
+      </svg>
+      <span class="g-divider__dot"></span>
+    </div>
+
 
     <!-- ============ RESULTS BENTO ============ -->
     <section class="section section--flush-top">
@@ -479,6 +486,16 @@
       </div>
     </section>
 
+    <div class="container g-divider" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none" data-scrubline>
+        <path class="g-line g-line--soft" pathLength="1" d="M0 62 C 120 62, 160 40, 260 44 S 420 70, 540 58 S 700 30, 820 40 S 1020 66, 1200 50"/>
+        <path class="g-line" pathLength="1" d="M0 70 C 140 70, 190 52, 300 54 S 460 76, 580 66 S 720 44, 840 50 S 1040 72, 1200 60"/>
+        <path class="g-line g-line--peak" pathLength="1" d="M556 66 590 18l14 18 12-14 30 44"/>
+      </svg>
+      <span class="g-divider__dot"></span>
+    </div>
+
+
     <!-- ============ FIND YOUR PATH ============ -->
     <section class="section section--flush-top">
       <div class="container">
@@ -710,7 +727,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js?v=ba1fa78e" defer></script>
   <script src="assets/vendor/lenis.min.js?v=79e3a064" defer></script>
   <script src="assets/js/config.js?v=df94eb78" defer></script>
-  <script src="assets/js/site.js?v=6adcd696" defer></script>
-  <script src="assets/js/motion.js?v=61a75200" defer></script>
+  <script src="assets/js/site.js?v=78fffd10" defer></script>
+  <script src="assets/js/motion.js?v=22c0b8af" defer></script>
 </body>
 </html>
