@@ -470,15 +470,30 @@
       if (!dots.length) return;
       var cards = $$(".stack-card", track);
       var busy = false;
+      /* A card that only peeks in from the edge keeps its colour but hides its words,
+         so no sliced letters show; the words fade in as the card slides into view. */
+      function peek() {
+        var swipe = track.scrollWidth > track.clientWidth + 2, rt = track.getBoundingClientRect();
+        cards.forEach(function (c) {
+          var rc = c.getBoundingClientRect();
+          var seen = (Math.min(rc.right, rt.right) - Math.max(rc.left, rt.left)) / (rc.width || 1);
+          c.classList.toggle("is-peek", swipe && seen < 0.94);
+        });
+      }
       track.addEventListener("scroll", function () {
         if (busy) return; busy = true;
         requestAnimationFrame(function () {
           var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bestD = Infinity;
           cards.forEach(function (c, i) { var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bestD) { bestD = d; best = i; } });
           dots.forEach(function (d, i) { d.classList.toggle("is-on", i === best); });
+          peek();
           busy = false;
         });
       }, { passive: true });
+      peek();
+      var peekT; function onPeekResize() { clearTimeout(peekT); peekT = setTimeout(peek, 150); }
+      window.addEventListener("resize", onPeekResize);
+      onCleanup(function () { clearTimeout(peekT); window.removeEventListener("resize", onPeekResize); });
     });
 
     /* Marquees: clone group for a seamless loop */

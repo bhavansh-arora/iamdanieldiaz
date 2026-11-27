@@ -111,7 +111,14 @@
   function placeSwashes() {
     swashItems.forEach(function (it) {
       if (!it.h.isConnected) return;
-      var boxes = $$("em", it.h).map(function (em) { return (em.closest(".split-line") || em).getBoundingClientRect(); });
+      var boxes = $$("em", it.h).map(function (em) {
+        var m = em.closest(".split-line") || em, b = m.getBoundingClientRect();
+        if (m === em) return b;
+        var cs = getComputedStyle(m), fs = parseFloat(cs.fontSize) || 16;
+        var dl = parseFloat(cs.paddingLeft) - 0.1 * fs, dr = parseFloat(cs.paddingRight) - 0.14 * fs;
+        var dt = parseFloat(cs.paddingTop) - 0.06 * fs, db = parseFloat(cs.paddingBottom) - 0.3 * fs;
+        return { left: b.left + dl, right: b.right - dr, top: b.top + dt, bottom: b.bottom - db };
+      });
       if (!boxes.length) return;
       var maxTop = Math.max.apply(null, boxes.map(function (b) { return Math.round(b.top); }));
       var last = boxes.filter(function (b) { return Math.abs(Math.round(b.top) - maxTop) < 6; });
@@ -437,7 +444,7 @@
     gsap.set(footBits, { opacity: 0, y: 26 });
     ST.batch(footBits, { start: "top 97%", once: true, onEnter: function (batch) { gsap.to(batch, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out", stagger: 0.08, overwrite: "auto" }); } });
   }
-  /* Footer wordmark: letters rise from behind the line as the footer scrolls in (scrubbed),
+  /* Footer wordmark: letters rise from behind the line once the footer is in view,
      "Now" catches a sweep of light, and on desktop a wave of letters follows the cursor. */
   var word = document.querySelector(".footer__word");
   if (word) {
@@ -458,12 +465,11 @@
     }
     word.classList.add("is-split");
     var wl = Array.prototype.slice.call(word.querySelectorAll(".fw-l"));
-    gsap.fromTo(wl, { yPercent: 112, rotate: 7 }, {
-      yPercent: 0, rotate: 0, ease: "none", stagger: 0.07,
-      scrollTrigger: { trigger: word, start: "top bottom", end: "bottom bottom-=30", scrub: 0.9,
-        onLeave: function () { word.classList.add("is-shining"); }, onEnterBack: function () { word.classList.remove("is-shining"); } }
-    });
-    ST.create({ trigger: word, start: "bottom bottom-=30", onEnter: function () { word.classList.add("is-shining"); } });
+    gsap.set(wl, { yPercent: 112, rotate: 7 });
+    ST.create({ trigger: word, start: "top bottom-=40", once: true, onEnter: function () {
+      gsap.to(wl, { yPercent: 0, rotate: 0, duration: 1.35, ease: "expo.out", stagger: 0.05, overwrite: "auto",
+        onComplete: function () { word.classList.add("is-risen", "is-shining"); } });
+    } });
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       var lift = wl.map(function (l) { return gsap.quickTo(l, "y", { duration: 0.6, ease: "power3" }); });
       word.addEventListener("mousemove", function (e) {

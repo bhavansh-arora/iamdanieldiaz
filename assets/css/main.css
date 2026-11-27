@@ -1782,3 +1782,20 @@ body::after { inset: 0; mix-blend-mode: normal; opacity: .035; }
   .hvx__orbit { top: 56%; width: min(78vw, 420px); }
   .hvx__glow { top: 58%; width: min(100%, 480px); }
 }
+
+/* ---------- No cut letters ---------- */
+/* Reveal masks are wide enough for italic overhangs (Instrument Serif "f", "y", "N") and tall
+   ascenders, so no glyph is clipped while words rise in. Negative margins keep layout unchanged. */
+.split-line { padding: .1em .26em .34em .22em; margin: -.1em -.26em -.34em -.22em; }
+.curtain__mask { padding: .1em .22em .24em; margin: -.1em -.22em -.24em; }
+.preloader__word { padding: .12em .26em .36em; }
+/* Watermark numerals and words sit fully inside their panels instead of running off the edge */
+.page-hero__num { right: clamp(14px, 2.8vw, 48px); bottom: clamp(12px, 2.2vw, 36px); font-size: clamp(9rem, 22vw, 22rem); line-height: 1; padding: 0 .08em .06em 0; }
+.format__big { right: .14em; bottom: .1em; line-height: 1; }
+/* Footer wordmark: the mask only clips while the letters rise, then lets go so hover lifts are never cut */
+.footer__word.is-split { padding-top: .34em; margin-top: -.34em; padding-bottom: .14em; margin-bottom: calc(clamp(8px, 1.4vw, 20px) - .14em); }
+.footer__word.is-risen { overflow: visible; }
+.footer__word .fw-now { padding: .16em .16em .2em .12em; margin: -.16em -.1em -.2em -.12em; }
+/* Swipe cards: a peeking card shows no sliced words */
+.stack-card .stack-card__n span, .stack-card .stack-card__n b, .stack-card p, .stack-card p em { transition: color .5s var(--ease); }
+.stack-card.is-peek .stack-card__n span, .stack-card.is-peek .stack-card__n b, .stack-card.is-peek p, .stack-card.is-peek p em { color: transparent; }
