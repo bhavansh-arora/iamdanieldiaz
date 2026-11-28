@@ -7,6 +7,7 @@
   "use strict";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.classList.add("motion-ready");
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
   /* ---------- Word splitting (keeps <em>, <br>, <strong>) ---------- */
@@ -195,7 +196,12 @@
         });
         if (heroBits.length) tl.to(heroBits, { autoAlpha: 1, y: 0, duration: 1.0, stagger: 0.08 }, 0.7);
       }
-      if (mode === "preloader") document.addEventListener("site:loaded", playHero, { once: true });
+      if (mode === "preloader") {
+        /* Plays when the welcome lifts; if site.js never loads, play anyway so the hero can't stay hidden */
+        var heroPlayed = false, heroOnce = function () { if (heroPlayed) return; heroPlayed = true; playHero(); };
+        document.addEventListener("site:loaded", heroOnce, { once: true });
+        gsap.delayedCall(4, heroOnce);
+      }
       else if (mode === "enter") gsap.delayedCall(0.6, playHero);
       else playHero();
 
@@ -241,8 +247,9 @@
            (Daniel: intro yPercent, depth y; proof tile: intro y, depth yPercent), so the
            first scroll can't snap them back to their pre-intro offsets. */
         if (heroRise) gsap.fromTo(heroRise, { y: 0, scale: 1 }, { y: function () { return heroRise.offsetHeight * 0.08; }, scale: 1.04, ease: "none", scrollTrigger: Object.assign({ invalidateOnRefresh: true }, o) });
-        gsap.to($$(".hv__left", root), { y: -60, ease: "none", scrollTrigger: Object.assign({}, o) });
-        gsap.to($$(".hv__right", root), { y: -110, ease: "none", scrollTrigger: Object.assign({}, o) });
+        var hvLeft = $$(".hv__left", root), hvRight = $$(".hv__right", root);
+        if (hvLeft.length) gsap.to(hvLeft, { y: -60, ease: "none", scrollTrigger: Object.assign({}, o) });
+        if (hvRight.length) gsap.to(hvRight, { y: -110, ease: "none", scrollTrigger: Object.assign({}, o) });
         /* "now." and the top row travel with the tiles, so nothing slides over them on the way out */
         var postEl = root.querySelector(".hv__post");
         if (postEl) gsap.fromTo(postEl, { y: 0 }, { y: -110, ease: "none", scrollTrigger: Object.assign({}, o) });

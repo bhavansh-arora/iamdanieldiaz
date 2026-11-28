@@ -7,17 +7,17 @@
       <span class="sparkle sparkle--sm" style="left:30%;bottom:16%" aria-hidden="true">{{icon:spark}}</span>
       <span class="sparkle sparkle--sm" style="right:14%;top:24%" aria-hidden="true">{{icon:spark}}</span>
       <div class="container cta-final__inner">
-        <span class="label">Your next level starts with one conversation</span>
-        <h2 class="h-mega" data-split>Your peak life <em>starts now.</em></h2>
-        <p>How long will you allow yourself to stay exactly where you are? Book a free discovery call and leave with your quickest route to having it all.</p>
+        <span class="label">{{page.cta_label}}</span>
+        <h2 class="h-mega" data-split>{{page.cta_title}}</h2>
+        <p>{{page.cta_text}}</p>
         <div class="btn-row" style="justify-content:center">
-          <a class="btn btn--rose" href="apply.html" data-book data-magnetic><span class="btn__label">Book a discovery call</span><span class="btn__icon">{{icon:arrow-ur}}</span></a>
-          <a class="btn btn--light" href="scorecard.html" data-magnetic><span class="btn__label">Take the scorecard</span><span class="btn__icon">{{icon:compass}}</span></a>
+          <a class="btn btn--rose" href="{{page.cta_p_href}}" {{page.cta_p_attr}} data-magnetic><span class="btn__label">{{page.cta_p_label}}</span><span class="btn__icon">{{page.cta_p_icon}}</span></a>
+          <a class="btn btn--light" href="{{page.cta_s_href}}" {{page.cta_s_attr}} data-magnetic><span class="btn__label">{{page.cta_s_label}}</span><span class="btn__icon">{{page.cta_s_icon}}</span></a>
         </div>
         <div class="cta-final__contact">
           <a href="mailto:daniel@iamdanieldiaz.com" data-email>{{icon:mail}} Email Daniel</a>
           <a href="apply.html#application">{{icon:arrow-ur}} Apply for coaching</a>
-          <span style="display:inline-flex;gap:10px;align-items:center">{{icon:calendar}} Free discovery call · VIP Days in person</span>
+          <span class="cta-final__note">{{icon:calendar}} Free discovery call · VIP Days in person</span>
         </div>
       </div>
     </section>

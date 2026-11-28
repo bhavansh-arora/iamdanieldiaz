@@ -1951,3 +1951,107 @@ body::after { inset: 0; mix-blend-mode: normal; opacity: .035; }
   .footer__col a { display: flex; align-items: center; min-height: 44px; }
   .footer__col h3 { margin-bottom: 4px; }
 }
+
+/* ==========================================================================
+   Review round 1
+   ========================================================================== */
+/* Content always shows: no welcome screen without JavaScript, and a failsafe if a script never loads */
+html:not(.js) .preloader { display: none; }
+html.is-preloading .preloader { animation: plFailsafe .6s ease 5s forwards; }
+html.is-preloading body > :not(.preloader):not(.curtain):not(script) { animation: plShow 0s linear 5s forwards; }
+@keyframes plFailsafe { to { opacity: 0; visibility: hidden; } }
+@keyframes plShow { to { visibility: visible; } }
+html.js:not(.motion-ready) [data-reveal] { animation: revealFailsafe .6s ease 4s forwards; }
+@keyframes revealFailsafe { to { opacity: 1; transform: none; } }
+
+/* Initials avatars: centred circles, dark on gold cards */
+figcaption .ini, .story figcaption .ini, .qcard figcaption .ini { display: inline-grid; place-items: center; line-height: 1; color: var(--wine-2); }
+.story--dark .ini, .qcard--gold .ini { background: var(--wine-2); color: var(--gold-light); }
+
+/* Footer social icons stay centred in their circles */
+.footer__col .socials a { display: grid; place-items: center; min-height: 44px; }
+
+/* Headlines never end on a lone word */
+h1, h2, h3, h4, .h1, .h2, .h3, .h4, .brief__title, .footer__optin h3 { text-wrap: balance; }
+
+/* Scorecard counter stays on one line */
+.sc__meta > span:last-child { white-space: nowrap; flex: none; }
+.sc__meta .sc__area { min-width: 0; }
+
+/* Privacy note reads as one sentence */
+.form__note:not([data-prefilled]) { display: block; }
+.form__note:not([data-prefilled]) svg { display: inline-block; vertical-align: -3px; margin-right: 8px; }
+
+/* "16wk" keeps its letters apart */
+.ring__val small { letter-spacing: 0; margin-left: .04em; }
+
+/* Labels on gold tiles stay readable */
+.tile--gold .tile__num { color: var(--wine-2); }
+
+/* Eyebrow labels: one text run (even spacing), and a dot that sits on the first line when they wrap */
+
+.label { align-items: flex-start; line-height: 1.35; }
+.label::before { margin-top: .32em; }
+
+/* Brief builder date field */
+select.brief__when { appearance: none; -webkit-appearance: none; padding-right: 44px; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px; background-repeat: no-repeat; cursor: pointer; }
+
+/* Toast: a calm bar on phones */
+@media (max-width: 760px) {
+  .toast { left: 12px; right: 12px; max-width: none; transform: translateY(20px); border-radius: 16px; text-align: center; line-height: 1.4; }
+  .toast.is-on { transform: none; }
+}
+
+/* Tablet: two "Sound familiar?" cards per view, a single-column proof ring, fuller method cards */
+@media (min-width: 761px) and (max-width: 1024px) {
+  .stack-card { flex: 0 0 calc(50% - 5px); }
+  .ring-tile { grid-template-columns: 1fr; justify-items: start; }
+  .ring-tile .ring { width: 150px; }
+}
+@media (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  .step { width: clamp(320px, 46vw, 440px); min-height: min(54svh, 600px); }
+  .method__head { margin-bottom: 40px; }
+}
+
+/* Coaching hero facts: a 2 x 2 grid on phones instead of a tall stack */
+@media (max-width: 760px) {
+  .page-hero .note-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .page-hero .note-strip > div { min-width: 0; }
+}
+/* Closing CTA: the info line is plain text, not a fake button */
+.cta-final__contact .cta-final__note { background: none; padding-inline: 6px; font-weight: 500; color: rgba(244, 239, 230, .72); }
+
+/* ==========================================================================
+   Inner-page heroes: photo bands with proof chips, and a cut-out figure
+   ========================================================================== */
+.page-hero__media + .page-hero__media { margin-top: var(--gap); }
+.ph-photo { aspect-ratio: 21 / 8; }
+.ph-chips { position: absolute; z-index: 3; left: clamp(16px, 3vw, 44px); bottom: clamp(16px, 3vw, 40px); display: grid; gap: 10px; justify-items: start; max-width: 52%; pointer-events: none; }
+.ph-chips span { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; background: rgba(16, 12, 7, .58); color: var(--ivory); border: 1px solid var(--glass-line); font-weight: 600; font-size: .92rem; letter-spacing: -.01em; backdrop-filter: blur(12px) saturate(1.2); -webkit-backdrop-filter: blur(12px) saturate(1.2); animation: chipFloat 6s ease-in-out infinite; }
+.ph-chips span:nth-child(2) { margin-left: clamp(14px, 2.4vw, 36px); animation-delay: -2s; }
+.ph-chips span:nth-child(3) { margin-left: clamp(28px, 4.8vw, 72px); animation-delay: -4s; }
+.ph-chips svg { width: 16px; height: 16px; flex: none; color: var(--gold-light); }
+@keyframes chipFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.page-hero--figure { min-height: clamp(520px, 44vw, 640px); display: flex; flex-direction: column; justify-content: flex-end; }
+.page-hero--figure .page-hero__title { grid-column: 1 / span 7; }
+.page-hero--figure .page-hero__aside { grid-column: 1 / span 6; grid-row: 2; }
+.ph-figure { position: absolute; z-index: 1; right: clamp(24px, 7vw, 120px); bottom: 0; height: calc(100% - 110px); max-height: 600px; aspect-ratio: 755 / 997; pointer-events: none; }
+.ph-figure img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; }
+.ph-figure__glow { position: absolute; left: 50%; top: 18%; width: 120%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(255, 184, 28, .34), rgba(255, 106, 43, .12) 45%, transparent 70%); }
+@media (max-width: 1024px) {
+  .page-hero--figure .page-hero__title, .page-hero--figure .page-hero__aside { grid-column: 1 / span 8; }
+  .ph-figure { right: 0; height: calc(100% - 140px); opacity: .9; }
+}
+@media (max-width: 760px) {
+  .ph-photo { aspect-ratio: 4 / 3; }
+  .ph-chips { position: static; margin-top: 10px; max-width: none; gap: 8px; }
+  .ph-chips span { font-size: .84rem; padding: 10px 14px; }
+  .ph-chips span:nth-child(n) { margin-left: 0; }
+  .page-hero--figure { min-height: 0; }
+  .page-hero--figure .page-hero__title, .page-hero--figure .page-hero__aside { grid-column: 1 / -1; grid-row: auto; }
+  .ph-figure { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ph-chips span { animation: none; } }
+/* Room for the hand-drawn underline between a hero headline and its photo band */
+.page-hero__grid + .page-hero__media { margin-top: clamp(30px, 3.4vw, 48px); }
+.story--dark figcaption .ini, .qcard--gold figcaption .ini { background: var(--wine-2); color: var(--gold-light); }

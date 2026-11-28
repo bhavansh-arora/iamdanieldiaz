@@ -34,7 +34,7 @@
   <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-tight-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=b056bc4e">
-  <link rel="stylesheet" href="assets/css/main.css?v=fb0c845f">
+  <link rel="stylesheet" href="assets/css/main.css?v=6afa4f3b">
   <script>
     (function(d){d.classList.add('js');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function wine(){d.classList.add('ui-wine');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#1b140d')}try{var pt=sessionStorage.getItem('pl_pt');if(pt&&!rm)d.style.backgroundColor='#100c07';if(pt||d.classList.contains('no-preloader')||rm)d.classList.add('no-preloader');else{wine();d.classList.add('is-preloading')}sessionStorage.setItem('pl_seen','1');if(sessionStorage.getItem('pl_pt')&&!rm){d.classList.add('pt-enter');wine();sessionStorage.removeItem('pl_pt');setTimeout(function(){d.classList.remove('pt-enter','ui-wine')},3500)}}catch(e){}})(document.documentElement);
   </script>
@@ -174,6 +174,7 @@
         </div>
         <div class="page-hero__media" data-hero>
           <div class="media media--tone" data-clip><img src="assets/img/daniel-mural-flip.webp" alt="Daniel Diaz leaning against a bright geometric mural" width="1800" height="1116" style="object-position:80% 35%"></div>
+          <div class="ph-chips"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg> The Perfect Circle of Performance</span><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg> Yahoo Finance · Top 10 coaches to follow</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 20 6.5-11 3.5 6 2.5-3.5L21 20z"/><circle cx="17" cy="5.5" r="1.6"/></svg> Endurance athlete · 32-mile Grand Canyon run</span></div>
         </div>
       </div>
     </section>
@@ -374,7 +375,7 @@
             </fieldset>
             <div class="brief__q">
               <label class="brief__legend" for="b-when"><span class="brief__n">04</span>When <small>if you know</small></label>
-              <input class="brief__when" id="b-when" type="month">
+              <select class="brief__when" id="b-when"><option value="">Flexible / not sure yet</option></select>
             </div>
           </div>
 
@@ -405,15 +406,15 @@
       </div>
     </section>
 
-    <!-- Organiser kit -->
+    <!-- Organizer kit -->
     <section class="section section--flush-top paper-2">
       <div class="container">
         <div class="sec-head">
           <div class="sec-head__title">
-            <span class="label">Organiser kit</span>
+            <span class="label">Organizer kit</span>
             <h2 class="h2" data-split>Copy, paste, <em>promote.</em></h2>
           </div>
-          <div class="sec-head__aside" data-reveal><p class="muted">Everything your team needs for the programme, the website and the person on the mic.</p></div>
+          <div class="sec-head__aside" data-reveal><p class="muted">Everything your team needs for the program, the website and the person on the mic.</p></div>
         </div>
         <div class="kit" data-stagger>
           <article class="kit__card">
@@ -432,10 +433,10 @@
             <div class="tile__top"><span class="card__num">03</span><span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></div>
             <h3 class="h4">Photos <em>for promotion</em></h3>
             <div class="kit__photos">
-              <a class="kit__photo" href="assets/img/daniel-speaker.webp" download="daniel-diaz-speaker.webp"><img src="assets/img/daniel-speaker.webp" alt="Daniel Diaz, portrait for event promotion" width="700" height="700" loading="lazy"><span>Portrait</span></a>
-              <a class="kit__photo" href="assets/img/daniel-mural.webp" download="daniel-diaz-mural.webp"><img src="assets/img/daniel-mural.webp" alt="Daniel Diaz in front of a geometric mural" width="1800" height="1116" loading="lazy" style="object-position:30% 30%"><span>Landscape</span></a>
+              <a class="kit__photo" href="assets/img/press/daniel-diaz-portrait.jpg" download><img src="assets/img/daniel-point.webp" alt="Daniel Diaz, portrait for event promotion" width="1100" height="1127" loading="lazy" style="object-position:50% 20%"><span>Portrait · JPG</span></a>
+              <a class="kit__photo" href="assets/img/press/daniel-diaz-landscape.jpg" download><img src="assets/img/daniel-mural.webp" alt="Daniel Diaz in front of a geometric mural" width="1800" height="1116" loading="lazy" style="object-position:30% 30%"><span>Landscape · JPG</span></a>
             </div>
-            <p class="small muted">Tap a photo to download it. Need print sizes? Ask in your enquiry.</p>
+            <p class="small muted">Tap a photo to download the JPG. Need print-resolution files? Ask in your enquiry.</p>
           </article>
         </div>
       </div>
@@ -525,17 +526,17 @@
       <span class="sparkle sparkle--sm" style="left:30%;bottom:16%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
       <span class="sparkle sparkle--sm" style="right:14%;top:24%" aria-hidden="true"><svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 2c1.2 11.6 6.4 16.8 18 18-11.6 1.2-16.8 6.4-18 18-1.2-11.6-6.4-16.8-18-18C13.6 18.8 18.8 13.6 20 2z"/></svg></span>
       <div class="container cta-final__inner">
-        <span class="label">Your next level starts with one conversation</span>
-        <h2 class="h-mega" data-split>Your peak life <em>starts now.</em></h2>
-        <p>How long will you allow yourself to stay exactly where you are? Book a free discovery call and leave with your quickest route to having it all.</p>
+        <span class="label">Keynotes · Workshops · Podcasts</span>
+        <h2 class="h-mega" data-split>Leave them <em>fired up.</em></h2>
+        <p>A few details about your event, and Daniel's team will reply with availability and next steps.</p>
         <div class="btn-row" style="justify-content:center">
-          <a class="btn btn--rose" href="apply.html" data-book data-magnetic><span class="btn__label">Book a discovery call</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
-          <a class="btn btn--light" href="scorecard.html" data-magnetic><span class="btn__label">Take the scorecard</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></span></a>
+          <a class="btn btn--rose" href="#enquire"  data-magnetic><span class="btn__label">Check availability</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg></span></a>
+          <a class="btn btn--light" href="#brief"  data-magnetic><span class="btn__label">Build your brief</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
         </div>
         <div class="cta-final__contact">
           <a href="mailto:daniel@iamdanieldiaz.com" data-email><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg> Email Daniel</a>
           <a href="apply.html#application"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg> Apply for coaching</a>
-          <span style="display:inline-flex;gap:10px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="3"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></svg> Free discovery call · VIP Days in person</span>
+          <span class="cta-final__note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="3"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></svg> Free discovery call · VIP Days in person</span>
         </div>
       </div>
     </section>
@@ -621,7 +622,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js?v=ba1fa78e" defer></script>
   <script src="assets/vendor/lenis.min.js?v=79e3a064" defer></script>
   <script src="assets/js/config.js?v=df94eb78" defer></script>
-  <script src="assets/js/site.js?v=18b8d302" defer></script>
-  <script src="assets/js/motion.js?v=ecddf6e2" defer></script>
+  <script src="assets/js/site.js?v=8758e56f" defer></script>
+  <script src="assets/js/motion.js?v=6b4185ac" defer></script>
 </body>
 </html>

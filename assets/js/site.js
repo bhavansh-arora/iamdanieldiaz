@@ -202,9 +202,9 @@
     ],
     index: [
       [".hvx", "Magazine-cover hero", "Your own photo, cut out, with your line “Your peak life starts now.” Fifteen years and the Yahoo Finance top 10 are visible in the first five seconds."],
-      [".stack-sec__intro", "“Sound familiar?”", "Visitors recognise themselves before anything is sold. The cards stack as you scroll (swipe on phones)."],
+      [".stack-sec__intro", "“Sound familiar?”", "Visitors recognize themselves before anything is sold. The cards stack as you scroll (swipe on phones)."],
       [".path-card", "Every offer, its own next step", "1:1 coaching, the VIP Day, IGNITION and speaking each lead to their own page and the right call to action."],
-      [".dims", "The Peak Method, at a glance", "Head, heart and habits, fuelled by energy, drawn as a circle so the method lands in seconds."],
+      [".dims", "The Peak Method, at a glance", "Head, heart and habits, fueled by energy, drawn as a circle so the method lands in seconds."],
       [".method", "The process, sideways", "From discovery call to results as a pinned, sideways journey: people see exactly what happens after they book."],
       [".wall", "Real client words", "Testimonials from your current site in a slow, moving wall. Nothing invented."]
     ],
@@ -226,7 +226,7 @@
     speaking: [
       [".dims", "The keynote as a visual", "The Perfect Circle of Performance: three forces around a core of energy."],
       ["#brief", "Event brief builder", "Planners pick the format, room size and focus. The brief drops straight into the enquiry, so your first reply is already about their event."],
-      [".kit", "Organiser kit", "Bio, host intro and photos ready to copy or download: fewer emails back and forth before every event."],
+      [".kit", "Organizer kit", "Bio, host intro and photos ready to copy or download: fewer emails back and forth before every event."],
       ["#enquire", "Availability enquiry", "Date, format, audience and the outcome they want, captured up front."]
     ],
     results: [
@@ -258,7 +258,7 @@
       if (!p.el || !p.el.isConnected) { p.pin.hidden = true; return; }
       var r = p.el.getBoundingClientRect();
       p.pin.hidden = r.width === 0 && r.height === 0;
-      p.pin.style.top = Math.max(0, r.top + window.scrollY + 14) + "px";
+      p.pin.style.top = Math.max(100, r.top + window.scrollY + 14) + "px";
       p.pin.style.left = Math.max(8, Math.min(document.documentElement.clientWidth - 44, r.left + 14)) + "px";
     });
   }
@@ -591,12 +591,16 @@
     if (!b) return;
     var val = function (n) { var i = $('input[name="' + n + '"]:checked', b); return i ? i.value : ""; };
     var focusEls = $$('input[name="b-focus"]', b), when = $("#b-when", b);
-    if (when) { var now = new Date(); when.min = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0"); }
-    var monthLabel = function () {
-      if (!when || !when.value) return "Flexible";
-      var p = when.value.split("-");
-      return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
-    };
+    if (when && when.options.length < 2) {
+      var now = new Date();
+      for (var mi = 1; mi <= 18; mi++) {
+        var md = new Date(now.getFullYear(), now.getMonth() + mi, 1);
+        var op = document.createElement("option");
+        op.value = op.textContent = md.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+        when.appendChild(op);
+      }
+    }
+    var monthLabel = function () { return when && when.value ? when.value : "Flexible"; };
     var focusList = function () { return focusEls.filter(function (i) { return i.checked; }).map(function (i) { return i.value; }); };
     var first = true;
     var set = function (key, text) {
@@ -620,14 +624,13 @@
       var take = $("[data-b-take]", b);
       if (take) {
         take.innerHTML = "";
-        (f.length ? f.map(function (k) { return BRIEF_TAKE[k]; }) : ["The full Perfect Circle: performance, self-love and mindset, fuelled by energy."]).forEach(function (line) {
+        (f.length ? f.map(function (k) { return BRIEF_TAKE[k]; }) : ["The full Perfect Circle: performance, self-love and mindset, fueled by energy."]).forEach(function (line) {
           var li = document.createElement("li"); li.textContent = line; take.appendChild(li);
         });
       }
       first = false;
     }
     b.addEventListener("change", render);
-    if (when) when.addEventListener("input", render);
     render();
     var send = $("[data-brief-send]", b);
     if (send) send.addEventListener("click", function () {
@@ -646,16 +649,15 @@
       if (msg) msg.value = /^Focus:/.test(msg.value) ? msg.value.replace(/^Focus:[^\n]*/, line) : line + (msg.value ? "\n" + msg.value : "");
       var hid = $("[data-brief-field]", form);
       if (hid) hid.value = [val("b-format"), val("b-size"), f.join(" + ") || "Full circle", monthLabel()].join(" · ");
-      var target = $("#enquire", root) || form;
-      var y = target.getBoundingClientRect().top + window.scrollY - 90;
+      var y = form.getBoundingClientRect().top + window.scrollY - (window.innerWidth < 761 ? 76 : 110);
       if (lenis) lenis.scrollTo(y, { duration: 1.3 }); else window.scrollTo({ top: y, behavior: "smooth" });
       form.classList.remove("is-prefilled"); void form.offsetWidth; form.classList.add("is-prefilled");
       setTimeout(function () { form.classList.remove("is-prefilled"); }, 2600);
-      toast("Your brief is in the enquiry. Add your name and send.");
+      toast("Brief added. Add your name and send.");
     });
   }
 
-  /* ---------- Copy buttons (organiser kit) ---------- */
+  /* ---------- Copy buttons (organizer kit) ---------- */
   function initCopy(root) {
     $$("[data-copy]", root).forEach(function (btn) {
       btn.addEventListener("click", function () {

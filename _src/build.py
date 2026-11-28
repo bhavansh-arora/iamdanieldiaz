@@ -136,6 +136,24 @@ def write_seo_files(listed):
     print("wrote sitemap.xml and robots.txt")
 
 
+CTA_DEFAULTS = {
+    "cta_label": "Your next level starts with one conversation",
+    "cta_title": "Your peak life <em>starts now.</em>",
+    "cta_text": "How long will you allow yourself to stay exactly where you are? Book a free discovery call and leave with your quickest route to having it all.",
+    "cta_p_label": "Book a discovery call", "cta_p_href": "apply.html", "cta_p_attr": "data-book", "cta_p_icon": "arrow-ur",
+    "cta_s_label": "Take the scorecard", "cta_s_href": "scorecard.html", "cta_s_attr": "", "cta_s_icon": "compass",
+}
+
+
+def cta_meta(meta):
+    """Closing call to action: shared design, page-specific wording (set cta_* in a page's meta block)."""
+    for k, v in CTA_DEFAULTS.items():
+        meta.setdefault(k, v)
+    for k in ("cta_p_icon", "cta_s_icon"):
+        if not meta[k].lstrip().startswith("<"):
+            meta[k] = ICONS[meta[k]]
+
+
 def build():
     layout = (SRC / "partials" / "layout.html").read_text()
     pages = sorted((SRC / "pages").glob("*.html"))
@@ -150,6 +168,7 @@ def build():
         meta.setdefault("og_image", "assets/img/og-daniel-diaz.jpg")
         meta.setdefault("htmlclass", "")
         meta.setdefault("robots", "index, follow")
+        cta_meta(meta)
         meta["body"] = "{{BODY}}"
         meta["faq_schema"] = faq_schema(body)
         html = render(layout, meta)
