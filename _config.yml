@@ -1,5 +1,4 @@
-# GitHub Pages: publish the static site only. Pitch email, build source and README stay in the repo.
+# GitHub Pages: publish the static site only. Build source and README stay out of the published site.
 exclude:
-  - docs
   - _src
   - README.md

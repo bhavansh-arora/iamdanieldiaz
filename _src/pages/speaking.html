@@ -155,6 +155,116 @@
       </div>
     </section>
 
+    <!-- Event brief builder -->
+    <section class="section paper-2" id="brief">
+      <div class="container">
+        <div class="sec-head">
+          <div class="sec-head__title">
+            <span class="label">For event planners</span>
+            <h2 class="h2" data-split>Build your brief <em>in 30 seconds.</em></h2>
+          </div>
+          <div class="sec-head__aside" data-reveal><p class="muted">Pick the format, the room and what matters most. The brief travels with your enquiry, so Daniel's first reply is already about your event.</p></div>
+        </div>
+
+        <div class="brief" data-brief>
+          <div class="brief__builder" data-reveal>
+            <fieldset class="brief__q">
+              <legend><span class="brief__n">01</span>The format</legend>
+              <div class="brief__opts">
+                <label class="bopt"><input type="radio" name="b-format" value="Keynote" checked><span>Keynote</span></label>
+                <label class="bopt"><input type="radio" name="b-format" value="Workshop"><span>Workshop</span></label>
+                <label class="bopt"><input type="radio" name="b-format" value="Leadership offsite"><span>Leadership offsite</span></label>
+                <label class="bopt"><input type="radio" name="b-format" value="Podcast or media"><span>Podcast or media</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="brief__q">
+              <legend><span class="brief__n">02</span>The room</legend>
+              <div class="brief__opts">
+                <label class="bopt"><input type="radio" name="b-size" value="Under 50"><span>Under 50</span></label>
+                <label class="bopt"><input type="radio" name="b-size" value="50 – 200" checked><span>50 – 200</span></label>
+                <label class="bopt"><input type="radio" name="b-size" value="200 – 1,000"><span>200 – 1,000</span></label>
+                <label class="bopt"><input type="radio" name="b-size" value="1,000+"><span>1,000+</span></label>
+                <label class="bopt"><input type="radio" name="b-size" value="Podcast audience"><span>Podcast audience</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="brief__q">
+              <legend><span class="brief__n">03</span>What matters most <small>pick up to two</small></legend>
+              <div class="brief__opts">
+                <label class="bopt bopt--focus"><input type="checkbox" name="b-focus" value="Peak performance" data-seg="0"><span><i></i>Peak performance</span></label>
+                <label class="bopt bopt--focus"><input type="checkbox" name="b-focus" value="Self-love" data-seg="1"><span><i></i>Self-love</span></label>
+                <label class="bopt bopt--focus"><input type="checkbox" name="b-focus" value="Champion's mindset" data-seg="2"><span><i></i>Champion's mindset</span></label>
+                <label class="bopt bopt--focus"><input type="checkbox" name="b-focus" value="Energy" data-seg="3" checked><span><i></i>Energy</span></label>
+              </div>
+            </fieldset>
+            <div class="brief__q">
+              <label class="brief__legend" for="b-when"><span class="brief__n">04</span>When <small>if you know</small></label>
+              <input class="brief__when" id="b-when" type="month">
+            </div>
+          </div>
+
+          <aside class="brief__card" data-reveal aria-live="polite">
+            <div class="brief__head">
+              <span class="res__label">Your event brief</span>
+              <svg class="brief__ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="brief__track" cx="60" cy="60" r="48"/>
+                <path class="brief__seg" data-seg="0" d="M60 12 A48 48 0 0 1 108 60"/>
+                <path class="brief__seg" data-seg="1" d="M108 60 A48 48 0 0 1 60 108"/>
+                <path class="brief__seg" data-seg="2" d="M60 108 A48 48 0 0 1 12 60"/>
+                <path class="brief__seg" data-seg="3" d="M12 60 A48 48 0 0 1 60 12"/>
+                <circle class="brief__core" cx="60" cy="60" r="20"/>
+              </svg>
+            </div>
+            <h3 class="brief__title">The Perfect Circle <em>of Performance</em></h3>
+            <p class="brief__format" data-b-format-line></p>
+            <dl class="brief__rows">
+              <div><dt>Format</dt><dd data-b="format"></dd></div>
+              <div><dt>Audience</dt><dd data-b="size"></dd></div>
+              <div><dt>Focus</dt><dd data-b="focus"></dd></div>
+              <div><dt>When</dt><dd data-b="when"></dd></div>
+            </dl>
+            <ul class="brief__take" data-b-take></ul>
+            <button class="btn btn--rose" type="button" data-brief-send data-magnetic><span class="btn__label">Send this brief to Daniel</span><span class="btn__icon">{{icon:arrow}}</span></button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organiser kit -->
+    <section class="section section--flush-top paper-2">
+      <div class="container">
+        <div class="sec-head">
+          <div class="sec-head__title">
+            <span class="label">Organiser kit</span>
+            <h2 class="h2" data-split>Copy, paste, <em>promote.</em></h2>
+          </div>
+          <div class="sec-head__aside" data-reveal><p class="muted">Everything your team needs for the programme, the website and the person on the mic.</p></div>
+        </div>
+        <div class="kit" data-stagger>
+          <article class="kit__card">
+            <div class="tile__top"><span class="card__num">01</span><span class="card__icon">{{icon:users}}</span></div>
+            <h3 class="h4">Short <em>bio</em></h3>
+            <p class="kit__text" id="kit-bio">Daniel Diaz is a peak performance coach, speaker and the founder of Peak Life Now. He started his first business at seven, broke free from years of addiction, and built a four-division, seven-figure company from zero capital before walking away to help entrepreneurs and team leaders achieve more and enjoy it. Yahoo Finance named him one of the top 10 performance coaches to be following.</p>
+            <button class="kit__copy" type="button" data-copy="#kit-bio">{{icon:check}}<span>Copy bio</span></button>
+          </article>
+          <article class="kit__card kit__card--dark">
+            <div class="tile__top"><span class="card__num">02</span><span class="card__icon">{{icon:mic}}</span></div>
+            <h3 class="h4">Intro for <em>your host</em></h3>
+            <p class="kit__text" id="kit-intro">Our next speaker started his first business at seven years old, selling candy and fireworks. He went on to build a four-division, seven-figure company from zero capital, then walked away from it to help others live their peak life. He's an endurance athlete, a husband and a dad, and Yahoo Finance named him one of the top 10 performance coaches to be following. Please welcome Daniel Diaz.</p>
+            <button class="kit__copy" type="button" data-copy="#kit-intro">{{icon:check}}<span>Copy intro</span></button>
+          </article>
+          <article class="kit__card kit__card--photos">
+            <div class="tile__top"><span class="card__num">03</span><span class="card__icon">{{icon:arrow-down}}</span></div>
+            <h3 class="h4">Photos <em>for promotion</em></h3>
+            <div class="kit__photos">
+              <a class="kit__photo" href="assets/img/daniel-speaker.webp" download="daniel-diaz-speaker.webp"><img src="assets/img/daniel-speaker.webp" alt="Daniel Diaz, portrait for event promotion" width="700" height="700" loading="lazy"><span>Portrait</span></a>
+              <a class="kit__photo" href="assets/img/daniel-mural.webp" download="daniel-diaz-mural.webp"><img src="assets/img/daniel-mural.webp" alt="Daniel Diaz in front of a geometric mural" width="1800" height="1116" loading="lazy" style="object-position:30% 30%"><span>Landscape</span></a>
+            </div>
+            <p class="small muted">Tap a photo to download it. Need print sizes? Ask in your enquiry.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- Enquiry -->
     <section class="section" id="enquire">
       <div class="container contact">
@@ -187,6 +297,7 @@
                 <div class="field"><label for="s-format">Format</label><select id="s-format" name="format"><option>Keynote</option><option>Workshop</option><option>Leadership offsite</option><option>Podcast or media</option><option>Not sure yet</option></select></div>
                 <div class="field"><label for="s-size">Audience size</label><select id="s-size" name="audience_size"><option>Under 50</option><option>50 – 200</option><option>200 – 1,000</option><option>1,000+</option><option>Podcast audience</option></select></div>
                 <div class="field field--full"><label for="s-msg">What should people walk away with? <small>(optional)</small></label><textarea id="s-msg" name="message" placeholder="Theme, audience, location, anything that helps…"></textarea></div>
+                <input type="hidden" name="event_brief" data-brief-field value="">
                 <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
               </div>
               <div class="form__nav">

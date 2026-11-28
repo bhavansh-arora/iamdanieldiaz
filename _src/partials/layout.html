@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{{page.title}}</title>
   <meta name="description" content="{{page.description}}">
+  <meta name="robots" content="{{page.robots}}">
   <link rel="canonical" href="{{page.canonical}}">
   <meta name="theme-color" content="#f4efe6">
   <meta property="og:type" content="website">
@@ -51,6 +52,7 @@
     "slogan": "Maximizing performance, achievement and fulfillment for entrepreneurs and team leaders."
   }
   </script>
+  {{page.faq_schema}}
 </head>
 <body data-page="{{page.nav}}">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -85,6 +87,11 @@
   </main>
 
   {{> footer}}
+
+  <nav class="mbar" data-mbar aria-label="Quick booking">
+    <a class="mbar__main" href="apply.html" data-book><span>Book a discovery call</span>{{icon:arrow-ur}}</a>
+    <a class="mbar__alt" href="scorecard.html">Scorecard</a>
+  </nav>
 
   <script src="assets/vendor/gsap.min.js" defer></script>
   <script src="assets/vendor/ScrollTrigger.min.js" defer></script>

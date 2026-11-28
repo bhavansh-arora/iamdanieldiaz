@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iamdanieldiaz.codebunny.net/sitemap.xml

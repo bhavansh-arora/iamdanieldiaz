@@ -107,9 +107,39 @@ def bust_cache(html):
     return re.sub(r'((?:href|src)=")(assets/(?:css|js|vendor)/[\w.-]+\.(?:css|js))"', ver, html)
 
 
+def _text(fragment):
+    """Plain text from a small HTML fragment (for structured data)."""
+    import html as htmlmod
+    s = re.sub(r"<[^>]+>", " ", fragment)
+    return re.sub(r"\s+", " ", htmlmod.unescape(s)).strip()
+
+
+def faq_schema(body):
+    """FAQPage structured data built from the page's own FAQ markup, so Google sees the same answers people do."""
+    qa = re.findall(r'<button class="faq__q"[^>]*>(.*?)<span class="faq__icon".*?<div class="faq__a"><div>(.*?)</div></div>', body, re.S)
+    if not qa:
+        return ""
+    data = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": _text(q), "acceptedAnswer": {"@type": "Answer", "text": _text(a)}} for q, a in qa]}
+    return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + "</script>"
+
+
+def write_seo_files(listed):
+    """sitemap.xml and robots.txt at the site root (pages marked noindex stay out)."""
+    import datetime
+    today = datetime.date.today().isoformat()
+    order = ["index.html", "coaching.html", "scorecard.html", "apply.html", "about.html", "ignition.html", "speaking.html", "results.html"]
+    listed.sort(key=lambda x: order.index(x[1]) if x[1] in order else 99)
+    rows = "".join(f"  <url><loc>{url}</loc><lastmod>{today}</lastmod><priority>{'1.0' if name == 'index.html' else '0.8'}</priority></url>\n" for url, name in listed)
+    (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + rows + "</urlset>\n")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+    print("wrote sitemap.xml and robots.txt")
+
+
 def build():
     layout = (SRC / "partials" / "layout.html").read_text()
     pages = sorted((SRC / "pages").glob("*.html"))
+    listed = []
     for page in pages:
         raw = page.read_text()
         m = re.match(r"\s*<!--meta\s*(\{.*?\})\s*-->", raw, re.S)
@@ -119,12 +149,17 @@ def build():
         meta["canonical"] = SITE_URL + "/" + ("" if page.name == "index.html" else page.name)
         meta.setdefault("og_image", "assets/img/og-daniel-diaz.jpg")
         meta.setdefault("htmlclass", "")
+        meta.setdefault("robots", "index, follow")
         meta["body"] = "{{BODY}}"
+        meta["faq_schema"] = faq_schema(body)
         html = render(layout, meta)
         html = html.replace("{{BODY}}", render(body, meta))
         html = bust_cache(html)
         (ROOT / page.name).write_text(html)
+        if "noindex" not in meta["robots"]:
+            listed.append((meta["canonical"], page.name))
         print("built", page.name)
+    write_seo_files(listed)
 
 
 if __name__ == "__main__":

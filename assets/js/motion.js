@@ -136,6 +136,9 @@
   }
   window.addEventListener("resize", placeSwashes);
 
+  /* Every reveal starts a little before its content scrolls into view, so a fast flick never shows faded text */
+  var RS = "top 125%";
+  var each = function (n, max) { return Math.min(max || 0.05, 0.24 / Math.max(1, n)); };
   var ctx = null, mm = null;
 
   function init(root, mode) {
@@ -147,10 +150,11 @@
 
       $$("[data-split]", root).forEach(splitWords);
 
+      var WORD_FROM = { yPercent: 55, opacity: 0, rotate: 2.5, transformOrigin: "0% 100%" };
       function animateSplit(el) {
         var words = $$(".split-line > span", el);
-        return gsap.fromTo(words, { yPercent: 118 }, {
-          yPercent: 0, duration: 1.5, ease: "expo.out", stagger: 0.05,
+        return gsap.fromTo(words, WORD_FROM, {
+          yPercent: 0, opacity: 1, rotate: 0, duration: 0.75, ease: "expo.out", stagger: 0.04,
           onComplete: function () { $$(".split-line", el).forEach(function (l) { l.classList.add("is-done"); }); }
         });
       }
@@ -175,7 +179,7 @@
       var heroBits = $$("[data-hero]", root);
       var heroWords = [];
       heroSplits.forEach(function (el) { heroWords = heroWords.concat($$(".split-line > span", el)); });
-      if (heroWords.length) gsap.set(heroWords, { yPercent: 118 });
+      if (heroWords.length) gsap.set(heroWords, WORD_FROM);
       if (heroBits.length) gsap.set(heroBits, { autoAlpha: 0, y: 30 });
       var heroRise = root.querySelector("[data-hero-rise]");
       if (heroRise) gsap.set(heroRise, { yPercent: 18, autoAlpha: 0 });
@@ -187,9 +191,9 @@
         if (heroRise) tl.to(heroRise, { yPercent: 0, autoAlpha: 1, duration: 1.8 }, 0.45);
         if (pops.length) tl.to(pops, { autoAlpha: 1, y: 0, scale: 1, duration: 1.2, stagger: 0.09 }, 0.8);
         heroSplits.forEach(function (el, i) {
-          tl.to($$(".split-line > span", el), { yPercent: 0, duration: 1.6, stagger: 0.07, onComplete: function () { $$(".split-line", el).forEach(function (l) { l.classList.add("is-done"); }); } }, 0.2 + i * 0.12);
+          tl.to($$(".split-line > span", el), { yPercent: 0, opacity: 1, rotate: 0, duration: 1.1, stagger: 0.06, onComplete: function () { $$(".split-line", el).forEach(function (l) { l.classList.add("is-done"); }); } }, 0.2 + i * 0.12);
         });
-        if (heroBits.length) tl.to(heroBits, { autoAlpha: 1, y: 0, duration: 1.4, stagger: 0.1 }, 0.8);
+        if (heroBits.length) tl.to(heroBits, { autoAlpha: 1, y: 0, duration: 1.0, stagger: 0.08 }, 0.7);
       }
       if (mode === "preloader") document.addEventListener("site:loaded", playHero, { once: true });
       else if (mode === "enter") gsap.delayedCall(0.6, playHero);
@@ -198,18 +202,18 @@
       /* Other split headings reveal on scroll */
       $$("[data-split]", root).forEach(function (el) {
         if (heroSplits.indexOf(el) > -1) return;
-        gsap.set($$(".split-line > span", el), { yPercent: 118 });
-        ST.create({ trigger: el, start: "top 96%", once: true, onEnter: function () { animateSplit(el); } });
+        gsap.set($$(".split-line > span", el), WORD_FROM);
+        ST.create({ trigger: el, start: RS, once: true, onEnter: function () { animateSplit(el); } });
       });
 
       /* Generic reveals */
       var reveals = $$("[data-reveal]", root);
       if (reveals.length) ST.batch(reveals, {
-        start: "top 99%", once: true,
+        start: RS, once: true,
         onEnter: function (batch) {
           batch.forEach(function (el, i) {
             var d = parseFloat(el.getAttribute("data-delay") || 0);
-            setTimeout(function () { el.classList.add("is-in"); }, (d * 0.5 + i * 0.05) * 1000);
+            setTimeout(function () { el.classList.add("is-in"); }, Math.min(0.2, d * 0.15 + i * 0.04) * 1000);
           });
         }
       });
@@ -218,15 +222,15 @@
       $$("[data-clip]", root).forEach(function (el) {
         var img = el.querySelector("img");
         gsap.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, {
-          clipPath: "inset(0% 0% 0% 0%)", duration: 1.8, ease: "expo.inOut",
-          scrollTrigger: { trigger: el, start: "top 86%", once: true },
+          clipPath: "inset(0% 0% 0% 0%)", duration: 1.15, ease: "expo.inOut",
+          scrollTrigger: { trigger: el, start: RS, once: true },
           onComplete: function () { el.style.clipPath = "none"; }
         });
         if (img) gsap.fromTo(img, { scale: 1.25 }, { scale: 1, duration: 2.4, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 86%", once: true } });
       });
 
       $$("[data-rule]", root).forEach(function (el) {
-        gsap.to(el, { scaleX: 1, duration: 1.6, ease: "expo.inOut", scrollTrigger: { trigger: el, start: "top 92%", once: true } });
+        gsap.to(el, { scaleX: 1, duration: 1.1, ease: "expo.inOut", scrollTrigger: { trigger: el, start: RS, once: true } });
       });
 
       /* Hero depth on scroll (desktop) */
@@ -290,7 +294,7 @@
       });
 
       $$(".sec-head .label, .statement__label .label", root).forEach(function (el) {
-        gsap.fromTo(el, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 1.3, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+        gsap.fromTo(el, { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.6, ease: "expo.out", scrollTrigger: { trigger: el, start: RS, once: true } });
       });
 
       /* 3D tilt */
@@ -352,9 +356,9 @@
       });
 
       $$("[data-stagger]", root).forEach(function (group) {
-        gsap.fromTo(Array.prototype.slice.call(group.children), { y: 70, autoAlpha: 0 }, {
-          y: 0, autoAlpha: 1, duration: 1.2, ease: "expo.out", stagger: 0.1,
-          scrollTrigger: { trigger: group, start: "top 95%", once: true }
+        gsap.fromTo(Array.prototype.slice.call(group.children), { y: 40, autoAlpha: 0 }, {
+          y: 0, autoAlpha: 1, duration: 0.6, ease: "expo.out", stagger: 0.05,
+          scrollTrigger: { trigger: group, start: RS, once: true }
         });
       });
 
@@ -373,10 +377,10 @@
         splitWords(h);
         var words = $$(".split-line > span", h);
         if (!words.length) return;
-        gsap.set(words, { yPercent: 118 });
+        gsap.set(words, WORD_FROM);
         var host = staggerHost(h);
-        ST.create({ trigger: h, start: "top 95%", once: true, onEnter: function () {
-          gsap.to(words, { yPercent: 0, duration: 1.15, ease: "expo.out", stagger: 0.04, delay: host ? 0.28 : 0,
+        ST.create({ trigger: h, start: RS, once: true, onEnter: function () {
+          gsap.to(words, { yPercent: 0, opacity: 1, rotate: 0, duration: 0.6, ease: "expo.out", stagger: 0.03, delay: host ? 0.05 : 0,
             onComplete: function () { $$(".split-line", h).forEach(function (l) { l.classList.add("is-done"); }); } });
         } });
       });
@@ -394,18 +398,18 @@
       var hosts = new Map(), free = [];
       cands.forEach(function (el) { var hst = staggerHost(el); if (hst) { if (!hosts.has(hst)) hosts.set(hst, []); hosts.get(hst).push(el); } else free.push(el); });
       hosts.forEach(function (els, hst) {
-        gsap.set(els, { opacity: 0, y: 18 });
-        ST.create({ trigger: hst, start: "top 94%", once: true, onEnter: function () {
+        gsap.set(els, { opacity: 0, y: 16 });
+        ST.create({ trigger: hst, start: RS, once: true, onEnter: function () {
           noTransition(els, true);
-          gsap.to(els, { opacity: 1, y: 0, duration: 0.95, ease: "expo.out", stagger: 0.07, delay: 0.32, overwrite: "auto",
+          gsap.to(els, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out", stagger: each(els.length), delay: 0.05, overwrite: "auto",
             onComplete: function () { noTransition(els, false); gsap.set(els, { clearProps: "transform" }); } });
         } });
       });
       if (free.length) {
-        gsap.set(free, { opacity: 0, y: 28 });
-        ST.batch(free, { start: "top 94%", once: true, onEnter: function (batch) {
+        gsap.set(free, { opacity: 0, y: 20 });
+        ST.batch(free, { start: RS, once: true, onEnter: function (batch) {
           noTransition(batch, true);
-          gsap.to(batch, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out", stagger: 0.08, overwrite: "auto",
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out", stagger: each(batch.length), overwrite: "auto",
             onComplete: function () { noTransition(batch, false); gsap.set(batch, { clearProps: "transform" }); } });
         } });
       }
@@ -442,9 +446,9 @@
   var footBits = $$(".footer__optin, .footer__brand > *, .footer__col, .footer__bar > *");
   if (footBits.length) {
     gsap.set(footBits, { opacity: 0, y: 26 });
-    ST.batch(footBits, { start: "top 97%", once: true, onEnter: function (batch) { gsap.to(batch, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out", stagger: 0.08, overwrite: "auto" }); } });
+    ST.batch(footBits, { start: RS, once: true, onEnter: function (batch) { gsap.to(batch, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out", stagger: each(batch.length), overwrite: "auto" }); } });
   }
-  /* Footer wordmark: letters rise from behind the line once the footer is in view,
+  /* Footer wordmark: letters rise into place each time the footer comes into view,
      "Now" catches a sweep of light, and on desktop a wave of letters follows the cursor. */
   var word = document.querySelector(".footer__word");
   if (word) {
@@ -465,11 +469,13 @@
     }
     word.classList.add("is-split");
     var wl = Array.prototype.slice.call(word.querySelectorAll(".fw-l"));
-    gsap.set(wl, { yPercent: 112, rotate: 7 });
-    ST.create({ trigger: word, start: "top bottom-=40", once: true, onEnter: function () {
-      gsap.to(wl, { yPercent: 0, rotate: 0, duration: 1.35, ease: "expo.out", stagger: 0.05, overwrite: "auto",
-        onComplete: function () { word.classList.add("is-risen", "is-shining"); } });
-    } });
+    gsap.set(wl, { yPercent: 45, opacity: 0, rotate: 6, transformOrigin: "50% 100%" });
+    var fwTl = gsap.timeline({ paused: true, onComplete: function () { word.classList.add("is-shining"); } })
+      .to(wl, { yPercent: 0, opacity: 1, rotate: 0, duration: 0.9, ease: "expo.out", stagger: 0.045 });
+    /* Re-arms on every page: scrolling back up past the footer (or a page swap back to the top) resets it */
+    ST.create({ trigger: word, start: RS,
+      onEnter: function () { fwTl.restart(); },
+      onLeaveBack: function () { fwTl.pause(0); word.classList.remove("is-shining"); } });
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       var lift = wl.map(function (l) { return gsap.quickTo(l, "y", { duration: 0.6, ease: "power3" }); });
       word.addEventListener("mousemove", function (e) {

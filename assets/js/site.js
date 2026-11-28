@@ -136,8 +136,8 @@
       var start = performance.now();
       var DURATION = 1500;
       letters.forEach(function (l, i) {
-        l.style.transition = "transform 1s cubic-bezier(.22,1,.36,1) " + (0.05 * i) + "s";
-        requestAnimationFrame(function () { requestAnimationFrame(function () { l.style.transform = "translateY(0)"; }); });
+        l.style.transition = "transform 1s cubic-bezier(.22,1,.36,1) " + (0.05 * i) + "s, opacity .7s ease " + (0.05 * i) + "s";
+        requestAnimationFrame(function () { requestAnimationFrame(function () { l.style.transform = "none"; l.style.opacity = "1"; }); });
       });
       var tick = function (now) {
         var p = Math.min(1, (now - start) / DURATION);
@@ -159,6 +159,170 @@
     body.classList.add("is-loaded");
     document.dispatchEvent(new CustomEvent("site:loaded"));
     setTimeout(function () { pre.remove(); }, 1200);
+  }
+
+  /* ---------- Sticky mobile booking bar ----------
+     Phones only (CSS). Appears once the hero is behind you, steps aside for the footer,
+     and stays hidden while the welcome or a transition panel is on screen. */
+  var mbar = $("[data-mbar]");
+  if (mbar) {
+    var mbarQ = false;
+    var mbarUpdate = function () {
+      mbarQ = false;
+      var curt = $(".curtain");
+      var panelUp = doc.classList.contains("is-preloading") || doc.classList.contains("pt-enter") || doc.classList.contains("pt-covered") ||
+        (curt && (curt.classList.contains("is-covering") || curt.classList.contains("is-covered")));
+      var foot = $(".cta-final") || $(".site-footer");
+      var footIn = foot && foot.getBoundingClientRect().top < window.innerHeight - 60;
+      var onApply = /apply\.html$/.test(location.pathname);
+      /* never sit over a tool or a form: step aside while one reaches the bottom of the screen, or while typing */
+      var vh = window.innerHeight, overTool = $$("form, [data-brief], [data-scorecard], [data-compass], .faq").some(function (z) {
+        var r = z.getBoundingClientRect(); return r.height > 0 && r.top < vh - 20 && r.bottom > vh - 140;
+      });
+      var typing = document.activeElement && /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName);
+      var show = !panelUp && !onApply && !overTool && !typing && !body.classList.contains("menu-open") && window.scrollY > vh * 0.6 && !footIn;
+      mbar.classList.toggle("is-on", show);
+      mbar.toggleAttribute("inert", !show);
+    };
+    var mbarQueue = function () { if (!mbarQ) { mbarQ = true; requestAnimationFrame(mbarUpdate); } };
+    window.addEventListener("scroll", mbarQueue, { passive: true });
+    window.addEventListener("resize", mbarQueue);
+    document.addEventListener("focusin", mbarQueue); document.addEventListener("focusout", mbarQueue);
+    [doc, body, $(".curtain")].forEach(function (el) { if (el) new MutationObserver(mbarQueue).observe(el, { attributes: true, attributeFilter: ["class"] }); });
+    mbarQueue();
+  }
+
+  /* ---------- Notes mode (?notes=1): what was built on each page, and why ----------
+     Turn on with ?notes=1 (stays on while browsing), off with ?notes=0. */
+  var NOTES = {
+    "*": [
+      [".footer__optin", "Morning Mastery opt-in", "Your free checklist sits in every footer, so the lead magnet is one tap away on every page. It posts to whatever email tool you use."],
+      [".footer__word", "Signature moment", "The Peak Life Now wordmark rises letter by letter each time the footer comes into view, and “Now” catches the light."],
+      ["", "Phone booking bar", "On phones, a “Book a discovery call” bar slides up after the first screen and steps aside for the footer, so booking is always one thumb away."]
+    ],
+    index: [
+      [".hvx", "Magazine-cover hero", "Your own photo, cut out, with your line “Your peak life starts now.” Fifteen years and the Yahoo Finance top 10 are visible in the first five seconds."],
+      [".stack-sec__intro", "“Sound familiar?”", "Visitors recognise themselves before anything is sold. The cards stack as you scroll (swipe on phones)."],
+      [".path-card", "Every offer, its own next step", "1:1 coaching, the VIP Day, IGNITION and speaking each lead to their own page and the right call to action."],
+      [".dims", "The Peak Method, at a glance", "Head, heart and habits, fuelled by energy, drawn as a circle so the method lands in seconds."],
+      [".method", "The process, sideways", "From discovery call to results as a pinned, sideways journey: people see exactly what happens after they book."],
+      [".wall", "Real client words", "Testimonials from your current site in a slow, moving wall. Nothing invented."]
+    ],
+    about: [
+      [".page-hero", "Your story, up front", "“Born an entrepreneur.” The About page opens with who you are, not a wall of text."],
+      [".timeline", "A timeline that fills as you scroll", "Candy store at seven, the years of addiction, seven figures, walking away. Long story, easy to follow."],
+      [".proof-bento", "Proof in one glance", "Press, Tony Robbins, the Grand Canyon run and 15 years, animated so they get noticed."]
+    ],
+    coaching: [
+      ["#peak-now", "Choose your depth", "Peak Now Coaching and the VIP Day side by side, so people pick the right depth before the call."],
+      [".format", "Who it’s for, and who it isn’t", "Honest fit criteria filter out the wrong enquiries before they book."],
+      [".faq", "Questions answered before the call", "The FAQ is also marked up for Google, so these answers can appear in search."]
+    ],
+    ignition: [
+      [".page-hero", "IGNITION on your main site", "The men’s cohort gets a full page with proper share previews (the old link’s preview text still mentioned Replit)."],
+      [".method", "The cohort, phase by phase", "The four phases scroll sideways so men can see the whole journey."],
+      ["#waitlist", "Waitlist for the next cohort", "The cohort name comes from one setting in config.js. Change it once and every page updates."]
+    ],
+    speaking: [
+      [".dims", "The keynote as a visual", "The Perfect Circle of Performance: three forces around a core of energy."],
+      ["#brief", "Event brief builder", "Planners pick the format, room size and focus. The brief drops straight into the enquiry, so your first reply is already about their event."],
+      [".kit", "Organiser kit", "Bio, host intro and photos ready to copy or download: fewer emails back and forth before every event."],
+      ["#enquire", "Availability enquiry", "Date, format, audience and the outcome they want, captured up front."]
+    ],
+    results: [
+      ["[data-filters]", "Find someone like you", "Stories filter by what people came for, so a founder and a dad who wants his edge back each find their match."]
+    ],
+    scorecard: [
+      ["[data-scorecard]", "Peak Life Scorecard", "Eight questions, achievement vs fulfillment, a profile, their two biggest levers and the right next step. Results can be sent to you and travel into the application."]
+    ],
+    apply: [
+      ["[data-enquiry]", "Five-step application", "Your key questions in short, tap-to-answer steps, with a 1–10 commitment score. Answers from the scorecard or path finder arrive pre-filled."]
+    ]
+  };
+  var notesOn = false, notesBound = false;
+  function readNotesFlag() {
+    try {
+      var qn = new URLSearchParams(location.search).get("notes");
+      if (qn === "1") store.set("pl_notes", "1");
+      if (qn === "0") sessionStorage.removeItem("pl_notes");
+      notesOn = sessionStorage.getItem("pl_notes") === "1";
+    } catch (e) { notesOn = false; }
+  }
+  var notesUI = null, notesPins = [];
+  function notesFor() {
+    var key = (location.pathname.split("/").pop() || "index.html").replace(/\.html$/, "") || "index";
+    return (NOTES[key] || []).concat(NOTES["*"]);
+  }
+  function placePins() {
+    notesPins.forEach(function (p) {
+      if (!p.el || !p.el.isConnected) { p.pin.hidden = true; return; }
+      var r = p.el.getBoundingClientRect();
+      p.pin.hidden = r.width === 0 && r.height === 0;
+      p.pin.style.top = Math.max(0, r.top + window.scrollY + 14) + "px";
+      p.pin.style.left = Math.max(8, Math.min(document.documentElement.clientWidth - 44, r.left + 14)) + "px";
+    });
+  }
+  function renderNotes() {
+    readNotesFlag();
+    if (!notesOn) {
+      notesPins.forEach(function (p) { p.pin.remove(); }); notesPins = [];
+      if (notesUI) { notesUI.remove(); notesUI = null; }
+      return;
+    }
+    if (!notesUI) {
+      notesUI = document.createElement("div");
+      notesUI.className = "notes";
+      notesUI.innerHTML = '<button class="notes__toggle" type="button" aria-expanded="false"><b>Notes</b><span></span></button>' +
+        '<div class="notes__panel" role="dialog" aria-label="Notes on this page" hidden><div class="notes__head"><span>What we built here, and why</span><button type="button" class="notes__close" aria-label="Close notes">&times;</button></div><ol class="notes__list"></ol><div class="notes__foot"><a href="preview-pack.html">Preview pack</a><a href="?notes=0">Hide notes</a></div></div>';
+      body.appendChild(notesUI);
+      var tg = $(".notes__toggle", notesUI), panel = $(".notes__panel", notesUI);
+      var openPanel = function (open) { panel.hidden = !open; tg.setAttribute("aria-expanded", String(open)); };
+      tg.addEventListener("click", function () { openPanel(panel.hidden); });
+      $(".notes__close", notesUI).addEventListener("click", function () { openPanel(false); });
+      notesUI.openPanel = openPanel;
+      if (!notesBound) {
+        notesBound = true;
+        window.addEventListener("resize", placePins);
+        window.addEventListener("load", placePins);
+        setInterval(placePins, 1500);
+      }
+    }
+    notesPins.forEach(function (p) { p.pin.remove(); });
+    notesPins = [];
+    var list = $(".notes__list", notesUI); list.innerHTML = "";
+    var items = notesFor();
+    $(".notes__toggle span", notesUI).textContent = String(items.length);
+    items.forEach(function (n, i) {
+      var el = n[0] ? $(n[0]) : null;
+      var li = document.createElement("li");
+      li.innerHTML = "<b></b><p></p>";
+      li.querySelector("b").textContent = n[1]; li.querySelector("p").textContent = n[2];
+      if (el) {
+        li.tabIndex = 0; li.classList.add("is-link");
+        var go = function () {
+          var y = el.getBoundingClientRect().top + window.scrollY - 110;
+          if (lenis) lenis.scrollTo(y, { duration: 1.2 }); else window.scrollTo({ top: y, behavior: "smooth" });
+          el.classList.remove("notes-flash"); void el.offsetWidth; el.classList.add("notes-flash");
+          setTimeout(function () { el.classList.remove("notes-flash"); }, 2200);
+          if (window.matchMedia("(max-width: 760px)").matches) notesUI.openPanel(false);
+        };
+        li.addEventListener("click", go);
+        li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+        var pin = document.createElement("button");
+        pin.type = "button"; pin.className = "notes__pin"; pin.textContent = String(i + 1);
+        pin.setAttribute("aria-label", "Note " + (i + 1) + ": " + n[1]);
+        pin.addEventListener("click", function () {
+          notesUI.openPanel(true);
+          $$("li", list).forEach(function (x) { x.classList.remove("is-current"); });
+          li.classList.add("is-current"); li.scrollIntoView({ block: "nearest" });
+        });
+        body.appendChild(pin);
+        notesPins.push({ el: el, pin: pin });
+      }
+      list.appendChild(li);
+    });
+    placePins();
+    setTimeout(placePins, 900);
   }
 
   /* ---------- Cursor (dot + trailing ring) ---------- */
@@ -205,7 +369,7 @@
     "about": "About <em>Daniel</em>", "coaching": "1:1 <em>coaching</em>",
     "ignition": "Ignite your <em>fire</em>", "speaking": "On <em>stage</em>",
     "results": "Client <em>results</em>", "scorecard": "Find your <em>gap</em>",
-    "apply": "Take <em>action</em>", "404": "False <em>summit</em>"
+    "apply": "Take <em>action</em>", "404": "False <em>summit</em>", "preview-pack": "Preview <em>pack</em>"
   };
   function titleFor(path) {
     var key = (path.split("/").pop() || "").replace(/\.html$/, "");
@@ -409,10 +573,119 @@
     });
   });
 
+  /* ---------- Speaking: event brief builder (the brief travels with the enquiry) ---------- */
+  var BRIEF_TAKE = {
+    "Peak performance": "Build on rock, not toothpicks.",
+    "Self-love": "Self-love: the overlooked multiplier.",
+    "Champion's mindset": "Think like a champion.",
+    "Energy": "Energy: the fuel for all three."
+  };
+  var BRIEF_FORMAT = {
+    "Keynote": "The Perfect Circle of Performance, for conferences, summits and company events.",
+    "Workshop": "Hands-on sessions on mindset, habits and energy that teams put to work the next morning.",
+    "Leadership offsite": "For leadership teams and masterminds ready to raise their standards together.",
+    "Podcast or media": "Honest, high-energy conversations on addiction, achievement and fulfillment."
+  };
+  function initBrief(root) {
+    var b = $("[data-brief]", root);
+    if (!b) return;
+    var val = function (n) { var i = $('input[name="' + n + '"]:checked', b); return i ? i.value : ""; };
+    var focusEls = $$('input[name="b-focus"]', b), when = $("#b-when", b);
+    if (when) { var now = new Date(); when.min = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0"); }
+    var monthLabel = function () {
+      if (!when || !when.value) return "Flexible";
+      var p = when.value.split("-");
+      return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    };
+    var focusList = function () { return focusEls.filter(function (i) { return i.checked; }).map(function (i) { return i.value; }); };
+    var first = true;
+    var set = function (key, text) {
+      var dd = $('[data-b="' + key + '"]', b);
+      if (!dd || dd.textContent === text) return;
+      dd.textContent = text;
+      if (!first) { dd.classList.remove("is-flash"); void dd.offsetWidth; dd.classList.add("is-flash"); }
+    };
+    function render() {
+      var f = focusList();
+      focusEls.forEach(function (i) { i.disabled = !i.checked && f.length >= 2; });
+      set("format", val("b-format"));
+      set("size", val("b-size"));
+      set("focus", f.length ? f.join(" + ") : "The full circle");
+      set("when", monthLabel());
+      var fl = $("[data-b-format-line]", b); if (fl) fl.textContent = BRIEF_FORMAT[val("b-format")] || "";
+      $$(".brief__seg", b).forEach(function (s) {
+        var seg = s.getAttribute("data-seg");
+        s.classList.toggle("is-on", !f.length || focusEls.some(function (i) { return i.checked && i.getAttribute("data-seg") === seg; }));
+      });
+      var take = $("[data-b-take]", b);
+      if (take) {
+        take.innerHTML = "";
+        (f.length ? f.map(function (k) { return BRIEF_TAKE[k]; }) : ["The full Perfect Circle: performance, self-love and mindset, fuelled by energy."]).forEach(function (line) {
+          var li = document.createElement("li"); li.textContent = line; take.appendChild(li);
+        });
+      }
+      first = false;
+    }
+    b.addEventListener("change", render);
+    if (when) when.addEventListener("input", render);
+    render();
+    var send = $("[data-brief-send]", b);
+    if (send) send.addEventListener("click", function () {
+      var form = $('form[data-form="speaking"]', root);
+      if (!form) return;
+      var pick = function (sel, v) {
+        var s = $(sel, form); if (!s) return;
+        Array.prototype.some.call(s.options, function (o) { if (o.value === v || o.text === v) { s.value = o.value; return true; } return false; });
+      };
+      pick("#s-format", val("b-format"));
+      pick("#s-size", val("b-size"));
+      var d = $("#s-date", form); if (d && when && when.value) d.value = monthLabel();
+      var f = focusList();
+      var line = "Focus: " + (f.length ? f.join(", ") : "the full Perfect Circle") + ".";
+      var msg = $("#s-msg", form);
+      if (msg) msg.value = /^Focus:/.test(msg.value) ? msg.value.replace(/^Focus:[^\n]*/, line) : line + (msg.value ? "\n" + msg.value : "");
+      var hid = $("[data-brief-field]", form);
+      if (hid) hid.value = [val("b-format"), val("b-size"), f.join(" + ") || "Full circle", monthLabel()].join(" · ");
+      var target = $("#enquire", root) || form;
+      var y = target.getBoundingClientRect().top + window.scrollY - 90;
+      if (lenis) lenis.scrollTo(y, { duration: 1.3 }); else window.scrollTo({ top: y, behavior: "smooth" });
+      form.classList.remove("is-prefilled"); void form.offsetWidth; form.classList.add("is-prefilled");
+      setTimeout(function () { form.classList.remove("is-prefilled"); }, 2600);
+      toast("Your brief is in the enquiry. Add your name and send.");
+    });
+  }
+
+  /* ---------- Copy buttons (organiser kit) ---------- */
+  function initCopy(root) {
+    $$("[data-copy]", root).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var src = $(btn.getAttribute("data-copy"));
+        if (!src) return;
+        var text = src.textContent.trim(), label = $("span", btn), orig = label ? label.textContent : "";
+        var done = function () {
+          btn.classList.add("is-copied"); if (label) label.textContent = "Copied";
+          setTimeout(function () { btn.classList.remove("is-copied"); if (label) label.textContent = orig; }, 2200);
+        };
+        var fallback = function () {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); } catch (e) { toast("Select the text and copy it."); }
+          ta.remove();
+        };
+        if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+        else fallback();
+      });
+    });
+  }
+
   /* ==========================================================================
      PER-PAGE INITIALISATION (content inside <main>)
      ========================================================================== */
   function initPage(root) {
+    initBrief(root);
+    initCopy(root);
+    renderNotes();
 
 
     /* Hero: tell CSS how tall the right-hand tile column is, so the big "now."
